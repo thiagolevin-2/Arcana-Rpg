@@ -3,6 +3,7 @@ import {featScore012} from './feat-rules012.js';
 // O módulo não decide duração, alvos, posicionamento ou resultado de salvaguardas dos NPCs.
 import {SPECIES,SKILLS,BACKGROUNDS} from './data.js';
 import {motmCards,motmSkills,motmChoiceNeeds,shifterOption} from './species-motm022.js';
+import {applySpeciesOverride018} from './custom018.js';
 
 export const ORIGIN_FEATS_2024=['Alerta','Artifista','Atacante Selvagem','Curandeiro','Habilidoso','Iniciado em Magia (Clérigo)','Iniciado em Magia (Druida)','Iniciado em Magia (Mago)','Músico','Sortudo','Valentão de Taverna','Vigoroso'];
 // A seleção do Alto Elfo é baseada nos truques de Mago presentes no acervo do aplicativo.
@@ -94,7 +95,7 @@ export function speciesCards096(c){
  // Todas as demais opções legadas têm cards individuais, sem inventar valores numéricos.
  return (SPECIES[id]?.traits||[]).map((t,i)=>C('trait-'+i,clean(t.split(/[.:]/)[0],65)||'Traço '+(i+1),t));
 }
-export function speciesActionPlan(c,key){const card=speciesCards096(c).find(x=>x.id===key),a=card?.action;if(!a)return null;const used=Number(c.species096Used?.[key]||0);return {...a,name:card.name,id:key,used,remaining:a.max?Math.max(0,a.max-used):null,available:(!a.max||used<a.max)&&!(a.kind==='revelation'&&!!c.aasimarRevelationActive)&&!(a.kind==='shifting'&&!!c.shiftingActive)};}
+export function speciesActionPlan(c,key){const card=speciesCards096(c).find(x=>x.id===key),a=applySpeciesOverride018(c,key,card?.action);if(!a)return null;const used=Number(c.species096Used?.[key]||0);return {...a,name:card.name,id:key,used,remaining:a.max?Math.max(0,a.max-used):null,available:(!a.max||used<a.max)&&!(a.kind==='revelation'&&!!c.aasimarRevelationActive)&&!(a.kind==='shifting'&&!!c.shiftingActive)};}
 export function useSpecies096(c,key){normalizeSpecies096(c);const plan=speciesActionPlan(c,key);if(!plan)throw Error('Este traço não possui ação ou rolagem.');if(!plan.available)throw Error('Sem usos disponíveis até o próximo descanso.');if(plan.max)c.species096Used[key]=(c.species096Used[key]||0)+1;if(plan.kind==='shifting')c.shiftingActive=true;if(plan.kind==='revelation'){c.aasimarRevelationActive=true;c.aasimarBonusThisAttack=false;}return plan;}
 export function restSpecies096(c,long){normalizeSpecies096(c);if(long){c.species096Used={};}else for(const card of speciesCards096(c))if(card.action?.recovery==='short')delete c.species096Used[card.id];/* Não encerrar transformações por passagem de tempo: o jogador controla a duração. */return c;}
 export function speciesTraitActionSources(){return []; /* Traços já são exibidos exclusivamente no painel Poderes de espécie. */}

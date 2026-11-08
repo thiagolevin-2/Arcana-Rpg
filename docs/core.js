@@ -8,6 +8,7 @@ import {FIGHTING_STYLE_FEATS,grantsFightingStyle,hasFightingStyleFeature} from '
 import {XP_THRESHOLDS,xpForLevel} from './progression.js';
 import {speciesRule,speciesMovements,superiorityPool,normalizeAdvanced} from './rules091.js';
 import {motmInitiative} from './species-motm022.js';
+import {abilityAdjust018,restCustom018} from './custom018.js';
 import {infusionEffects,itemEffects,ensureEquipmentIds,normalizeInfusions,normalizeEquipmentBonuses,spellGrantInfo,restoreGrants,normalizeMasteries} from './rules092.js';
 import {normalizeCombatMacros} from './macros094-data.js';
 import {ensure093,normalize093,selfTimedBonuses,subclassBonuses,conditionsFor,rest093,tickRound,normalizeItemPower} from './rules093.js';
@@ -43,7 +44,7 @@ export function rollD20(bonus,{mode='normal',random=die,lucky=false,reliable=fal
 }
 export function slotInfo(c){const p=slotPools(c);return p.standard.counts.length?p.standard:p.pact.counts.length?p.pact:p.standard;}
 export const castingAbility=c=>activeCastingSource(c)?.ability||null;
-export function scores(c){const bonus=featBoosts012(c);return Object.fromEntries(ABILITIES.map(([key])=>[key,clamp(Number(c.base?.[key]||10)+Number(c.origin?.[key]||0)+Number(c.advances?.[key]||0)+bonus[key],1,30)]));}
+export function scores(c){const bonus=featBoosts012(c);return Object.fromEntries(ABILITIES.map(([key])=>[key,clamp(Number(c.base?.[key]||10)+Number(c.origin?.[key]||0)+Number(c.advances?.[key]||0)+bonus[key]+abilityAdjust018(c,key),1,30)]));}
 export const DAMAGE_TYPES=['Contundente','Cortante','Perfurante','Ácido','Elétrico','Gélido','Ígneo','Trovejante','Venenoso','Necrótico','Radiante','Psíquico','Energético'];
 export const RARITIES=['Comum','Incomum','Raro','Muito raro','Lendário','Artefato','Personalizado'];
 const hasStyle=(c,name)=>[c.style,...(c.styles||[]),...featStyles012(c),...subclassPassives013(c).styles].includes(name==='Defesa'?'Defensivo':name);
@@ -54,8 +55,8 @@ export function normalizeWeapon(w){
  if(w.custom&&typeof w.custom==='object'){
   const x=w.custom,name=safeString(x.name).trim(),dice=safeString(x.dice,30).replace(/\s/g,'').toLowerCase(),two=safeString(x.two,30).replace(/\s/g,'').toLowerCase(),extraDice=safeString(x.damageDice||'1d4',30).replace(/\s/g,'').toLowerCase();
   const valid=f=>/^\d{1,2}d\d{1,3}$/.test(f)&&Number(f.split('d')[0])>=1&&Number(f.split('d')[0])<=50&&Number(f.split('d')[1])>=2&&Number(f.split('d')[1])<=100;
-  const damageMode=['dice','flat','extraDice','ability','flatDice'].includes(x.damageMode)?x.damageMode:'ability';
-  if(!name||!valid(dice)||two&&!valid(two)||(['extraDice','flatDice'].includes(damageMode)&&!valid(extraDice)))throw Error('Dê um nome à arma e use fórmulas válidas, como 1d8 ou 2d6 (até 50 dados de 2 a 100 faces).');
+  const damageMode=['dice','flat','extraDice','ability','flatDice','abilityDice','abilityDiceFlat'].includes(x.damageMode)?x.damageMode:'ability';
+  if(!name||!valid(dice)||two&&!valid(two)||(['extraDice','flatDice','abilityDice','abilityDiceFlat'].includes(damageMode)&&!valid(extraDice)))throw Error('Dê um nome à arma e use fórmulas válidas, como 1d8 ou 2d6 (até 50 dados de 2 a 100 faces).');
   item.custom={name,dice,two,type:DAMAGE_TYPES.includes(x.type)?x.type:'Contundente',simple:!!x.simple,firearm:!!x.firearm,ranged:!!x.ranged,finesse:!!x.finesse,light:!!x.light,twoHanded:!!x.twoHanded,heavy:!!x.heavy,reach:!!x.reach,weight:clamp(Number(x.weight)||0,0,999),range:safeString(x.range,80),thrown:safeString(x.thrown,80),mastery:safeString(x.mastery,80),description:safeString(x.description,6000),baseKey:Object.hasOwn(WEAPONS,x.baseKey)?x.baseKey:item.key,damageMode,damageFlat:clamp(Number(x.damageFlat)||0,-999,999),damageDice:valid(extraDice)?extraDice:'1d4',damageAbility:ABILITIES.some(a=>a[0]===x.damageAbility)?x.damageAbility:'auto'};
  }else if(!Object.hasOwn(WEAPONS,w.key))throw Error('Arma desconhecida.');
  return item;
@@ -118,8 +119,8 @@ export function attackStats(c,w){if(!subclassWeaponAvailable013(c,w))throw Error
  const extra=(Number(w.magic)||0)+(infusionEffects(c).weapons[w.id]||0);let dice=w.two&&weapon.two?weapon.two:weapon.dice;if(monk&&!w.custom){const sides=monkLevel>=17?12:monkLevel>=11?10:monkLevel>=5?8:6;if(Number(dice.split('d')[0])===1&&Number(dice.split('d')[1])<sides)dice='1d'+sides;}
  const barbarian=classLevel(c,'barbaro'),rage=c.raging&&!d.warnings.some(x=>x.startsWith('Sem treinamento'))&&d.armor.category!=='Pesada'&&!c.conditions.some(x=>['Incapacitado','Inconsciente','Paralisado','Atordoado','Petrificado'].includes(x))&&barbarian&&stat==='str'&&!weapon.ranged?(barbarian>=16?4:barbarian>=9?3:2):0;
  const custom=!!w.custom,mode=custom?(weapon.damageMode||'ability'):'ability',abilityKey=custom&&ABILITIES.some(a=>a[0]===weapon.damageAbility)?weapon.damageAbility:stat;
- const styleTwoWeapon=twoWeaponExtra&&owns('Combate com Duas Armas'),crossbowExpert=twoWeaponExtra&&weapon.light&&/besta/i.test(weapon.name)&&hasFeat012(c,'Especialista em Besta'),abilityDamage=mode==='ability'&&(!twoWeaponExtra||styleTwoWeapon||crossbowExpert||d.m[abilityKey]<0)?d.m[abilityKey]:0;
- const flatDamage=['flat','flatDice'].includes(mode)?Number(weapon.damageFlat)||0:0,extraDamageDice=['extraDice','flatDice'].includes(mode)?weapon.damageDice:'',dueling=owns('Duelismo')&&!c.dualWieldActive&&c.offhandEmpty!==false&&!weapon.ranged&&!twoHandedGrip&&!twoWeaponExtra,thrownBonus=owns('Combate com Armas de Arremesso')&&thrownAttack?2:0;
+ const styleTwoWeapon=twoWeaponExtra&&owns('Combate com Duas Armas'),crossbowExpert=twoWeaponExtra&&weapon.light&&/besta/i.test(weapon.name)&&hasFeat012(c,'Especialista em Besta'),abilityDamage=['ability','abilityDice','abilityDiceFlat'].includes(mode)&&(!twoWeaponExtra||styleTwoWeapon||crossbowExpert||d.m[abilityKey]<0)?d.m[abilityKey]:0;
+ const flatDamage=['flat','flatDice','abilityDiceFlat'].includes(mode)?Number(weapon.damageFlat)||0:0,extraDamageDice=['extraDice','flatDice','abilityDice','abilityDiceFlat'].includes(mode)?weapon.damageDice:'',dueling=owns('Duelismo')&&!c.dualWieldActive&&c.offhandEmpty!==false&&!weapon.ranged&&!twoHandedGrip&&!twoWeaponExtra,thrownBonus=owns('Combate com Armas de Arremesso')&&thrownAttack?2:0;
  const commonDamage=extra+rage+subclassWeaponDamage013(c,weapon)+(dueling?2:0)+thrownBonus+(Number(w.damageBonus)||0),damageMod=abilityDamage+flatDamage+commonDamage;
  const archery=owns('Arquearia')&&weapon.ranged,attack=d.m[stat]+(proficient?d.pb:0)+extra+(archery?2:0)+(Number(c.adjust?.attack)||0)+(Number(w.attackBonus)||0);
  if(w.polearmBonus)dice='1d4';const formula=dice+(extraDamageDice?'+'+extraDamageDice:'')+(damageMod?sign(damageMod):'');
@@ -202,6 +203,6 @@ export function finishRest(c,{long=false,diceCounts={},random=die}={}){
   next.usedHD=Object.values(next.usedHDByDie).reduce((n,v)=>n+v,0);next.hp=Math.min(d.hpMax,c.hp+healing);if(next.hp>0){next.death={success:0,fail:0};next.lifeState='consciente';next.conditions=(next.conditions||[]).filter(x=>x!=='Inconsciente');}
   for(const r of resources(c)){if(r.recovery==='short')next.resourceUsed[r.id]=0;else if(r.recovery==='one')next.resourceUsed[r.id]=Math.max(0,(c.resourceUsed[r.id]||0)-1);}next.pactUsed=0;
  }
- restSubclass013(next,{long,random});recoverFeats012(next,{long});restoreGrants(next,long);rest093(next,long);restSpecies096(next,long);next.items=next.items.map(i=>i.maxCharges&&(long&&['short','long'].includes(i.recovery)||!long&&i.recovery==='short')?{...i,charges:i.maxCharges}:i);
+ restSubclass013(next,{long,random});recoverFeats012(next,{long});restoreGrants(next,long);rest093(next,long);restSpecies096(next,long);restCustom018(next,long);next.items=next.items.map(i=>i.maxCharges&&(long&&['short','long'].includes(i.recovery)||!long&&i.recovery==='short')?{...i,charges:i.maxCharges}:i);
  return {character:next,healing,rolls};
 }
