@@ -1,4 +1,4 @@
-Ficha Arcana 0.23 Beta
+Ficha Arcana 0.24 Beta
 Base: Ficha Arcana 0.22 Beta
 Publicação: docs/ (52 arquivos de execução; novo módulo species-motm022.js)
 Catálogo de monstros: 503 nomes/páginas; 365 utilizáveis (243 do SRD 5.2 oficial); 92 provisórios; 46 bloqueados

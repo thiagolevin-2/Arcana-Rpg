@@ -1,10 +1,10 @@
 // Ficha Arcana 0.9.5 — fluxos assistidos, sem gerenciador de rodadas/alvos.
-import {validMacroFormula,MACRO_DAMAGE_TYPES} from './macros094-data.js?v=0.23';
-import {roll} from './core.js?v=0.23';
-import {classEntries,classLevel} from './progression.js?v=0.23';
-import {activeSubclassFeatures,availableTraitNotes,powerPlan} from './rules093.js?v=0.23';
-import {infusionLimits,infusionById} from './rules092.js?v=0.23';
-import {SPECIES} from './data.js?v=0.23';
+import {validMacroFormula,MACRO_DAMAGE_TYPES} from './macros094-data.js?v=0.24';
+import {roll} from './core.js?v=0.24';
+import {classEntries,classLevel} from './progression.js?v=0.24';
+import {activeSubclassFeatures,availableTraitNotes,powerPlan} from './rules093.js?v=0.24';
+import {infusionLimits,infusionById} from './rules092.js?v=0.24';
+import {SPECIES} from './data.js?v=0.24';
 const str=(v,n=180)=>String(v??'').trim().slice(0,n);
 const int=(v,min=0,max=999)=>Math.min(max,Math.max(min,Number.isFinite(Number(v))?Math.floor(Number(v)):min));
 const modes=['none','damage','healing','test'];
