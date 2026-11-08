@@ -1,4 +1,4 @@
-# Ficha Arcana 0.22 Beta
+# Ficha Arcana 0.23 Beta
 
 Atualização incremental da **0.15 fornecida**, preservando `docs/`, a identidade visual e as fichas existentes. A ampliação desta versão está na **Área do Mestre**.
 

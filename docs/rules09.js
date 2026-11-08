@@ -1,5 +1,5 @@
-import {ward013,alterWard013} from './subclass-rules013.js?v=0.22';
-import {conditionsFor,breakConcentration} from './rules093.js?v=0.22';
+import {ward013,alterWard013} from './subclass-rules013.js?v=0.23';
+import {conditionsFor,breakConcentration} from './rules093.js?v=0.23';
 // Regras compartilhadas de combate. Sem acesso à interface, para testes determinísticos.
 export const DISABLING_CONDITIONS = ['Incapacitado','Inconsciente','Paralisado','Atordoado','Petrificado'];
 export const cannotAct = c => c.lifeState === 'morto' || conditionsFor(c).some(x=>DISABLING_CONDITIONS.includes(x));

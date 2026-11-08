@@ -39,10 +39,10 @@ export const MOTM_SPECIES={
    {text:`Magia dos Duergar: a partir do 3º nível conjura Aumentar/Reduzir e, a partir do 5º, Invisibilidade, sem componentes materiais. ${SPELL_RULE} ${CAST}`},
    {text:'Resistência a Toxinas: vantagem em salvaguardas para evitar ou encerrar a condição Envenenado e resistência a dano venenoso.'}],
   spells:[[3,'Aumentar/Reduzir'],[5,'Invisibilidade']]},
- 'supp-races-large-species-metamorfo-changeling':{name:'Duplicante',aliases:['Metamorfo (Changeling)','Changeling'],size:'Médio ou Pequeno',speed:9,movement:{walk:9},type:'Feérico',
+ 'supp-races-large-species-metamorfo-changeling':{name:'Duplicante',src:'Eberron: Forge of the Artificer (2025)',aliases:['Metamorfo (Changeling)','Changeling'],size:'Médio ou Pequeno',speed:9,movement:{walk:9},type:'Feérico',
   choices:[{key:'skill',label:'Instinto Duplicante · perícia',options:['Atuação','Enganação','Intimidação','Intuição','Persuasão'],count:2,skill:true}],
   traits:[{text:'Instinto Duplicante: proficiência em duas perícias à escolha entre Atuação, Enganação, Intimidação, Intuição ou Persuasão.'},
-   {text:'Metamorfo: como Ação, altera aparência e voz (coloração, cabelo, sexo, altura, peso; pode alternar entre Médio e Pequeno). Pode se passar por outra raça, sem mudar estatísticas. Não copia quem nunca viu, mantém a mesma disposição de membros e não altera roupas. Dura até usar uma Ação para voltar ou morrer.'}]},
+   {text:'Metamorfo: como Ação, altera aparência e voz (coloração, cabelo, sexo, altura, peso; pode alternar entre Médio e Pequeno). Pode se passar por outra espécie, sem mudar estatísticas. Não copia quem nunca viu, mantém a mesma disposição de membros e não altera roupas. Enquanto estiver transformado, tem vantagem em testes de Carisma. Volta à forma verdadeira com outra Ação.'}]},
  'supp-races-large-species-eladrin':{name:'Eladrin',size:'Médio',speed:9,movement:{walk:9},type:'Humanoide (elfo)',choices:[KEEN],
   traits:[{text:DV18},{text:FEY},
    {name:'Passo Feérico',text:'Passo Feérico: como Ação Bônus, teleporta-se até 9 m para um espaço desocupado que possa ver.',power:{kind:'use',max:'pb'}},
@@ -196,6 +196,13 @@ const WARFORGED={src:EFA_SOURCE,size:'Médio ou Pequeno',speed:9,movement:{walk:
 for(const id of ['supp-races-large-species-forjado-belico','supp-races-large-species-forjado-belico-emissario','supp-races-large-species-forjado-belico-colosso','supp-races-large-species-forjado-belico-escaramucador'])
  MOTM_SPECIES[id]={...WARFORGED,...(id.endsWith('-belico')?{}:{note:'Os subtipos Emissário, Colosso e Escaramuçador vinham da versão de playtest e não existem na versão oficial; este personagem usa as regras de 2025.'})};
 
+// Kalashtar: Eberron: Forge of the Artificer (2025).
+MOTM_SPECIES['supp-races-large-species-kalashtar']={src:EFA_SOURCE,size:'Médio',speed:9,movement:{walk:9},type:'Aberração',
+ traits:[{text:'Mente Dupla: vantagem em salvaguardas de Sabedoria e de Carisma.'},
+  {text:'Disciplina Mental: resistência a dano psíquico.'},
+  {name:'Elo Mental',mindLink:true,text:'Elo Mental: telepatia com alcance em metros igual a 3 × seu nível. Ao falar telepaticamente com uma criatura, pode usar uma ação de Magia para que ela também fale telepaticamente com você por 1 hora (ou até você encerrar com outra ação de Magia).'},
+  {text:'Separado dos Sonhos: não pode ser alvo da magia Sonho. Ao terminar um descanso longo, ganha proficiência numa perícia à escolha até o próximo descanso longo.'}]};
+
 // Raças do Mordenkainen 2022 que não existiam no site (versão mais recente publicada).
 Object.assign(MOTM_SPECIES,{
  'supp-motm-species-fada':{name:'Fada',size:'Pequeno',speed:9,movement:{walk:9},type:'Feérico',
@@ -223,7 +230,7 @@ const SHIFT_OPTIONS={
 };
 const SHIFTER_IDS=['supp-races-large-species-transmorfo','supp-races-large-species-transmorfo-couro-de-besta','supp-races-large-species-transmorfo-dentes-longos','supp-races-large-species-transmorfo-passos-rapidos','supp-races-large-species-transmorfo-cacador-selvagem','supp-races-large-species-transmorfo-caminhar-no-penhasco','supp-races-large-species-transmorfo-garra-de-navalha'];
 for(const id of SHIFTER_IDS){const key=Object.keys(SHIFT_OPTIONS).find(k=>id.endsWith(k));const isParent=id.endsWith('-transmorfo');const legacy=!key&&!isParent;
- MOTM_SPECIES[id]={shifter:true,legacyOption:legacy,size:'Médio',speed:9,movement:{walk:9},type:'Humanoide',
+ MOTM_SPECIES[id]={shifter:true,legacyOption:legacy,src:'Eberron: Forge of the Artificer (2025)',size:'Médio ou Pequeno',speed:9,movement:{walk:9},type:'Humanoide',
   ...(isParent||key?{}:{keepTraits:true}),
   choices:[{key:'skill',label:'Instintos Bestiais · perícia',options:['Acrobacia','Atletismo','Intimidação','Sobrevivência'],count:1,skill:true}],
   traits:[{text:DV18},
@@ -253,6 +260,7 @@ export function motmChoiceNeeds(c){const m=MOTM_SPECIES[motmId(c)];if(!m)return 
   if(vals.some(x=>!x))out.push(`Escolha: ${ch.label}${ch.count>1?` (${ch.count})`:''}.`);else if(new Set(vals).size<vals.length)out.push(`${ch.label}: escolha opções diferentes.`);}
  return out;}
 export function motmSpellPlan(c){const m=MOTM_SPECIES[motmId(c)];return m?.spells||[];}
+export function motmSpeed(c,base){const id=motmId(c);return id&&id!==String(c?.speciesId||'')&&MOTM_SPECIES[id]?.speed?MOTM_SPECIES[id].speed:base;}
 export function motmInitiative(c,pb){return MOTM_SPECIES[motmId(c)]?.initiativePB?pb:0;}
 export function motmNaturalAC(c,dexMod){const m=MOTM_SPECIES[motmId(c)];if(!m?.naturalAC)return null;const n=m.naturalAC;return {value:n.base+(n.dex?dexMod:0),label:`${n.label}: ${n.base}${n.dex?' + DES':' (sem DES)'}`,shell:!!n.shell};}
 
@@ -274,6 +282,7 @@ export function motmCards(c,h){const m=MOTM_SPECIES[motmId(c)];if(!m)return null
    continue;}
   if(t.natural){cards.push(h.pow(id,name,body(t.text),{kind:'damage',formula:fm}));continue;}
   if(t.power){const pw=t.power;const max=pw.max==='pb'?p:Number(pw.max)||0;cards.push(h.pow(id,name,body(t.text)+(max?` Usos: ${max} por descanso longo (igual ao bônus de proficiência).`:''),{kind:pw.kind||'use',formula:pw.formula||'',max,recovery:'long'}));continue;}
+  if(t.mindLink){cards.push(h.C(id,name,body(t.text)+` Alcance atual: ${3*n} m.`));continue;}
   if(t.dc){cards.push(h.C(id,name,body(t.text)+` CD atual: ${8+p+h.cha(c)}.`));continue;}
   cards.push(h.C(id,name,body(t.text)));
  }

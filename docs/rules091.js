@@ -1,7 +1,7 @@
-import {subclassAllowsSpell013} from './subclass-rules013.js?v=0.22';
+import {subclassAllowsSpell013} from './subclass-rules013.js?v=0.23';
 // Recursos adicionais testáveis sem dependência de DOM.
-import {classLevel,subclassFor} from './progression.js?v=0.22';
-import {motmNaturalAC} from './species-motm022.js?v=0.22';
+import {classLevel,subclassFor} from './progression.js?v=0.23';
+import {motmNaturalAC} from './species-motm022.js?v=0.23';
 
 export const ARCANUM_THRESHOLDS=Object.freeze({6:11,7:13,8:15,9:17});
 export function arcanumCircles(c){const level=classLevel(c,'bruxo');return Object.entries(ARCANUM_THRESHOLDS).filter(([,min])=>level>=min).map(([circle])=>Number(circle));}

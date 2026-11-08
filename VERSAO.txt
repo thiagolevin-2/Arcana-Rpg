@@ -1,5 +1,5 @@
-Ficha Arcana 0.22 Beta
-Base: Ficha Arcana 0.21 Beta
+Ficha Arcana 0.23 Beta
+Base: Ficha Arcana 0.22 Beta
 Publicação: docs/ (52 arquivos de execução; novo módulo species-motm022.js)
 Catálogo de monstros: 503 nomes/páginas; 365 utilizáveis (243 do SRD 5.2 oficial); 92 provisórios; 46 bloqueados
 Raças: 32 do Mordenkainen 2022, Forjado Bélico de Eberron 2025, 3 novas (Fada, Laparlonj, Sátiro), 13 variantes antigas adaptadas a 2024

@@ -1,17 +1,17 @@
-import {normalizeSubclass013,subclassPassives013,restSubclass013,subclassWeaponAvailable013,subclassWeaponMastery013,subclassWeaponDamage013} from './subclass-rules013.js?v=0.22';
-import {normalizeFeats012,featBoosts012,featNames012,hasFeat012,featSkills012,featStyles012,featMasteries012,featSenses012,featTools012,featResistanceNotes012,applyFeatChoice012,featSpec012,recoverFeats012} from './feat-rules012.js?v=0.22';
-import {normalizeBattleMaster,battleMasterSkill,isBattleMaster} from './battle-master010.js?v=0.22';
-import {speciesSkills,speciesFeats,speciesPassiveBonuses,speciesMovements096,normalizeSpecies096,restSpecies096} from './species096.js?v=0.22';
-import {ABILITIES,CLASSES,SPECIES,BACKGROUNDS,ARMORS,WEAPONS,FULL_SLOTS,PREPARED,CONDITIONS} from './data.js?v=0.22';
-import {classEntries,totalLevel,classLevel,hasClass,subclassFor,orderFor,syncClassState,validateClassPlan,multiclassEligibility,castingSources,activeCastingSource,slotPools,preparedLimitFor,hitDicePools,hitPointBase,savingThrows,training,attackCount,abilityImprovementAt,MULTICLASS_TRAINING} from './progression.js?v=0.22';
-import {FIGHTING_STYLE_FEATS,grantsFightingStyle,hasFightingStyleFeature} from './feats.js?v=0.22';
-import {XP_THRESHOLDS,xpForLevel} from './progression.js?v=0.22';
-import {speciesRule,speciesMovements,superiorityPool,normalizeAdvanced} from './rules091.js?v=0.22';
-import {motmInitiative} from './species-motm022.js?v=0.22';
-import {abilityAdjust018,restCustom018} from './custom018.js?v=0.22';
-import {infusionEffects,itemEffects,ensureEquipmentIds,normalizeInfusions,normalizeEquipmentBonuses,spellGrantInfo,restoreGrants,normalizeMasteries} from './rules092.js?v=0.22';
-import {normalizeCombatMacros} from './macros094-data.js?v=0.22';
-import {ensure093,normalize093,selfTimedBonuses,subclassBonuses,conditionsFor,rest093,tickRound,normalizeItemPower} from './rules093.js?v=0.22';
+import {normalizeSubclass013,subclassPassives013,restSubclass013,subclassWeaponAvailable013,subclassWeaponMastery013,subclassWeaponDamage013} from './subclass-rules013.js?v=0.23';
+import {normalizeFeats012,featBoosts012,featNames012,hasFeat012,featSkills012,featStyles012,featMasteries012,featSenses012,featTools012,featResistanceNotes012,applyFeatChoice012,featSpec012,recoverFeats012} from './feat-rules012.js?v=0.23';
+import {normalizeBattleMaster,battleMasterSkill,isBattleMaster} from './battle-master010.js?v=0.23';
+import {speciesSkills,speciesFeats,speciesPassiveBonuses,speciesMovements096,normalizeSpecies096,restSpecies096} from './species096.js?v=0.23';
+import {ABILITIES,CLASSES,SPECIES,BACKGROUNDS,ARMORS,WEAPONS,FULL_SLOTS,PREPARED,CONDITIONS} from './data.js?v=0.23';
+import {classEntries,totalLevel,classLevel,hasClass,subclassFor,orderFor,syncClassState,validateClassPlan,multiclassEligibility,castingSources,activeCastingSource,slotPools,preparedLimitFor,hitDicePools,hitPointBase,savingThrows,training,attackCount,abilityImprovementAt,MULTICLASS_TRAINING} from './progression.js?v=0.23';
+import {FIGHTING_STYLE_FEATS,grantsFightingStyle,hasFightingStyleFeature} from './feats.js?v=0.23';
+import {XP_THRESHOLDS,xpForLevel} from './progression.js?v=0.23';
+import {speciesRule,speciesMovements,superiorityPool,normalizeAdvanced} from './rules091.js?v=0.23';
+import {motmInitiative,motmSpeed} from './species-motm022.js?v=0.23';
+import {abilityAdjust018,restCustom018} from './custom018.js?v=0.23';
+import {infusionEffects,itemEffects,ensureEquipmentIds,normalizeInfusions,normalizeEquipmentBonuses,spellGrantInfo,restoreGrants,normalizeMasteries} from './rules092.js?v=0.23';
+import {normalizeCombatMacros} from './macros094-data.js?v=0.23';
+import {ensure093,normalize093,selfTimedBonuses,subclassBonuses,conditionsFor,rest093,tickRound,normalizeItemPower} from './rules093.js?v=0.23';
 export const mod=n=>Math.floor((n-10)/2);
 export const sign=n=>n>=0?'+'+n:String(n);
 export const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
@@ -92,7 +92,7 @@ export function derive(c){
  }
  acOptions.push(...subclass013.acOptions);
  const baseAC=acOptions.find(o=>o.id===c.acSource)||acOptions.reduce((best,o)=>o.value>best.value?o:best),shieldBonus=c.shield&&trained.shield?(Number(shieldData?.acBonus)||0):0,armorMagicBonus=Number(a.bonus)||0;
- const ac=baseAC.value+armorMagicBonus+shieldBonus+(Number(adj.ac)||0)+((hasStyle(c,'Defesa')||hasStyle(c,'Defensivo'))&&c.armor!=='none'?1:0)+(speciesRule(c).shell?4:0)+infusion.ac+itemBonus.ac+timed.ac+subclassExtra.ac+subclass013.ac+speciesPassiveBonuses(c,a.category).ac;let speed=(hasFeat012(c,'Velocista')?3:0)+(hasFeat012(c,'Dádiva da Velocidade')?9:0)+sp.speed+(c.speciesId==='elfo'&&c.variant==='Elfo Silvestre'?1.5:0);
+ const ac=baseAC.value+armorMagicBonus+shieldBonus+(Number(adj.ac)||0)+((hasStyle(c,'Defesa')||hasStyle(c,'Defensivo'))&&c.armor!=='none'?1:0)+(speciesRule(c).shell?4:0)+infusion.ac+itemBonus.ac+timed.ac+subclassExtra.ac+subclass013.ac+speciesPassiveBonuses(c,a.category).ac;let speed=(hasFeat012(c,'Velocista')?3:0)+(hasFeat012(c,'Dádiva da Velocidade')?9:0)+motmSpeed(c,sp.speed)+(c.speciesId==='elfo'&&c.variant==='Elfo Silvestre'?1.5:0);
  const monk=classLevel(c,'monge');if(monk>=2&&c.armor==='none'&&!c.shield)speed+=monk>=18?9:monk>=14?7.5:monk>=10?6:monk>=6?4.5:3;
  if(hasClass(c,'barbaro',5)&&a.category!=='Pesada')speed+=3;if(hasClass(c,'guardiao',6)&&a.category!=='Pesada')speed+=3;
  const arcaneArmor=hasClass(c,'artifice',3)&&subclassFor(c,'artifice')==='Armeiro'&&c.adjust?.arcaneArmor;
@@ -145,7 +145,7 @@ export function resources(c){
   if(k==='bruxo'&&n>=2)add('cunning','Astúcia Mágica',1,'long','',k);
   if(k==='artifice'&&n>=7)add('flash','Lampejo de Genialidade',Math.max(1,d.m.int),'long','',k);
  }
- if(hasFeat012(c,'Sortudo'))add('luck','Pontos de Sorte',d.pb);if(c.speciesId==='draconato')add('breath','Ataque de Sopro',d.pb);if(c.speciesId==='aasimar')add('healing','Mãos Curativas',1);if(c.speciesId==='orc'){add('adrenaline','Adrenalina',d.pb,'short','Dash como ação bônus e PV temporários iguais à proficiência.');add('relentless','Resistência Implacável',1,'long','Ao cair a 0 PV sem morte instantânea, fique com 1 PV.');}if(c.speciesId==='golias'&&d.level>=5)add('large','Forma Grande',1,'long','Ação bônus: tamanho Grande e +3 m de deslocamento por 10 minutos.');
+ if(hasFeat012(c,'Sortudo'))add('luck','Pontos de Sorte',d.pb);if(c.speciesId==='draconato')add('breath','Ataque de Sopro',d.pb);if(c.speciesId==='aasimar')add('healing','Mãos Curativas',1);if(c.speciesId==='orc'){add('adrenaline','Adrenalina',d.pb,'short','Dash como ação bônus e PV temporários iguais à proficiência.');}if(c.speciesId==='golias'&&d.level>=5)add('large','Forma Grande',1,'long','Ação bônus: tamanho Grande e +3 m de deslocamento por 10 minutos.');
  return r;
 }
 export const preparedLimit=(c,id=activeCastingSource(c)?.classId)=>preparedLimitFor(c,id);
@@ -184,7 +184,7 @@ export function normalizeImported(data,{preserveId=false}={}){
  c.weapons=c.weapons.slice(0,100).flatMap(w=>{try{return [normalizeWeapon(w)];}catch{return [];}});c.items=c.items.filter(i=>i&&typeof i==='object').slice(0,5000).map(normalizeItem).filter(i=>i.name.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()!=='mochila');ensureEquipmentIds(c);
  c.coins=Object.fromEntries(['pc','pp','pe','po','pl'].map(k=>[k,clamp(Math.floor(Number(c.coins?.[k])||0),0,999999)]));c.economy=Array.isArray(c.economy)?c.economy.slice(-1000).flatMap(x=>{if(!x||typeof x!=='object'||!['gain','expense'].includes(x.type)||!['pc','pp','pe','po','pl'].includes(x.currency))return [];const amount=Math.floor(Number(x.amount)||0),description=safeString(x.description,120).trim();if(amount<1||amount>999999||!description)return [];const time=Number(x.time);return [{id:safeString(x.id,80)||crypto.randomUUID(),type:x.type,description,amount,currency:x.currency,time:Number.isFinite(time)&&time>0?time:Date.now()}]}):[];c.conditions=c.conditions.filter(x=>CONDITIONS.includes(x));
  c.resourceUsed=Object.fromEntries(Object.entries(c.resourceUsed&&typeof c.resourceUsed==='object'?c.resourceUsed:{}).filter(([k])=>/^[a-z]+$/.test(k)).map(([k,n])=>[k,clamp(Math.floor(Number(n)||0),0,999)]));
- const adjustments=c.adjust;c.adjust=Object.fromEntries(['hp','ac','initiative','speed','attack','spellAttack','spellDC','skills'].map(k=>[k,clamp(Number(adjustments?.[k])||0,-99,99)]));c.adjust.mageArmor=!!adjustments?.mageArmor;c.adjust.innate=!!adjustments?.innate;c.adjust.arcaneArmor=!!adjustments?.arcaneArmor;
+ const adjustments=c.adjust;c.adjust=Object.fromEntries(['hp','ac','initiative','speed','attack','spellAttack','spellDC','skills'].map(k=>[k,clamp(Number(adjustments?.[k])||0,k==='hp'?-999:-99,k==='hp'?999:99)]));c.adjust.mageArmor=!!adjustments?.mageArmor;c.adjust.innate=!!adjustments?.innate;c.adjust.arcaneArmor=!!adjustments?.arcaneArmor;
  c.hpRolls=c.hpRolls.filter(r=>r&&Object.hasOwn(CLASSES,r.classId)&&Number.isInteger(r.level)&&r.level>=1&&r.level<=classLevel(c,r.classId)&&Number.isInteger(r.roll)&&r.roll>=1&&r.roll<=CLASSES[r.classId].hd&&!(r.classId===c.classId&&r.level===1)).filter((r,i,all)=>all.findIndex(x=>x.classId===r.classId&&x.level===r.level)===i).map(({classId,level,roll})=>({classId,level,roll}));
  c.usedHD=clamp(Math.floor(Number(c.usedHD)||0),0,c.level);if(c.usedHDByDie&&typeof c.usedHDByDie==='object')c.usedHDByDie=Object.fromEntries(hitDicePools(c).map(p=>[p.sides,p.used]));else c.usedHDByDie=null;
  c.spellClasses=Object.fromEntries(Object.entries(c.spellClasses&&typeof c.spellClasses==='object'?c.spellClasses:{}).slice(0,500).filter(([id])=>/^[a-zA-Z0-9-]+$/.test(id)).map(([id,list])=>[id,Array.isArray(list)?[...new Set(list.filter(k=>Object.hasOwn(CLASSES,k)&&hasClass(c,k)))]:[]]));const rawSpellBook=c.knownSpellsByClass&&typeof c.knownSpellsByClass==='object'?c.knownSpellsByClass:{};const grantIds=Object.entries(c.spellAccess&&typeof c.spellAccess==='object'?c.spellAccess:{}).filter(([id,g])=>/^[a-zA-Z0-9_-]{1,120}$/.test(id)&&typeof g?.source==='string'&&g.source.trim().length>=3).map(([id])=>id);const mergedSpellBook={...rawSpellBook,special:[...new Set([...(Array.isArray(rawSpellBook.special)?rawSpellBook.special:[]),...grantIds])]};c.knownSpellsByClass=Object.fromEntries(Object.entries(mergedSpellBook).slice(0,20).filter(([id])=>id==='special'||Object.hasOwn(CLASSES,id)&&hasClass(c,id)).map(([id,list])=>[id,Array.isArray(list)?[...new Set(list.filter(x=>typeof x==='string'&&x.length<=120))].slice(0,300):[]]));c.spellAccess=Object.fromEntries(Object.entries(c.spellAccess&&typeof c.spellAccess==='object'?c.spellAccess:{}).slice(0,300).filter(([id])=>/^[a-zA-Z0-9_-]{1,120}$/.test(id)&&c.knownSpellsByClass.special?.includes(id)).map(([id,g])=>[id,spellGrantInfo(g)]).filter(([,g])=>g.source.length>=3));

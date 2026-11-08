@@ -1,4 +1,4 @@
-import {applySupplements} from './compatibility.js?v=0.22';
+import {applySupplements} from './compatibility.js?v=0.23';
 export const ABILITIES=[['str','FOR','Força'],['dex','DES','Destreza'],['con','CON','Constituição'],['int','INT','Inteligência'],['wis','SAB','Sabedoria'],['cha','CAR','Carisma']];
 export const SKILLS=[['Acrobacia','dex'],['Arcanismo','int'],['Atletismo','str'],['Atuação','cha'],['Enganação','cha'],['Furtividade','dex'],['História','int'],['Intimidação','cha'],['Intuição','wis'],['Investigação','int'],['Lidar com Animais','wis'],['Medicina','wis'],['Natureza','int'],['Percepção','wis'],['Persuasão','cha'],['Prestidigitação','dex'],['Religião','int'],['Sobrevivência','wis']];
 const all=SKILLS.map(x=>x[0]);
