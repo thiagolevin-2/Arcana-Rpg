@@ -1,9 +1,9 @@
-import {featNames012,featSpec012,featRecords012,featOriginIssues012} from './feat-rules012.js';
-import {CLASSES,SPECIES,BACKGROUNDS} from './data.js';
-import {speciesChoiceNeeds,speciesFeats,speciesSkills} from './species096.js';
-import {classEntries,cantripLimitFor} from './progression.js';
-import {arcanumCircles,choiceLimit,superiorityPool,speciesRule,attunementLimit,attunementUsage} from './rules091.js';
-import {infusionLimits,infusionEffects,itemEffects,masteryLimit,dragonBreathInfo} from './rules092.js';
+import {featNames012,featSpec012,featRecords012,featOriginIssues012} from './feat-rules012.js?v=0.22';
+import {CLASSES,SPECIES,BACKGROUNDS} from './data.js?v=0.22';
+import {speciesChoiceNeeds,speciesFeats,speciesSkills} from './species096.js?v=0.22';
+import {classEntries,cantripLimitFor} from './progression.js?v=0.22';
+import {arcanumCircles,choiceLimit,superiorityPool,speciesRule,attunementLimit,attunementUsage} from './rules091.js?v=0.22';
+import {infusionLimits,infusionEffects,itemEffects,masteryLimit,dragonBreathInfo} from './rules092.js?v=0.22';
 
 // Lista transparente: "aplicado" significa somente o efeito descrito aqui, não a regra inteira.
 export function characterAudit(c, knownSpellCount=()=>0) {

@@ -1,7 +1,7 @@
-Ficha Arcana 0.20 Beta
-Base: Ficha Arcana 0.19 Beta
+Ficha Arcana 0.22 Beta
+Base: Ficha Arcana 0.21 Beta
 Publicação: docs/ (52 arquivos de execução; novo módulo species-motm022.js)
-Catálogo de monstros: 503 nomes/páginas; 122 conferidos; 244 provisórios; 137 incompletos bloqueados
+Catálogo de monstros: 503 nomes/páginas; 365 utilizáveis (243 do SRD 5.2 oficial); 92 provisórios; 46 bloqueados
 Raças: 32 do Mordenkainen 2022, Forjado Bélico de Eberron 2025, 3 novas (Fada, Laparlonj, Sátiro), 13 variantes antigas adaptadas a 2024
 Testes: verificação no navegador (Chromium) de 65 fichas de classes, 170 combinações de raças, criação de personagem, Área do Mestre e exportação/importação; sem erros. O pacote de testes automatizados da 0.16 não estava disponível.
 Data: 2026-11-08

@@ -1,4 +1,4 @@
-# Ficha Arcana 0.20 Beta
+# Ficha Arcana 0.22 Beta
 
 Atualização incremental da **0.15 fornecida**, preservando `docs/`, a identidade visual e as fichas existentes. A ampliação desta versão está na **Área do Mestre**.
 
@@ -34,3 +34,7 @@ Extraia `Ficha_Arcana_0.16_Testes.zip` ao lado de `docs/`. Requer Node.js 20+ e 
 ## Continuidade
 
 Leia [LEIA_PRIMEIRO_CONTINUIDADE.md](LEIA_PRIMEIRO_CONTINUIDADE.md). P04 continua sem alteração; redução de nível não foi reintroduzida; infusões e descansos/curas dos personagens não foram alterados nesta versão.
+
+## Licença do SRD 5.2
+
+Este trabalho inclui material do System Reference Document 5.2 ("SRD 5.2") da Wizards of the Coast LLC, disponível em https://www.dndbeyond.com/srd. O SRD 5.2 está licenciado sob a Creative Commons Attribution 4.0 International License, disponível em https://creativecommons.org/licenses/by/4.0/legalcode. Os dados foram obtidos por meio da API da Open5e (https://open5e.com) e traduzidos/resumidos para o português.
