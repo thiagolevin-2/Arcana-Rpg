@@ -1,0 +1,969 @@
+{
+  "summary": {
+    "duplicates": [
+      {
+        "file": "dd-5e-unearthed-arcana-subclasses-revisadas-biblioteca-elfica.pdf",
+        "sameAs": "dd-5e-unearthed-arcana-subclasses-revisadas-biblioteca-elfica (1).pdf",
+        "source": "ua-revised",
+        "reason": "Conteúdo binário idêntico; importado uma única vez."
+      }
+    ],
+    "physicalPageCount": 509,
+    "indexedPageCount": 490,
+    "counts": {
+      "species": 100,
+      "subclass": 40,
+      "class": 1,
+      "item": 80,
+      "invocation": 5,
+      "maneuver": 3,
+      "feat": 8,
+      "spell": 33
+    },
+    "canonicalOptionCount": 133,
+    "legacyOptionCount": 397,
+    "selectedOptionCount": 270,
+    "superseded2024": 70,
+    "spellCount": 424,
+    "priority": "PHB 2024 > opções legadas oficiais não reimpressas > compilações > UA revisada > UA anterior",
+    "sourceIssues": [
+      {
+        "file": "tasha_fizban_options.json",
+        "coverage": {
+          "counts": {
+            "fizban:feat": 3,
+            "fizban:item": 17,
+            "fizban:species": 3,
+            "fizban:spell": 7,
+            "fizban:subclass": 2,
+            "tasha:class": 1,
+            "tasha:feat": 15,
+            "tasha:invocation": 8,
+            "tasha:item": 63,
+            "tasha:maneuver": 7,
+            "tasha:spell": 21,
+            "tasha:subclass": 30,
+            "wildemount:spell": 15,
+            "wildemount:subclass": 3
+          },
+          "notes": [
+            "Itens de Tasha: 47 itens mágicos e 16 infusões estruturadas; não criar fichas independentes para cada item apenas citado nas tabelas de replicação.",
+            "Fizban: capítulos 1–2 de opções de personagens, magias e itens. Capítulos posteriores de dragões/monstros ficam para o índice integral separado.",
+            "Wildemount: cobertura completa das opções disponíveis no recorte local de nove páginas; o recorte não contém espécies, talentos ou itens.",
+            "Textos de conjurações e companheiros podem conter seus blocos de estatísticas e tabelas; todos os efeitos estão marcados para controle manual.",
+            "Correspondências de nomes de talentos/manobras/invocações 2024 precisam ser resolvidas pelo catálogo central; variantes antigas permanecem desativadas quando a identidade é conhecida."
+          ]
+        }
+      }
+    ],
+    "unresolvedArtificerSpells": [
+      "Criar Fogueira",
+      "Golpe Trovejante",
+      "Pedra Encantada",
+      "Picada Congelante",
+      "Absorver Elementos",
+      "Catapulta",
+      "Laço",
+      "Escrita celeste",
+      "Pirotecnia",
+      "Flechas Flamejantes",
+      "Pequeno Servo",
+      "Soneca",
+      "Destruição Elemental",
+      "Aprimorar Perícia",
+      "Transmutar Pedra"
+    ]
+  },
+  "conflicts": [
+    {
+      "name": "Aasimar",
+      "kind": "species",
+      "source": "races-large",
+      "page": 5,
+      "winner": {
+        "id": "aasimar",
+        "name": "Aasimar"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Aasimar Caído",
+      "kind": "species",
+      "source": "races-large",
+      "page": 5,
+      "winner": {
+        "id": "aasimar",
+        "name": "Aasimar"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Aasimar Flagelo",
+      "kind": "species",
+      "source": "races-large",
+      "page": 5,
+      "winner": {
+        "id": "aasimar",
+        "name": "Aasimar"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Aasimar Protetor",
+      "kind": "species",
+      "source": "races-large",
+      "page": 6,
+      "winner": {
+        "id": "aasimar",
+        "name": "Aasimar"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Anão",
+      "kind": "species",
+      "source": "races-large",
+      "page": 6,
+      "winner": {
+        "id": "anao",
+        "name": "Anão"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Anão da Colina",
+      "kind": "species",
+      "source": "races-large",
+      "page": 8,
+      "winner": {
+        "id": "anao",
+        "name": "Anão"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Anão da Montanha",
+      "kind": "species",
+      "source": "races-large",
+      "page": 8,
+      "winner": {
+        "id": "anao",
+        "name": "Anão"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Anão de Kaladesh",
+      "kind": "species",
+      "source": "races-large",
+      "page": 8,
+      "winner": {
+        "id": "anao",
+        "name": "Anão"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Draconato",
+      "kind": "species",
+      "source": "races-large",
+      "page": 12,
+      "winner": {
+        "id": "draconato",
+        "name": "Draconato"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Elfo",
+      "kind": "species",
+      "source": "races-large",
+      "page": 13,
+      "winner": {
+        "id": "elfo",
+        "name": "Elfo"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Alto Elfo",
+      "kind": "species",
+      "source": "races-large",
+      "page": 15,
+      "winner": {
+        "id": "elfo",
+        "name": "Elfo"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Elfo Silvestre",
+      "kind": "species",
+      "source": "races-large",
+      "page": 15,
+      "winner": {
+        "id": "elfo",
+        "name": "Elfo"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Drow",
+      "kind": "species",
+      "source": "races-large",
+      "page": 15,
+      "winner": {
+        "id": "elfo",
+        "name": "Elfo"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Gnomo",
+      "kind": "species",
+      "source": "races-large",
+      "page": 29,
+      "winner": {
+        "id": "gnomo",
+        "name": "Gnomo"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Gnomo do Bosque",
+      "kind": "species",
+      "source": "races-large",
+      "page": 29,
+      "winner": {
+        "id": "gnomo",
+        "name": "Gnomo"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Gnomo das Rochas",
+      "kind": "species",
+      "source": "races-large",
+      "page": 29,
+      "winner": {
+        "id": "gnomo",
+        "name": "Gnomo"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Golias",
+      "kind": "species",
+      "source": "races-small",
+      "page": 6,
+      "winner": {
+        "id": "golias",
+        "name": "Golias"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Pequenino",
+      "kind": "species",
+      "source": "races-large",
+      "page": 33,
+      "winner": {
+        "id": "pequenino",
+        "name": "Pequenino"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Pequenino Pés-Leves",
+      "kind": "species",
+      "source": "races-large",
+      "page": 34,
+      "winner": {
+        "id": "pequenino",
+        "name": "Pequenino"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Pequenino Robusto",
+      "kind": "species",
+      "source": "races-large",
+      "page": 34,
+      "winner": {
+        "id": "pequenino",
+        "name": "Pequenino"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Humano",
+      "kind": "species",
+      "source": "races-large",
+      "page": 36,
+      "winner": {
+        "id": "humano",
+        "name": "Humano"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Humano Variante",
+      "kind": "species",
+      "source": "races-large",
+      "page": 37,
+      "winner": {
+        "id": "humano",
+        "name": "Humano"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Humano de Innistrad",
+      "kind": "species",
+      "source": "races-large",
+      "page": 37,
+      "winner": {
+        "id": "humano",
+        "name": "Humano"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Humano de Innistrad (Gavony)",
+      "kind": "species",
+      "source": "races-large",
+      "page": 37,
+      "winner": {
+        "id": "humano",
+        "name": "Humano"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Humano de Innistrad (Kessig)",
+      "kind": "species",
+      "source": "races-large",
+      "page": 37,
+      "winner": {
+        "id": "humano",
+        "name": "Humano"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Humano de Innistrad (Nephalia)",
+      "kind": "species",
+      "source": "races-large",
+      "page": 38,
+      "winner": {
+        "id": "humano",
+        "name": "Humano"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Humano de Innistrad (Stensia)",
+      "kind": "species",
+      "source": "races-large",
+      "page": 38,
+      "winner": {
+        "id": "humano",
+        "name": "Humano"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Orc",
+      "kind": "species",
+      "source": "races-large",
+      "page": 52,
+      "winner": {
+        "id": "orc",
+        "name": "Orc"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Tiferino",
+      "kind": "species",
+      "source": "races-large",
+      "page": 54,
+      "winner": {
+        "id": "tiferino",
+        "name": "Tiferino"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Tiferino Abissal",
+      "kind": "species",
+      "source": "races-large",
+      "page": 55,
+      "winner": {
+        "id": "tiferino",
+        "name": "Tiferino — Abissal"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Tiferino (Asmodeus)",
+      "kind": "species",
+      "source": "races-large",
+      "page": 55,
+      "winner": {
+        "id": "tiferino",
+        "name": "Tiferino"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Círculo das Estrelas",
+      "kind": "subclass",
+      "source": "tasha",
+      "page": 43,
+      "winner": {
+        "id": "druida:Círculo das Estrelas",
+        "name": "Círculo das Estrelas"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Mente Aberrante",
+      "kind": "subclass",
+      "source": "tasha",
+      "page": 47,
+      "winner": {
+        "id": "feiticeiro:Feitiçaria Aberrante",
+        "name": "Feitiçaria Aberrante"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Alma Cronométrica",
+      "kind": "subclass",
+      "source": "tasha",
+      "page": 49,
+      "winner": {
+        "id": "feiticeiro:Feitiçaria Mecânica",
+        "name": "Feitiçaria Mecânica"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Andarilho Feérico",
+      "kind": "subclass",
+      "source": "tasha",
+      "page": 53,
+      "winner": {
+        "id": "guardiao:Andarilho Feérico",
+        "name": "Andarilho Feérico"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Guerreiro Psiônico",
+      "kind": "subclass",
+      "source": "tasha",
+      "page": 58,
+      "winner": {
+        "id": "guerreiro:Combatente Psíquico",
+        "name": "Combatente Psíquico"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Alma Laminada",
+      "kind": "subclass",
+      "source": "tasha",
+      "page": 66,
+      "winner": {
+        "id": "ladino:Adaga Espiritual",
+        "name": "Adaga Espiritual"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Caminho da misericórdia",
+      "kind": "subclass",
+      "source": "tasha",
+      "page": 73,
+      "winner": {
+        "id": "monge:Combatente da Misericórdia",
+        "name": "Combatente da Misericórdia"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Juramento da Glória",
+      "kind": "subclass",
+      "source": "tasha",
+      "page": 77,
+      "winner": {
+        "id": "paladino:Juramento da Glória",
+        "name": "Juramento da Glória"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Mente Mística",
+      "kind": "invocation",
+      "source": "tasha",
+      "page": 31,
+      "winner": {
+        "id": "phb2024-invocation-11",
+        "name": "Mente Mística"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Dádiva dos Protetores",
+      "kind": "invocation",
+      "source": "tasha",
+      "page": 31,
+      "winner": {
+        "id": "phb2024-invocation-19",
+        "name": "Presente dos Protetores"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Implemento do Mestre da Corrente",
+      "kind": "invocation",
+      "source": "tasha",
+      "page": 31,
+      "winner": {
+        "id": "phb2024-invocation-4",
+        "name": "Investimento do Mestre da Corrente"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Emboscada",
+      "kind": "maneuver",
+      "source": "tasha",
+      "page": 58,
+      "winner": {
+        "id": "phb2024-maneuver-11",
+        "name": "Emboscada"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Engodo",
+      "kind": "maneuver",
+      "source": "tasha",
+      "page": 58,
+      "winner": {
+        "id": "phb2024-maneuver-14",
+        "name": "Gato Por Lebre"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Presença dominante",
+      "kind": "maneuver",
+      "source": "tasha",
+      "page": 58,
+      "winner": {
+        "id": "phb2024-maneuver-18",
+        "name": "Presença de Autoridade"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Avaliação tática",
+      "kind": "maneuver",
+      "source": "tasha",
+      "page": 58,
+      "winner": {
+        "id": "phb2024-maneuver-8",
+        "name": "Avaliação Tática"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Chef",
+      "kind": "feat",
+      "source": "tasha",
+      "page": 80,
+      "winner": {
+        "id": "phb2024-feat-18",
+        "name": "Chef"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Envenenador",
+      "kind": "feat",
+      "source": "tasha",
+      "page": 80,
+      "winner": {
+        "id": "phb2024-feat-23",
+        "name": "Envenenador"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Esmagador",
+      "kind": "feat",
+      "source": "tasha",
+      "page": 81,
+      "winner": {
+        "id": "phb2024-feat-24",
+        "name": "Esmagador"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Especializado em Perícia",
+      "kind": "feat",
+      "source": "tasha",
+      "page": 81,
+      "winner": {
+        "id": "phb2024-feat-30",
+        "name": "Especialista em Perícia"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Lacerador",
+      "kind": "feat",
+      "source": "tasha",
+      "page": 82,
+      "winner": {
+        "id": "phb2024-feat-47",
+        "name": "Talhador"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Perfurador",
+      "kind": "feat",
+      "source": "tasha",
+      "page": 82,
+      "winner": {
+        "id": "phb2024-feat-42",
+        "name": "Perfurador"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Telecinético",
+      "kind": "feat",
+      "source": "tasha",
+      "page": 82,
+      "winner": {
+        "id": "phb2024-feat-48",
+        "name": "Telecinético"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Telepático",
+      "kind": "feat",
+      "source": "tasha",
+      "page": 82,
+      "winner": {
+        "id": "phb2024-feat-49",
+        "name": "Telepático"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Tocado pelas Fadas",
+      "kind": "feat",
+      "source": "tasha",
+      "page": 82,
+      "winner": {
+        "id": "phb2024-feat-51",
+        "name": "Tocado Por Fadas"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Tocado pelas Sombras",
+      "kind": "feat",
+      "source": "tasha",
+      "page": 82,
+      "winner": {
+        "id": "phb2024-feat-50",
+        "name": "Tocado Pelas Sombras"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Farpa Mental",
+      "kind": "spell",
+      "source": "tasha",
+      "page": 106,
+      "winner": {
+        "id": "358",
+        "name": "Talho Mental"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Invocar Aberração",
+      "kind": "spell",
+      "source": "tasha",
+      "page": 106,
+      "winner": {
+        "id": "190",
+        "name": "Invocar Aberração"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Invocar Celestial",
+      "kind": "spell",
+      "source": "tasha",
+      "page": 107,
+      "winner": {
+        "id": "77",
+        "name": "Convocar Celestial"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Invocar Construto",
+      "kind": "spell",
+      "source": "tasha",
+      "page": 108,
+      "winner": {
+        "id": "194",
+        "name": "Invocar Constructo"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Invocar Corruptor",
+      "kind": "spell",
+      "source": "tasha",
+      "page": 109,
+      "winner": {
+        "id": "200",
+        "name": "Invocar Ínfero"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Invocar Elemental",
+      "kind": "spell",
+      "source": "tasha",
+      "page": 110,
+      "winner": {
+        "id": "78",
+        "name": "Convocar Elemental"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Invocar Feérico",
+      "kind": "spell",
+      "source": "tasha",
+      "page": 111,
+      "winner": {
+        "id": "80",
+        "name": "Convocar Feérico"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Invocar Fera",
+      "kind": "spell",
+      "source": "tasha",
+      "page": 112,
+      "winner": {
+        "id": "199",
+        "name": "Invocar Fera"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Invocar Morto-Vivo",
+      "kind": "spell",
+      "source": "tasha",
+      "page": 113,
+      "winner": {
+        "id": "201",
+        "name": "Invocar Morto-Vivo"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Invocar Espírito Dracônico",
+      "kind": "spell",
+      "source": "fizban",
+      "page": 23,
+      "winner": {
+        "id": "195",
+        "name": "Invocar Dragão"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Draconato Cromático",
+      "kind": "species",
+      "source": "fizban",
+      "page": 12,
+      "winner": {
+        "id": "draconato",
+        "name": "Draconato 2024"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Draconato Metálico",
+      "kind": "species",
+      "source": "fizban",
+      "page": 14,
+      "winner": {
+        "id": "draconato",
+        "name": "Draconato 2024"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Magia Perseguidora",
+      "kind": "metamagic",
+      "source": "tasha",
+      "page": 46,
+      "winner": {
+        "id": "phb2024-metamagic-3",
+        "name": "Magia Buscadora"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    },
+    {
+      "name": "Magia Transmutada",
+      "kind": "metamagic",
+      "source": "tasha",
+      "page": 46,
+      "winner": {
+        "id": "phb2024-metamagic-10",
+        "name": "Magia Transmutada"
+      },
+      "reason": "A opção já possui versão 2024; somente a versão 2024 é aplicada."
+    }
+  ],
+  "sources": [
+    {
+      "id": "tasha",
+      "title": "Caldeirão de Tasha para Tudo",
+      "file": "ilide.info-caldeirao-de-tasha-para-tudo-pr_c1a6b30c0dcbdad10e384ed8d9cb5f9e.pdf",
+      "sha256": "ab68c4c7184b44fb48b4650932a8df2229f1a1ad7665affcf8b2754aa3d3bed5",
+      "pageCount": 162,
+      "playtest": false,
+      "extractedPages": 157,
+      "notes": []
+    },
+    {
+      "id": "fizban",
+      "title": "Tesouro dos Dragões de Fizban",
+      "file": "ilide.info-d-d-5e-tesouro-dos-dragoes-de-fizban-pest-ptbr-pr_706e4734ce4f2b8e9fad2ba2e877f547 (1).pdf",
+      "sha256": "5ac7afe92b4bf909b2d062b58508d53a2823677973133a70bcd0b3ef85f33fc3",
+      "pageCount": 228,
+      "playtest": false,
+      "extractedPages": 220,
+      "notes": [
+        "O arquivo usa tradução automática; os nomes podem diferir de traduções oficiais."
+      ]
+    },
+    {
+      "id": "wildemount",
+      "title": "Guia do Explorador para Wildemount — trecho enviado",
+      "file": "ilide.info-guia-do-explorador-para-wildemount-pr_5806bb5a2865515db84e68441da726d5 (3).pdf",
+      "sha256": "51183466dfba8a05641180d27b1a1c93654df6cd9883c8bcede6a52a20637422",
+      "pageCount": 9,
+      "playtest": false,
+      "extractedPages": 8,
+      "notes": [
+        "Integra o trecho anexado, não capítulos ausentes do livro completo."
+      ]
+    },
+    {
+      "id": "ravenloft",
+      "title": "Van Richten — linhagens e subclasses",
+      "file": "ilide.info-vgr-pt-van-richtenx27s-guide-to-ravenloft-raas-e-subclasses-pr_6df21e11ab523a33932a7270c0b4f3a3.pdf",
+      "sha256": "86704946576b4a816e8bbc80dd963b43a966401a4c6e56908daeea491d807073",
+      "pageCount": 12,
+      "playtest": false,
+      "extractedPages": 11,
+      "notes": [
+        "Integra o trecho anexado, não capítulos ausentes do livro completo."
+      ]
+    },
+    {
+      "id": "races-large",
+      "title": "Compêndio de Espécies — 69 páginas",
+      "file": "ilide.info-compendio-de-racas-d-d-5e-pdf-pr_e840746f10b85f3cc9c258f3d18a0106.pdf",
+      "sha256": "ca0ebe95fa8a088d67369816dd031ebd72730bff73fce7c0fb40a3e425599f47",
+      "pageCount": 69,
+      "playtest": false,
+      "extractedPages": 69,
+      "notes": [
+        "Compilação de opções de várias fontes; a indicação da compilação é preservada."
+      ]
+    },
+    {
+      "id": "races-small",
+      "title": "Compêndio de Espécies — 10 páginas",
+      "file": "ilide.info-d-d-5e-compendio-de-racas-biblioteca-elfica-pr_661a422bce5e252ea7a629007599666a.pdf",
+      "sha256": "be3ddbe6ff074be457b5f9785c4e298f1ce6c711c057ed6dd6fb3c55d0738734",
+      "pageCount": 10,
+      "playtest": false,
+      "extractedPages": 10,
+      "notes": [
+        "Compilação de opções de várias fontes; a indicação da compilação é preservada."
+      ]
+    },
+    {
+      "id": "ua-revised",
+      "title": "Unearthed Arcana — Subclasses Revisadas",
+      "file": "dd-5e-unearthed-arcana-subclasses-revisadas-biblioteca-elfica (1).pdf",
+      "sha256": "56b475dc6fbfd4ed4e95cb0297cb270d0aeb52a229d2ab38f48aa4e5ce9d5f7d",
+      "pageCount": 7,
+      "playtest": true,
+      "extractedPages": 6,
+      "notes": []
+    },
+    {
+      "id": "ua-monk",
+      "title": "Unearthed Arcana — Monge",
+      "file": "dd-5e-unearthed-arcana-monge-tradicoes-monasticas-biblioteca-elfica.pdf",
+      "sha256": "fe5b53bb4f9642854ae22acf5f6e7661360f7efa0b21682f4bf70b711b52677a",
+      "pageCount": 3,
+      "playtest": true,
+      "extractedPages": 2,
+      "notes": []
+    },
+    {
+      "id": "ua-paladin",
+      "title": "Unearthed Arcana — Paladino",
+      "file": "dd-5e-unearthed-arcana-paladino-juramentos-sagrados-biblioteca-elfica.pdf",
+      "sha256": "59def4e028a104edd21db37e412f1c58a53c111708fd6a8c48b569f11ec1f587",
+      "pageCount": 4,
+      "playtest": true,
+      "extractedPages": 3,
+      "notes": []
+    },
+    {
+      "id": "ua-fighter",
+      "title": "Unearthed Arcana — Guerreiro",
+      "file": "unearthed arcana guerreiro arquetipos marciais.pdf",
+      "sha256": "613e6092da2c7016da40a6be90ffe873e05d36ab2e2649f27a82ab137370279a",
+      "pageCount": 5,
+      "playtest": true,
+      "extractedPages": 4,
+      "notes": []
+    }
+  ],
+  "duplicates": [
+    {
+      "file": "dd-5e-unearthed-arcana-subclasses-revisadas-biblioteca-elfica.pdf",
+      "sameAs": "dd-5e-unearthed-arcana-subclasses-revisadas-biblioteca-elfica (1).pdf",
+      "source": "ua-revised",
+      "reason": "Conteúdo binário idêntico; importado uma única vez."
+    }
+  ]
+}
