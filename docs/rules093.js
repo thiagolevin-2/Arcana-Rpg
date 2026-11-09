@@ -1,11 +1,11 @@
-import {subclassCatalog013,subclassFeatures013,moonShapeAC013} from './subclass-rules013.js?v=0.24';
-import {featNames012} from './feat-rules012.js?v=0.24';
+import {subclassCatalog013,subclassFeatures013,moonShapeAC013} from './subclass-rules013.js?v=0.26';
+import {featNames012} from './feat-rules012.js?v=0.26';
 // Ficha Arcana 0.9.3 — estados de cena, progressão de subclasses e fichas vinculadas.
 // Regras específicas só são aplicadas automaticamente quando identificadas explicitamente.
-import {CLASSES,CONDITIONS,SPECIES,BACKGROUNDS} from './data.js?v=0.24';
-import {MACRO_DAMAGE_TYPES,validMacroFormula} from './macros094-data.js?v=0.24';
-import {classEntries,classLevel} from './progression.js?v=0.24';
-import {SUPPLEMENT_OPTIONS} from './compatibility.js?v=0.24';
+import {CLASSES,CONDITIONS,SPECIES,BACKGROUNDS} from './data.js?v=0.26';
+import {MACRO_DAMAGE_TYPES,validMacroFormula} from './macros094-data.js?v=0.26';
+import {classEntries,classLevel} from './progression.js?v=0.26';
+import {SUPPLEMENT_OPTIONS} from './compatibility.js?v=0.26';
 const integer=(v,min=0,max=999)=>Math.min(max,Math.max(min,Number.isFinite(Number(v))?Math.floor(Number(v)):min));
 const decimal=(v,min=-99,max=99)=>Math.min(max,Math.max(min,Number.isFinite(Number(v))?Number(v):0));
 const safe=(s,n=120)=>String(s??'').trim().slice(0,n);

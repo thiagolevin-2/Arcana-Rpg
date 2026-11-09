@@ -1,7 +1,7 @@
-import {subclassPassives013} from './subclass-rules013.js?v=0.24';
-import {ABILITIES,CLASSES,FULL_SLOTS} from './data.js?v=0.24';
-import {CLASS_SPELL_PROGRESSION} from './class-progression-data.js?v=0.24';
-import {hasFeat012,featSaves012,featScore012} from './feat-rules012.js?v=0.24';
+import {subclassPassives013} from './subclass-rules013.js?v=0.26';
+import {ABILITIES,CLASSES,FULL_SLOTS} from './data.js?v=0.26';
+import {CLASS_SPELL_PROGRESSION} from './class-progression-data.js?v=0.26';
+import {hasFeat012,featSaves012,featScore012} from './feat-rules012.js?v=0.26';
 
 const bounded=(n,min,max)=>Math.max(min,Math.min(max,Math.floor(Number(n)||0)));
 export const XP_THRESHOLDS=Object.freeze([0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000]);

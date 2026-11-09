@@ -1,4 +1,4 @@
-# Ficha Arcana 0.24 Beta
+# Ficha Arcana 0.26 Beta
 
 Atualização incremental da **0.15 fornecida**, preservando `docs/`, a identidade visual e as fichas existentes. A ampliação desta versão está na **Área do Mestre**.
 
@@ -38,3 +38,5 @@ Leia [LEIA_PRIMEIRO_CONTINUIDADE.md](LEIA_PRIMEIRO_CONTINUIDADE.md). P04 continu
 ## Licença do SRD 5.2
 
 Este trabalho inclui material do System Reference Document 5.2 ("SRD 5.2") da Wizards of the Coast LLC, disponível em https://www.dndbeyond.com/srd. O SRD 5.2 está licenciado sob a Creative Commons Attribution 4.0 International License, disponível em https://creativecommons.org/licenses/by/4.0/legalcode. Os dados foram obtidos por meio da API da Open5e (https://open5e.com) e traduzidos/resumidos para o português.
+
+A Mesa online usa a biblioteca PeerJS 1.5.4 (licença MIT, https://peerjs.com), incluída em `docs/vendor/` com o arquivo de licença, e o servidor público gratuito de salas do PeerJS (0.peerjs.com) para os aparelhos se encontrarem.
