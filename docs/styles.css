@@ -983,3 +983,8 @@
 @container (max-width:560px){.dm-row{grid-template-columns:38px minmax(0,1fr) 96px;gap:8px}.dm-row-ac,.dm-row .dm-chip{display:none}}
 @container (max-width:340px){.dm-row{grid-template-columns:32px minmax(0,1fr)}.dm-row-hp{grid-column:2}}
 @media(min-width:1000px) and (max-width:1399px){body.mesa-open .dm-combat.has-side{grid-template-columns:minmax(0,1fr) minmax(320px,380px)}}
+/* 1.0 Criar NPC */
+.dm-npc-create{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.dm-npc-create p{margin:4px 0 0}
+.wiz-npc-banner{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.wiz-npc-banner label{display:flex;gap:8px;align-items:center;font-weight:400}
