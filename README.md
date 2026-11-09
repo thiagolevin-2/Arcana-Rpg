@@ -1,42 +1,37 @@
-# Ficha Arcana 0.27 Beta
+# Ficha Arcana 1.0
 
-Atualização incremental da **0.15 fornecida**, preservando `docs/`, a identidade visual e as fichas existentes. A ampliação desta versão está na **Área do Mestre**.
+Ficha de personagem de **D&D 2024** com **Área do Mestre** e **Mesa online**, tudo num site estático (pasta `docs/`, publicada pelo GitHub Pages). Suplementos de 2014 são aceitos; quando há conflito, valem as regras de 2024.
 
-## Conteúdo e cobertura
+## Para os jogadores
+- Criação de personagem guiada, 13 classes com subclasses, espécies do Livro do Jogador 2024, do Mordenkainen (2022, adaptado a 2024) e de Eberron (2025).
+- Ficha completa: atributos, perícias, vida (com vida máxima ajustável), combate, armas personalizadas, macros (dado extra + número fixo), magias, equipamentos, economia, companheiros (incluindo o Eco do Cavaleiro Eco), talentos e anotações.
+- Rolagens com vantagem/desvantagem, condições e dados 3D.
+- Tudo fica salvo no navegador; use **Exportar** para guardar uma cópia.
 
-- **503 nomes e páginas** do índice do PDF fornecido.
-- **80 blocos conferidos**: 9 preservados e 71 revisados nesta versão.
-- **286 extrações provisórias**, identificadas e com confirmação antes de adicionar.
-- **137 referências incompletas**, bloqueadas para uso até revisão/preenchimento.
+## Para o mestre (Área do Mestre)
+- **Catálogo com 503 monstros**, todos utilizáveis (243 do SRD 5.2 e os demais conferidos página por página no Livro dos Monstros em português).
+- **Meus monstros**: criar do zero ou adaptar um do livro. **NPCs**: importar fichas do próprio site ou de arquivo JSON.
+- **Imagem da aparência** de cada monstro, com a opção de mostrar aos jogadores.
+- **Encontros com combate**: lista na ordem de iniciativa, painel alto por criatura (vida, estatísticas, ataques), turnos e rodadas. O encontro só aparece para os jogadores quando o mestre clica em **Iniciar encontro**.
+- Ao rolar dano, uma janela pergunta **em quem foi** (um ou vários alvos, com opção de metade).
+- **Feed de dados** na lateral, com todas as rolagens ao vivo.
+- **Backup da mesa** (encontros, monstros, NPCs, imagens, jogadores e registro) e **Restaurar mesa**.
 
-**Não é o livro inteiro conferido/automatizado.** Selecione **Conferidos / personalizados** no catálogo para usar apenas o lote revisado. Consulte [ALTERACOES_0.16.md](ALTERACOES_0.16.md) para a lista dos 80 e das 137 pendências, regras manuais e limites da verificação.
+## Mesa online
+O mestre cria uma sala (Área do Mestre › Mesa online) e passa o código. Cada jogador abre a ficha, toca em **Mesa online** e entra. A barra lateral mostra as rolagens de todos ao vivo, a iniciativa, os pedidos de teste do mestre e as imagens que ele mostrar. Ataques e danos rolados durante um encontro perguntam qual monstro foi o alvo. **Encerrar sala** desconecta todos os jogadores.
 
-## Área do Mestre
-
-Na tela inicial, abra **Área do Mestre**. Pesquise por nome e filtre origem, tipo, tamanho, ND e conferência. Adicione 1–50 cópias, com PV, iniciativa, notas e usos independentes.
-
-O editor permite ações comuns, bônus, reações e lendárias; fórmulas, parcelas de dano, CDs, usos, recarga e recursos. Ataque, dano e crítico usam botões separados. Recarga e recuperação são confirmadas pela mesa.
-
-**Rolagem livre** aceita fórmulas sem CD, sem gastar recursos. **Dados 3D** liga/desliga a animação das rolagens do Mestre. Alvos, rodadas, duração, movimento e consequências continuam manuais.
+Conexão direta entre os aparelhos (sem conta e sem servidor próprio). Precisa de internet. A sala existe enquanto a página do mestre estiver aberta.
 
 ## Publicação no GitHub Pages
+Envie **todo o conteúdo da pasta `docs/`** (incluindo `assets/` e `vendor/`) para a pasta `docs` do repositório e configure o Pages para `main` → `/docs`. A pasta `ferramentas-dev/` e os arquivos `.md` não são necessários para o site.
 
-Extraia o ZIP e envie o conteúdo à raiz do repositório; mantenha `docs/`. Configure Pages para `main` → `/docs`. O pacote público tem 58 arquivos, sem testes, dependências ou pasta `dist/` duplicada. Não envie apenas o ZIP fechado.
+Fichas e dados do mestre ficam salvos em cada navegador. **Faça backup (Exportar fichas / Backup da mesa) antes de atualizar ou trocar de computador.**
 
-Personagens e Mestre ficam salvos neste navegador, em áreas separadas. **Exporte os dois backups JSON antes da atualização.** O backup do Mestre importa com confirmação, mesclando por padrão; a substituição é uma escolha explícita. Não limpe os dados do navegador para atualizar o site.
-
-## Desenvolvimento e testes
-
-Extraia `Ficha_Arcana_0.16_Testes.zip` ao lado de `docs/`. Requer Node.js 20+ e não precisa instalar dependências. Execute `npm test`.
-
-**365 testes aprovados, zero falhas e zero ignorados.** Houve verificação em navegador desktop de encontros, rolagens, edição, backup, importação de ficha antiga, magia e macro. Celular físico, matriz completa de navegadores e a publicação real no Pages não foram homologados.
-
-## Continuidade
-
-Leia [LEIA_PRIMEIRO_CONTINUIDADE.md](LEIA_PRIMEIRO_CONTINUIDADE.md). P04 continua sem alteração; redução de nível não foi reintroduzida; infusões e descansos/curas dos personagens não foram alterados nesta versão.
+## Histórico e continuidade
+As mudanças de cada versão estão em `ALTERACOES_*.md` (a mais recente: `ALTERACOES_1.0.md`). Para continuar o desenvolvimento, leia `LEIA_PRIMEIRO_CONTINUIDADE.md` e `CONTINUIDADE_0.22.md`. Os testes automáticos (Playwright) estão em `ferramentas-dev/testes/`.
 
 ## Licença do SRD 5.2
-
 Este trabalho inclui material do System Reference Document 5.2 ("SRD 5.2") da Wizards of the Coast LLC, disponível em https://www.dndbeyond.com/srd. O SRD 5.2 está licenciado sob a Creative Commons Attribution 4.0 International License, disponível em https://creativecommons.org/licenses/by/4.0/legalcode. Os dados foram obtidos por meio da API da Open5e (https://open5e.com) e traduzidos/resumidos para o português.
 
+## PeerJS
 A Mesa online usa a biblioteca PeerJS 1.5.4 (licença MIT, https://peerjs.com), incluída em `docs/vendor/` com o arquivo de licença, e o servidor público gratuito de salas do PeerJS (0.peerjs.com) para os aparelhos se encontrarem.

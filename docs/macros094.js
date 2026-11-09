@@ -1,10 +1,10 @@
-import {featSpellSources012,featRecords012,featState012,spendFeatSpell012,recordSlot012} from './feat-rules012.js?v=0.27';
+import {featSpellSources012,featRecords012,featState012,spendFeatSpell012,recordSlot012} from './feat-rules012.js?v=1.0';
 // Ficha Arcana 0.9.4 — calcula macros sempre a partir da ficha atual.
 // Não autoriza economia de ações, gastos ou efeitos condicionais implicitamente.
-import {attackStats,derive,resources,weaponDefinition} from './core.js?v=0.27';
-import {classLevel,hasClass,subclassFor} from './progression.js?v=0.27';
-import {conditionsFor,activeSubclassFeatures} from './rules093.js?v=0.27';
-import {normalizeCombatMacros,validMacroFormula} from './macros094-data.js?v=0.27';
+import {attackStats,derive,resources,weaponDefinition} from './core.js?v=1.0';
+import {classLevel,hasClass,subclassFor} from './progression.js?v=1.0';
+import {conditionsFor,activeSubclassFeatures} from './rules093.js?v=1.0';
+import {normalizeCombatMacros,validMacroFormula} from './macros094-data.js?v=1.0';
 const d20SpellAttack=(d,sp,owner)=>{
  const source=d.castingSources.find(x=>x.classId===owner)||d.castingSources[0];
  const ability=source?.ability||d.cast||'int';
@@ -39,6 +39,7 @@ export function evaluateMacro(c,macro,{book=[],spellMechanic,spellReady,unarmedF
  const ready=sp=>typeof spellReady==='function'?spellReady(c,sp):!!(c.prepared||[]).includes(sp.id);
  let base={kind:'weapon',label:'',bonus:0,key:'str',type:'Contundente',criticalThreshold:20,styleGreatWeapon:false,attack:true,save:'',dc:null};
  let primarySpell=null,weapon=null;
+ const withFlat=(f,flat)=>{const n=Math.round(Number(flat)||0);f=String(f||'');if(!n)return f;if(!f)return String(n);return f+(n>0?'+':'')+n;};
  const add=(name,formula,type,extra={})=>{if(!validMacroFormula(formula)){warnings.push(name+': fórmula inválida; efeito ignorado.');return false;}parts.push({label:name,formula,type,mainWeapon:!!extra.mainWeapon,critical:extra.critical!==false,spellDamage:!!extra.spellDamage});return true;};
  const useSpell=(sp,label,{extra=false,allowIndependent=false}={})=>{
   if(!sp||!ready(sp)){warnings.push(label+': magia não conhecida/preparada; ignorada.');return false;}
@@ -111,11 +112,11 @@ export function evaluateMacro(c,macro,{book=[],spellMechanic,spellReady,unarmedF
   }else if(x.kind==='feature'){
    const r=resources(c).find(r=>r.id===x.resourceId),f=activeSubclassFeatures(c).some(f=>f.id===x.resourceId)?c.featureSettings?.[x.resourceId]:null;const max=r?.max??f?.max,already=r?used(c,r.id):Number(f?.used||0),taken=allocation['res:'+x.resourceId]||0;
    if(!max||already+taken>=max){warnings.push((x.name||'Habilidade')+': recurso indisponível; ignorado.');continue;}
-   if(add(x.name||r?.name||'Habilidade',x.formula,x.type)){
+   if(add(x.name||r?.name||'Habilidade',withFlat(x.formula,x.flat),x.type)){
     allocation['res:'+x.resourceId]=taken+1;costs.push({kind:r?'resource':'feature',id:x.resourceId,name:r?.name||x.name||'Recurso'});
    }
   }else if(x.kind==='custom'){
-   if(add(x.name||'Dano adicional',x.formula,x.type))warnings.push((x.name||'Dano personalizado')+': confirme o gatilho e o número de usos manualmente.');
+   if(add(x.name||'Dano adicional',withFlat(x.formula,x.flat),x.type))warnings.push((x.name||'Dano personalizado')+': confirme o gatilho e o número de usos manualmente.');
   }
  }
  const unable=['Incapacitado','Inconsciente','Paralisado','Atordoado','Petrificado'];if(conditionsFor(c).some(x=>unable.includes(x))||c.raging&&base.kind==='spell')return {ready:false,reason:'As condições atuais impedem esta ação.',parts:[],warnings,costs:[]};

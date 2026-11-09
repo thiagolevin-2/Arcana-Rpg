@@ -917,3 +917,69 @@
 @media(max-width:999px){.dm-side{position:fixed;inset:0 0 0 auto;width:min(460px,100vw);max-height:none;height:100vh;z-index:70;border-radius:0;box-shadow:-12px 0 40px #0b1a1240}}
 .mesa-feed li div{padding-right:40px}
 .mesa-k-turn{background:var(--green-soft)!important;border-left-color:var(--gold)!important;font-weight:700}
+/* 0.28: espaço da lupa nas buscas (a regra geral de campos apagava o recuo) */
+.search>input,.search>input:not([type='checkbox']):not([type='file']):not([type='range']){padding-left:36px!important}
+.search>svg{pointer-events:none;z-index:1}
+/* 0.28: espaçamento padrão entre janelas soltas na página (Habilidades, Equipamentos, Companheiros, Magias) */
+.main>.card,.main>section.card,.main>.stack>.card+.card{margin-bottom:16px}
+.main>.card:last-child{margin-bottom:0}
+.main>.card+.two-cols,.main>.card+.grid,.main>.card+.stack{margin-top:0}
+.main>.resource-grid,.main>.grid,.main>.two-cols,.main>.three-cols,.main>.stack,.main>.flex-cards{margin-bottom:16px}
+.main>.resource-grid:last-child,.main>.grid:last-child,.main>.two-cols:last-child,.main>.stack:last-child{margin-bottom:0}
+/* 0.28 NPCs na Área do Mestre */
+.dm-npc-ways{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:8px}
+.dm-npc-ways>div{border:1px dashed var(--line);border-radius:12px;padding:12px}
+.dm-npc-ways .flex{flex-wrap:wrap;gap:6px}.dm-npc-ways select{flex:1 1 180px;min-width:0}
+.dm-npc-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:16px}
+.dm-npc-card{display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+.dm-npc-card h3{margin:2px 0}.dm-npc-card .flex{flex-wrap:wrap;gap:6px}
+.dm-npc-facts{display:flex;flex-wrap:wrap;gap:4px 14px;margin:6px 0 0;font-size:14px}
+/* 0.28 Iniciativa na aba Combate */
+.combat-init{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.combat-init>div{display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:center}
+.combat-init .eyebrow{grid-column:1/-1}
+.combat-init-num{font-size:32px;line-height:1}
+.combat-init .hint{margin:0}
+.combat-init.is-requested{border:2px solid var(--gold);background:var(--green-soft)}
+.dm-hidden-note{font-size:13px;color:var(--muted)}
+.dm-live-note{font-size:13px;color:var(--green);font-weight:700}
+/* 0.28 Aparência dos monstros */
+.dm-portrait{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin-bottom:12px}
+.dm-portrait img{width:180px;max-width:100%;max-height:220px;object-fit:cover;border-radius:12px;border:1px solid var(--line);background:#fff}
+.dm-portrait-empty{width:180px;height:110px;border:1px dashed var(--line);border-radius:12px;display:grid;place-items:center;color:var(--muted);font-size:13px;text-align:center;padding:8px}
+.dm-portrait-tools{display:flex;flex-wrap:wrap;gap:6px}
+.dm-thumb{width:56px;height:56px;object-fit:cover;border-radius:10px;border:1px solid var(--line);float:right;margin:0 0 6px 8px}
+.dm-row-img{width:32px;height:32px;object-fit:cover;border-radius:8px;float:left;margin-right:8px;border:1px solid var(--line)}
+.mesa-shown-img{display:block;padding:0;border:0;background:none;cursor:zoom-in;width:100%}
+.mesa-shown-img img{width:100%;max-height:260px;object-fit:contain;border-radius:12px;border:1px solid var(--line);background:#fff}
+.mesa-shown p{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:6px 0 0}
+.mesa-zoom{position:fixed;inset:0;z-index:95;background:#08140ee6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;cursor:zoom-out}
+.mesa-zoom img{max-width:100%;max-height:85vh;object-fit:contain;border-radius:12px;background:#fff}
+.mesa-zoom p{color:#fff;margin:0}
+.mesa-showing{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:10px 0;padding:8px;border:1px solid var(--gold);border-radius:12px}
+.mesa-showing img{width:48px;height:48px;object-fit:cover;border-radius:8px}
+/* 0.28 escolher alvo e janela de dano do mestre */
+.mesa-pick{position:fixed;inset:0;z-index:85;background:#08140e88;display:flex;align-items:flex-end;justify-content:center;padding:12px}
+.mesa-pick-box{width:min(520px,100%);background:var(--paper);border-radius:16px;padding:16px;box-shadow:0 -10px 40px #0005;max-height:80vh;overflow:auto}
+.mesa-pick-box h3{margin:4px 0 10px;display:flex;justify-content:space-between;gap:8px}
+.mesa-pick-box h3 strong{font-size:26px}
+.mesa-pick-list{display:grid;gap:8px;margin-bottom:10px}
+.mesa-pick-list .btn{display:flex;justify-content:space-between;align-items:center;width:100%;padding:12px 14px;text-align:left}
+.mesa-k-hit{border-left-color:var(--green)!important}.mesa-k-miss{border-left-color:var(--muted)!important;opacity:.85}
+.dm-dmg-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.dm-dmg-head strong{font-size:34px}
+.dm-dmg-half{display:flex;gap:8px;align-items:center;margin:4px 0 10px}
+.dm-dmg-targets{border:1px solid var(--line);border-radius:12px;padding:8px 12px;display:grid;gap:6px;margin:0}
+.dm-dmg-targets label{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px;border-radius:10px;border:1px solid var(--line);cursor:pointer}
+.dm-dmg-targets label.is-pc{border-style:dashed}
+.dm-dmg-targets label:has(input:checked){border-color:var(--green);background:var(--green-soft)}
+.dm-dmg-targets small{color:var(--muted)}
+@media(min-width:1100px){body.mesa-open .dm-screen{margin-right:var(--mesa-w)}}
+.mesa-drawer-dm{z-index:40}
+.mesa-fab-dm{bottom:18px}
+/* 1.0: lista de combate se adapta ao espaço (feed + painel abertos) */
+.dm-combat-list{container-type:inline-size}
+.dm-combat.has-side{grid-template-columns:minmax(0,1fr) minmax(340px,430px)}
+@container (max-width:560px){.dm-row{grid-template-columns:38px minmax(0,1fr) 96px;gap:8px}.dm-row-ac,.dm-row .dm-chip{display:none}}
+@container (max-width:340px){.dm-row{grid-template-columns:32px minmax(0,1fr)}.dm-row-hp{grid-column:2}}
+@media(min-width:1000px) and (max-width:1399px){body.mesa-open .dm-combat.has-side{grid-template-columns:minmax(0,1fr) minmax(320px,380px)}}
