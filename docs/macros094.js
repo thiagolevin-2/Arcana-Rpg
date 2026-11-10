@@ -1,10 +1,10 @@
-import {featSpellSources012,featRecords012,featState012,spendFeatSpell012,recordSlot012} from './feat-rules012.js?v=1.0';
+import {featSpellSources012,featRecords012,featState012,spendFeatSpell012,recordSlot012} from './feat-rules012.js?v=1.1';
 // Ficha Arcana 0.9.4 — calcula macros sempre a partir da ficha atual.
 // Não autoriza economia de ações, gastos ou efeitos condicionais implicitamente.
-import {attackStats,derive,resources,weaponDefinition} from './core.js?v=1.0';
-import {classLevel,hasClass,subclassFor} from './progression.js?v=1.0';
-import {conditionsFor,activeSubclassFeatures} from './rules093.js?v=1.0';
-import {normalizeCombatMacros,validMacroFormula} from './macros094-data.js?v=1.0';
+import {attackStats,derive,resources,weaponDefinition} from './core.js?v=1.1';
+import {classLevel,hasClass,subclassFor} from './progression.js?v=1.1';
+import {conditionsFor,activeSubclassFeatures} from './rules093.js?v=1.1';
+import {normalizeCombatMacros,validMacroFormula} from './macros094-data.js?v=1.1';
 const d20SpellAttack=(d,sp,owner)=>{
  const source=d.castingSources.find(x=>x.classId===owner)||d.castingSources[0];
  const ability=source?.ability||d.cast||'int';

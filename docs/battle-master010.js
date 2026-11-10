@@ -1,10 +1,10 @@
-import {featScore012} from './feat-rules012.js?v=1.0';
+import {featScore012} from './feat-rules012.js?v=1.1';
 // Mestre da Batalha, PHB 2024 fornecido, pp. 133–135.
 // Recursos e dados são calculados; gatilhos, alvos e o limite por turno são manuais.
-import {CLASSES} from './data.js?v=1.0';
-import {classLevel,subclassFor,totalLevel} from './progression.js?v=1.0';
-import {superiorityPool,choiceLimit} from './rules091.js?v=1.0';
-import {SUPPLEMENT_OPTIONS} from './compatibility.js?v=1.0';
+import {CLASSES} from './data.js?v=1.1';
+import {classLevel,subclassFor,totalLevel} from './progression.js?v=1.1';
+import {superiorityPool,choiceLimit} from './rules091.js?v=1.1';
+import {SUPPLEMENT_OPTIONS} from './compatibility.js?v=1.1';
 
 export const ARTISAN_TOOLS=Object.freeze(['Suprimentos de Alquimista','Suprimentos de Calígrafo','Ferramentas de Carpinteiro','Ferramentas de Cartógrafo','Suprimentos de Cervejeiro','Ferramentas de Coureiro','Ferramentas de Entalhador','Ferramentas de Ferreiro','Ferramentas de Funileiro','Ferramentas de Joalheiro','Ferramentas de Oleiro','Ferramentas de Pedreiro','Suprimentos de Pintor','Ferramentas de Sapateiro','Ferramentas de Tecelão','Ferramentas de Vidreiro','Utensílios de Cozinheiro']);
 export const BATTLE_MASTER_FEATURES=Object.freeze([

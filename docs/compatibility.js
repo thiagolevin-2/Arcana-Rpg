@@ -1,4 +1,4 @@
-import {SUPPLEMENT_OPTIONS,SOURCE_META,EXPANSION_SUMMARY} from './expansion-data.js?v=1.0';
+import {SUPPLEMENT_OPTIONS,SOURCE_META,EXPANSION_SUMMARY} from './expansion-data.js?v=1.1';
 export {SUPPLEMENT_OPTIONS,SOURCE_META,EXPANSION_SUMMARY};
 export const optionById=id=>SUPPLEMENT_OPTIONS.find(e=>e.id===id);
 export const sourceName=id=>id==='phb2024'?'Livro do Jogador 2024':SOURCE_META.find(s=>s.id===id)?.title||id;
