@@ -1,9 +1,9 @@
-import {featNames012,featSpec012,featRecords012,featOriginIssues012} from './feat-rules012.js?v=1.1';
-import {CLASSES,SPECIES,BACKGROUNDS} from './data.js?v=1.1';
-import {speciesChoiceNeeds,speciesFeats,speciesSkills} from './species096.js?v=1.1';
-import {classEntries,cantripLimitFor} from './progression.js?v=1.1';
-import {arcanumCircles,choiceLimit,superiorityPool,speciesRule,attunementLimit,attunementUsage} from './rules091.js?v=1.1';
-import {infusionLimits,infusionEffects,itemEffects,masteryLimit,dragonBreathInfo} from './rules092.js?v=1.1';
+import {featNames012,featSpec012,featRecords012,featOriginIssues012} from './feat-rules012.js?v=1.2';
+import {CLASSES,SPECIES,BACKGROUNDS} from './data.js?v=1.2';
+import {speciesChoiceNeeds,speciesFeats,speciesSkills} from './species096.js?v=1.2';
+import {classEntries,cantripLimitFor} from './progression.js?v=1.2';
+import {arcanumCircles,choiceLimit,superiorityPool,speciesRule,attunementLimit,attunementUsage} from './rules091.js?v=1.2';
+import {infusionLimits,infusionEffects,itemEffects,masteryLimit,dragonBreathInfo} from './rules092.js?v=1.2';
 
 // Lista transparente: "aplicado" significa somente o efeito descrito aqui, não a regra inteira.
 export function characterAudit(c, knownSpellCount=()=>0) {

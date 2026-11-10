@@ -1,8 +1,8 @@
 // Ficha Arcana 0.12 — escolhas explícitas, benefícios fixos e recursos dos talentos.
 // A planilha revisada é a decisão de produto. Alvos, duração e limites por turno são manuais.
-import {ABILITIES,SKILLS,BACKGROUNDS,CLASSES,WEAPONS} from './data.js?v=1.1';
-import {SUPPLEMENT_OPTIONS} from './compatibility.js?v=1.1';
-import {FIGHTING_STYLE_FEATS,featEligibility} from './feats.js?v=1.1';
+import {ABILITIES,SKILLS,BACKGROUNDS,CLASSES,WEAPONS} from './data.js?v=1.2';
+import {SUPPLEMENT_OPTIONS} from './compatibility.js?v=1.2';
+import {FIGHTING_STYLE_FEATS,featEligibility} from './feats.js?v=1.2';
 const keys=ABILITIES.map(x=>x[0]);
 const mental=['int','wis','cha'];
 const integer=(x,min=0,max=999)=>Math.max(min,Math.min(max,Math.floor(Number(x)||0)));

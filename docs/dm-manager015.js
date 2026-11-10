@@ -1,5 +1,5 @@
 // Área do Mestre — 0.16. Compatível com arcanaDM015; sem relógio, alvos ou turnos.
-import {roll,rollD20,mod,clamp} from './core.js?v=1.1';
+import {roll,rollD20,mod,clamp} from './core.js?v=1.2';
 const ATTRS=[['str','Força'],['dex','Destreza'],['con','Constituição'],['int','Inteligência'],['wis','Sabedoria'],['cha','Carisma']];
 const GROUPS=[['actions','Ações'],['bonusActions','Ações bônus'],['reactions','Reações'],['legendaryActions','Ações lendárias']];
 const KINDS=['attack','save','damage','heal','ability'];
@@ -77,7 +77,7 @@ export function createMasterArea({render,toast,onDice,animationsEnabled,toggleAn
  const items=()=>[...catalog,...saved.custom];const monster=id=>items().find(m=>m.id===id)||(saved.npcs||[]).find(m=>m.id===id)||saved.references.find(m=>m.id===id);const encounter=()=>saved.encounters.find(e=>e.id===saved.selectedId)||saved.encounters[0];const instance=id=>encounter().instances.find(i=>i.id===id);
  const actorLabel=(m,iid=detailInstanceId)=>{const i=instance(iid);if(!i||i.monsterId!==m.id)return m.name;const name=i.name||m.name;return encounter().instances.filter(x=>(x.name||monster(x.monsterId)?.name)===name).length>1?name+' · inimigo '+(encounter().instances.indexOf(i)+1):name;};
  const log=(label,result,details='')=>{recentResult={label,result,detail:details};saved.log.unshift({when:new Date().toLocaleString('pt-BR'),label:clip(label,160),result:clip(result,160),details:clip(details,1000)});saved.log=saved.log.slice(0,150);try{onLog?.(label,result,details);}catch(e){console.warn(e);}};
- async function load(){try{const r=await fetch('monsters-book-2024.json?v=1.1');if(!r.ok)throw Error('Catálogo não carregou.');const d=await r.json();const seen=new Set();catalog=(d.monsters||[]).map(m=>normalizeMonster(m)).filter(m=>{if(seen.has(m.id))throw Error('ID repetido no catálogo.');seen.add(m.id);return true;});coverage=d.coverage||'';render?.();}catch(e){console.warn(e);notify('Catálogo indisponível; personalizados e referências dos backups continuam acessíveis.');}}
+ async function load(){try{const r=await fetch('monsters-book-2024.json?v=1.2');if(!r.ok)throw Error('Catálogo não carregou.');const d=await r.json();const seen=new Set();catalog=(d.monsters||[]).map(m=>normalizeMonster(m)).filter(m=>{if(seen.has(m.id))throw Error('ID repetido no catálogo.');seen.add(m.id);return true;});coverage=d.coverage||'';render?.();}catch(e){console.warn(e);notify('Catálogo indisponível; personalizados e referências dos backups continuam acessíveis.');}}
  const info=()=>`${catalog.length} entradas no catálogo. ${coverage}`;
  const stateSnapshot=()=>{const refs=new Map(saved.references.map(m=>[m.id,m]));for(const e of saved.encounters)for(const i of e.instances){const m=monster(i.monsterId);if(m&&!saved.custom.some(x=>x.id===m.id)&&!(saved.npcs||[]).some(x=>x.id===m.id))refs.set(m.id,m);}return structuredClone({...saved,references:[...refs.values()]});};
  const modeSelect=(context='main')=>select('dm-roll-mode-'+context,[['normal','Rolagem normal'],['advantage','Vantagem'],['disadvantage','Desvantagem']],mode,'Modo das rolagens de d20');
