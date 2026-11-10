@@ -1,8 +1,8 @@
-import {featScore012,featMasteries012,hasFeat012} from './feat-rules012.js?v=1.2';
+import {featScore012,featMasteries012,hasFeat012} from './feat-rules012.js?v=1.3';
 // Ficha Arcana 0.9.2 — efeitos determinísticos de equipamentos e infusões.
 // Não interpreta automaticamente descrições livres de suplementos.
-import {classLevel} from './progression.js?v=1.2';
-import {SUPPLEMENT_OPTIONS} from './compatibility.js?v=1.2';
+import {classLevel} from './progression.js?v=1.3';
+import {SUPPLEMENT_OPTIONS} from './compatibility.js?v=1.3';
 
 const number=(v,min=0,max=10)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):0));
 export const ITEM_BONUS_KEYS=Object.freeze(['ac','initiative','saves','speed','spellAttack','spellDC']);
@@ -48,9 +48,9 @@ export function restoreGrants(c,long=false){for(const [id,g] of Object.entries(c
 
 // Maestria com armas: controla quais propriedades o personagem conhece.
 // A execução de efeitos em alvos depende de uma mesa/turno, por isso não altera automaticamente ataques.
-import {WEAPONS,SPECIES} from './data.js?v=1.2';
-import {motmSpellPlan} from './species-motm022.js?v=1.2';
-import {training} from './progression.js?v=1.2';
+import {WEAPONS,SPECIES} from './data.js?v=1.3';
+import {motmSpellPlan} from './species-motm022.js?v=1.3';
+import {training} from './progression.js?v=1.3';
 export function masteryLimit(c){const fighter=classLevel(c,'guerreiro'),barbarian=classLevel(c,'barbaro'),other=['paladino','guardiao','ladino'].filter(k=>classLevel(c,k)>=1).length;
  const f=fighter>=16?6:fighter>=10?5:fighter>=4?4:fighter>=1?3:0;
  const b=barbarian>=10?4:barbarian>=4?3:barbarian>=1?2:0;
