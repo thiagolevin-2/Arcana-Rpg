@@ -1,4 +1,4 @@
-import {ABILITIES,POINT_COST} from './data.js?v=1.3';
+import {ABILITIES,POINT_COST} from './data.js?v=2.1';
 
 export function attributeSetup(c){
  const values=ABILITIES.map(([key])=>Number(c.base?.[key])||0),filled=values.filter(v=>Number.isInteger(v)&&v>=3&&v<=18).length;
