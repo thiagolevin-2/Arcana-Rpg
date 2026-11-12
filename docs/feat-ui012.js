@@ -1,10 +1,10 @@
-import {ABILITIES,SKILLS,CLASSES,WEAPONS,BACKGROUNDS} from './data.js?v=2.1';
-import {derive,attackStats,weaponDefinition,weaponAllowedAtCreation,roll,die,sign} from './core.js?v=2.1';
-import {hasClass,hitDicePools,classEntries} from './progression.js?v=2.1';
-import {FIGHTING_STYLE_FEATS,hasFightingStyleFeature,featEligibility,featCategory} from './feats.js?v=2.1';
-import {SUPPLEMENT_OPTIONS} from './compatibility.js?v=2.1';
-import {cannotAct,receiveHealing} from './rules09.js?v=2.1';
-import {canonicalFeat012,featSpec012,featNames012,hasFeat012,featRecords012,featStyles012,featTools012,featResources012,featState012,spendFeatResource012,featPB012,featLevel012,featCatalog012,validateFeatChoice012,applyFeatChoice012,featInvocationAllowed012,featSpellPlans012,featSpellSources012,recallSlot012,craftPoison012,spendPoison012,UNCHANGED_FEATS012,ELEMENTS012,ENERGY_TYPES012,ARTISAN_TOOLS012,INSTRUMENTS012,TOOLS012} from './feat-rules012.js?v=2.1';
+import {ABILITIES,SKILLS,CLASSES,WEAPONS,BACKGROUNDS} from './data.js?v=2.2';
+import {derive,attackStats,weaponDefinition,weaponAllowedAtCreation,roll,die,sign} from './core.js?v=2.2';
+import {hasClass,hitDicePools,classEntries} from './progression.js?v=2.2';
+import {FIGHTING_STYLE_FEATS,hasFightingStyleFeature,featEligibility,featCategory} from './feats.js?v=2.2';
+import {SUPPLEMENT_OPTIONS} from './compatibility.js?v=2.2';
+import {cannotAct,receiveHealing} from './rules09.js?v=2.2';
+import {canonicalFeat012,featSpec012,featNames012,hasFeat012,featRecords012,featStyles012,featTools012,featResources012,featState012,spendFeatResource012,featPB012,featLevel012,featCatalog012,validateFeatChoice012,applyFeatChoice012,featInvocationAllowed012,featSpellPlans012,featSpellSources012,recallSlot012,craftPoison012,spendPoison012,UNCHANGED_FEATS012,ELEMENTS012,ENERGY_TYPES012,ARTISAN_TOOLS012,INSTRUMENTS012,TOOLS012} from './feat-rules012.js?v=2.2';
 
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const attr=v=>esc(v);

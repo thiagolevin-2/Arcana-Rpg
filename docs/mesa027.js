@@ -4,8 +4,8 @@
 // O mestre é o "anfitrião": guarda o estado da mesa e repassa para todos.
 // Jogador: barra lateral à direita (não cobre a ficha) com iniciativa, pedidos e o registro ao vivo.
 // Mestre: aba "Mesa online" com código, jogadores e pedidos; combate e painéis ficam na aba Encontros.
-import {ABILITIES,SKILLS} from './data.js?v=2.1';
-import * as ponte from './tabuleiro/js/ponte.js?v=2.1';
+import {ABILITIES,SKILLS} from './data.js?v=2.2';
+import * as ponte from './tabuleiro/js/ponte.js?v=2.2';
 
 const CFG_KEY='arcana-mesa',HOST_KEY='arcana-mesa-host',SERVER_KEY='arcana-mesa-server',DRAWER_KEY='arcana-mesa-drawer';
 const ALPHABET='ABCDEFGHJKMNPQRSTUVWXYZ23456789';

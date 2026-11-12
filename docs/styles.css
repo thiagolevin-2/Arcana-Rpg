@@ -1006,3 +1006,15 @@
 .inicio-dica{max-width:760px}
 /* a ficha aberta dentro do Tabuleiro */
 body.embutido .mesa-fab{display:none}
+
+/* ---------- 2.2: editor de monstro ---------- */
+.dm-prof-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px 12px;margin:6px 0 14px}
+.dm-prof{display:flex;align-items:center;gap:8px;padding:5px 8px;border:1px solid var(--line);border-radius:7px;background:var(--paper)}
+.dm-prof span{flex:1;font-size:12px}.dm-prof small{opacity:.6;font-size:10px}
+.dm-prof input[type=number]{width:62px;padding:5px 6px;text-align:center}
+.dm-prof:has(.dm-prof-check:checked){border-color:var(--green);background:var(--green-soft)}
+.dm-dmg-rows{border:1px dashed var(--line);border-radius:9px;padding:10px;margin:8px 0;display:flex;flex-direction:column;gap:7px}
+.dm-dmg-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px}.dm-dmg-head .hint{margin:0}
+.dm-dmg-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.dm-dmg-row input[type=number]{width:70px;text-align:center}
+.dm-dmg-row select{min-width:120px}
