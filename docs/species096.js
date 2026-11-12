@@ -1,9 +1,9 @@
-import {featScore012} from './feat-rules012.js?v=2.2';
+import {featScore012} from './feat-rules012.js?v=2.3';
 // Ficha Arcana 0.9.6 — escolhas e poderes de espécies assistidos.
 // O módulo não decide duração, alvos, posicionamento ou resultado de salvaguardas dos NPCs.
-import {SPECIES,SKILLS,BACKGROUNDS} from './data.js?v=2.2';
-import {motmCards,motmSkills,motmChoiceNeeds,shifterOption} from './species-motm022.js?v=2.2';
-import {applySpeciesOverride018} from './custom018.js?v=2.2';
+import {SPECIES,SKILLS,BACKGROUNDS} from './data.js?v=2.3';
+import {motmCards,motmSkills,motmChoiceNeeds,shifterOption} from './species-motm022.js?v=2.3';
+import {applySpeciesOverride018} from './custom018.js?v=2.3';
 
 export const ORIGIN_FEATS_2024=['Alerta','Artifista','Atacante Selvagem','Curandeiro','Habilidoso','Iniciado em Magia (Clérigo)','Iniciado em Magia (Druida)','Iniciado em Magia (Mago)','Músico','Sortudo','Valentão de Taverna','Vigoroso'];
 // A seleção do Alto Elfo é baseada nos truques de Mago presentes no acervo do aplicativo.

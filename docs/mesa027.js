@@ -4,8 +4,8 @@
 // O mestre é o "anfitrião": guarda o estado da mesa e repassa para todos.
 // Jogador: barra lateral à direita (não cobre a ficha) com iniciativa, pedidos e o registro ao vivo.
 // Mestre: aba "Mesa online" com código, jogadores e pedidos; combate e painéis ficam na aba Encontros.
-import {ABILITIES,SKILLS} from './data.js?v=2.2';
-import * as ponte from './tabuleiro/js/ponte.js?v=2.2';
+import {ABILITIES,SKILLS} from './data.js?v=2.3';
+import * as ponte from './tabuleiro/js/ponte.js?v=2.3';
 
 const CFG_KEY='arcana-mesa',HOST_KEY='arcana-mesa-host',SERVER_KEY='arcana-mesa-server',DRAWER_KEY='arcana-mesa-drawer';
 const ALPHABET='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
@@ -189,7 +189,7 @@ export function createMesa({toast=()=>{},rerender=()=>{},player={},dm={}}={}){
  function downloadBackup(){const data=backupData(),d=new Date(),stamp=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+'_'+String(d.getHours()).padStart(2,'0')+'h'+String(d.getMinutes()).padStart(2,'0');const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='backup-mesa-'+(host.code||'sem-sala')+'-'+stamp+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);toast('Backup da mesa salvo: encontros, monstros, NPCs, jogadores e registro.');}
  async function restoreBackup(file){if(file.size>20000000)throw Error('Arquivo acima de 20 MB.');let data;try{data=JSON.parse(await file.text());}catch{throw Error('Arquivo inválido: não é um JSON.');}
   if(data?.kind==='arcana-dm'){if(!confirm('Este arquivo é um "Exportar mestre" (sem dados da sala). Restaurar os encontros, monstros e NPCs dele? Os dados atuais da Área do Mestre serão substituídos.'))return;dm.restoreArchive?.(data);toast('Área do Mestre restaurada.');return;}
-  if(data?.kind!=='arcana-mesa-backup'||!data.mesa)throw Error('Este arquivo não é um backup da mesa do Ficha Arcana.');
+  if(data?.kind!=='arcana-mesa-backup'||!data.mesa)throw Error('Este arquivo não é um backup da mesa do Arcana RPG.');
   if(!confirm('Restaurar o backup da mesa? Encontros, monstros, NPCs, registro e jogadores da mesa serão substituídos pelos do arquivo.'))return;
   if(data.dm)dm.restoreArchive?.(data.dm);const m=data.mesa;const arr=v=>Array.isArray(v)?v:[];
   const players={};for(const p of arr(m.players).slice(0,30)){const pid=clip(p?.pid,60);if(!pid)continue;const live=host.players[pid];players[pid]={pid,name:clip(p.name,60),charName:clip(p.charName,80),summary:live?.online?live.summary:cleanSummary(p.summary),online:!!live?.online};}

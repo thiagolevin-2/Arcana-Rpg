@@ -993,17 +993,71 @@
 .stats{grid-template-columns:repeat(6,1fr)}
 @media(max-width:620px){.stats{grid-template-columns:repeat(3,1fr)}}
 
-/* ---------- Arcana RPG 2.0: tela inicial com as três partes ---------- */
-.portal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:8px 0 18px}
-.portal-card{display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;padding:26px 24px;border-radius:20px;border:1px solid var(--line,#d9d2c1);
-  background:var(--paper);color:inherit;text-decoration:none;cursor:pointer;font:inherit;box-shadow:0 10px 30px #0000000f;transition:transform .15s,box-shadow .15s,border-color .15s}
-.portal-card:hover,.portal-card:focus-visible{transform:translateY(-2px);box-shadow:0 16px 36px #0000001f;border-color:var(--gold,#b8913f)}
-.portal-card strong{font-size:1.75rem;font-family:Georgia,"Times New Roman",serif;font-weight:400}
-.portal-card span{opacity:.85;line-height:1.45}
-.portal-card em{font-style:normal;font-size:.85rem;opacity:.65;margin-top:auto}
-.portal-icone{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:var(--green);color:#f3e7c4}
-.portal-icone svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linejoin:round;stroke-linecap:round}
-.inicio-dica{max-width:760px}
+/* ---------- Arcana RPG 2.3: tela inicial (design revisto) ---------- */
+.inicio-hero{position:relative;max-width:1240px;margin:28px auto 22px;min-height:300px;border-radius:20px;overflow:hidden;background:#193528;color:#f1efe4;display:flex;align-items:center;border:1px solid #62775755}
+.inicio-hero-moldura{position:absolute;right:0;top:0;width:58%;height:100%;overflow:hidden}
+.inicio-hero-arte{position:absolute;left:-8%;top:-8%;width:120%;height:116%;max-width:none;object-fit:cover;object-position:50% 24%;filter:saturate(.8)}
+.inicio-hero:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#193528 32%,#193528e6 48%,#19352870 68%,#19352800 88%);pointer-events:none}
+.inicio-hero-texto{position:relative;z-index:1;padding:44px clamp(22px,5vw,58px);max-width:660px}
+.inicio-hero .eyebrow{color:#d9c48f;letter-spacing:2px;display:block}
+.inicio-hero h1{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:clamp(32px,4.4vw,52px);line-height:1.08;margin:12px 0 14px;color:#f6efd9;letter-spacing:-.5px}
+.inicio-hero p{font-size:15px;line-height:1.6;color:#e2e8da;max-width:520px}
+.portal-grid{max-width:1240px;margin:0 auto 30px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.portal-card{display:flex;flex-direction:column;padding:0;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--paper);color:var(--ink);text-decoration:none;text-align:left;font:inherit;cursor:pointer;box-shadow:var(--shadow);transition:transform .18s cubic-bezier(.2,.8,.2,1),border-color .18s,box-shadow .18s}
+.portal-foto{display:block;position:relative;aspect-ratio:16/10;overflow:hidden;background:#111914}
+.portal-foto img{position:absolute;object-fit:cover;display:block;max-width:none;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+/* as artes do livro têm moldura própria: o recorte esconde a borda */
+.portal-foto img.arte{left:-7%;top:-9%;width:114%;height:118%}
+.portal-foto img.tela{left:-4%;top:-14%;width:150%;height:150%}
+.portal-corpo{display:flex;flex-direction:column;gap:8px;padding:20px 22px 22px;flex:1}
+.portal-corpo strong{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:26px;color:var(--ink);line-height:1.15}
+.portal-corpo>span{font-size:14px;line-height:1.55;color:var(--ink)}
+.portal-corpo em{font-style:normal;font-size:12px;color:var(--muted)}
+.portal-acao{margin-top:auto;padding-top:10px;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--green)}
+.portal-seta{width:18px;height:18px;transition:transform .15s cubic-bezier(.2,.8,.2,1)}
+@media (hover:hover) and (pointer:fine){
+  .portal-card:hover{transform:translateY(-2px);border-color:#b8c3a8;box-shadow:0 14px 34px #1a2a2018}
+  .portal-card:hover .portal-foto img{transform:scale(1.03)}
+  .portal-card:hover .portal-seta{transform:translateX(3px)}
+}
+.portal-card:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.inicio-passos{max-width:1240px;margin:0 auto 22px;padding:26px clamp(20px,4vw,40px);border:1px solid var(--line);border-radius:18px;background:var(--paper)}
+.inicio-passos h2{font-family:Georgia,'Times New Roman',serif;font-size:24px;margin-bottom:16px;color:var(--ink)}
+.inicio-passos-grade{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.inicio-passos h3{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px}
+.inicio-passos ol{margin:0;padding-left:20px;display:grid;gap:8px;font-size:14px;line-height:1.55;color:var(--ink)}
+.inicio-rodape{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;font-size:12px;color:var(--muted);padding:0 4px 8px}
+@media (max-width:900px){
+  .portal-grid{grid-template-columns:1fr}
+  .inicio-passos-grade{grid-template-columns:1fr;gap:18px}
+  .inicio-hero{min-height:0}
+  .inicio-hero-moldura{width:100%;opacity:.4}
+  .inicio-hero:after{background:linear-gradient(180deg,#193528c0,#193528f0)}
+}
+@media (max-width:620px){
+  .portal-foto{aspect-ratio:16/8}
+  .inicio-rpg .icon-btn{width:44px;height:44px}
+  .inicio-hero-texto{padding:30px 22px}
+}
+/* entrada, uma vez por visita: o título sobe, depois o texto e os cartões */
+@keyframes inicio-sobe{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes inicio-assenta{from{transform:scale(1.05)}to{transform:scale(1)}}
+.inicio-entra .inicio-hero .eyebrow,.inicio-entra .inicio-hero h1{animation:inicio-sobe .7s cubic-bezier(.22,1,.36,1) both}
+.inicio-entra .inicio-hero p{animation:inicio-sobe .52s cubic-bezier(.22,1,.36,1) .35s both}
+.inicio-entra .inicio-hero-arte{animation:inicio-assenta 1.1s cubic-bezier(.22,1,.36,1) both}
+.inicio-entra .portal-card{animation:inicio-sobe .52s cubic-bezier(.22,1,.36,1) both}
+.inicio-entra .portal-card:nth-child(1){animation-delay:.45s}
+.inicio-entra .portal-card:nth-child(2){animation-delay:.51s}
+.inicio-entra .portal-card:nth-child(3){animation-delay:.57s}
+@media (prefers-reduced-motion:reduce){.inicio-entra *{animation:none!important}.portal-card,.portal-foto img,.portal-seta{transition:none}}
+/* botões do site respondem ao mouse: sobem 1px; ao clicar, afundam um pouco */
+@media (hover:hover) and (pointer:fine){
+  .btn{transition:background .18s,border-color .18s,transform .15s cubic-bezier(.2,.8,.2,1)}
+  .btn:hover:not(:disabled){transform:translateY(-1px)}
+  .btn:active:not(:disabled){transform:translateY(1px) scale(.985);transition-duration:.09s}
+}
+@media (prefers-reduced-motion:reduce){.btn{transition:background .18s,border-color .18s}.btn:hover:not(:disabled),.btn:active:not(:disabled){transform:none}}
+a.btn{text-decoration:none}
 /* a ficha aberta dentro do Tabuleiro */
 body.embutido .mesa-fab{display:none}
 
@@ -1018,3 +1072,12 @@ body.embutido .mesa-fab{display:none}
 .dm-dmg-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .dm-dmg-row input[type=number]{width:70px;text-align:center}
 .dm-dmg-row select{min-width:120px}
+
+/* 2.3: contraste e foco (revisão com a skill de design) */
+:root{--muted-forte:#5f6659;--gold-forte:#86692c}
+[data-theme="dark"]{--muted-forte:#b3bdaf;--gold-forte:#d3bb7c}
+.portal-corpo em,.inicio-rodape{color:var(--muted-forte)}
+.inicio-passos h3{color:var(--gold-forte)}
+.inicio-rodape{padding:0 0 8px}
+button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+@media (max-width:620px){.inicio-rpg .hub-brand{min-height:44px;min-width:44px;display:inline-flex;align-items:center}}

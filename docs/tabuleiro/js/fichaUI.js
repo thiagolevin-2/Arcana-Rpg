@@ -1,10 +1,10 @@
 // fichaUI.js — as abas do personagem no painel: Personagem, Atributos, Combate e Habilidades.
 // Só monta a tela; quem chama decide o que cada botão faz (rolar, gastar um uso, mudar a vida).
-import { el, titulo } from './util.js?v=2.2';
-import { comSinal } from './dados.js?v=2.2';
-import { ATRIBUTOS, RECARGAS } from './fichas.js?v=2.2';
-import { textoMetros } from './tabuleiro.js?v=2.2';
-import { CONDICOES, EXAUSTAO } from './condicoes.js?v=2.2';
+import { el, titulo } from './util.js?v=2.3';
+import { comSinal } from './dados.js?v=2.3';
+import { ATRIBUTOS, RECARGAS } from './fichas.js?v=2.3';
+import { textoMetros } from './tabuleiro.js?v=2.3';
+import { CONDICOES, EXAUSTAO } from './condicoes.js?v=2.3';
 
 export const ABAS_FICHA = [['personagem', 'Personagem'], ['atributos', 'Atributos'], ['combate', 'Combate'], ['habilidades', 'Habilidades']];
 
@@ -59,7 +59,7 @@ export function abaPersonagem(t, o = {}) {
           o.podeEditar ? el('div', { class: 'acoes' },
             el('button', { class: 'btn pequeno primario', texto: 'Usar', disabled: sobra <= 0, onclick: () => o.aoRecurso(r.id, 'usar') }),
             el('button', { class: 'btn pequeno', texto: 'Restaurar 1', disabled: r.usados <= 0, onclick: () => o.aoRecurso(r.id, 'restaurar') })) : null);
-      })) : el('p', { class: 'vazio', texto: t.ficha ? 'Nenhum uso de habilidade nesta ficha (ou ela veio de uma Ficha Arcana antiga: exporte de novo pela 1.2).' : 'Carregue a ficha para ver os usos de habilidades.' })),
+      })) : el('p', { class: 'vazio', texto: t.ficha ? 'Nenhum uso de habilidade nesta ficha (ou ela veio de uma versão antiga do site: exporte a ficha de novo).' : 'Carregue a ficha para ver os usos de habilidades.' })),
     ...(o.extras || []),
   ];
 }
@@ -84,7 +84,7 @@ export function abaAtributos(t, o) {
       pericias.length ? el('div', { class: 'lista-testes' }, pericias.map(p => el('button', { class: 'teste', title: 'Teste de ' + p.nome, onclick: () => o.aoTeste('Teste de ' + p.nome, p.bonus, 'teste') },
         el('span', { class: 'ponto' + (p.prof === 2 ? ' especialista' : p.prof ? ' cheio' : ''), title: p.prof === 2 ? 'Especialização' : p.prof ? 'Proficiente' : '' }),
         el('span', { class: 'nome', texto: p.nome }), el('small', { texto: ATRIBUTOS.find(a => a[0] === p.atributo)?.[1] || '' }), el('b', { texto: comSinal(p.bonus) }))))
-        : el('p', { class: 'vazio', texto: 'As perícias vêm da ficha exportada pela Ficha Arcana 1.2.' }),
+        : el('p', { class: 'vazio', texto: 'As perícias vêm da ficha do site (Arcana RPG).' }),
       pericias.length ? el('div', { class: 'legenda' }, el('span', {}, el('span', { class: 'ponto cheio' }), ' Proficiente'), el('span', {}, el('span', { class: 'ponto especialista' }), ' Especialização')) : null),
   ];
 }
@@ -118,7 +118,7 @@ export function abaCombate(t, o) {
 // ---------- Habilidades: textos de classe, subclasse, espécie e talentos ----------
 export function abaHabilidades(t) {
   const lista = t.ficha?.habilidades || [];
-  if (!lista.length) return [el('p', { class: 'vazio', texto: t.ficha ? 'Os textos das habilidades vêm da ficha exportada pela Ficha Arcana 1.2.' : 'Carregue a ficha para ver as habilidades.' })];
+  if (!lista.length) return [el('p', { class: 'vazio', texto: t.ficha ? 'Os textos das habilidades vêm da ficha do site (Arcana RPG).' : 'Carregue a ficha para ver as habilidades.' })];
   const caixa = el('div', { class: 'habilidades' });
   const busca = el('input', { placeholder: 'Procurar habilidade…', 'aria-label': 'Procurar habilidade', autocomplete: 'off' });
   const desenhar = () => {

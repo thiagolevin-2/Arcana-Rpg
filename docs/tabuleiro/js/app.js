@@ -1,23 +1,23 @@
 // app.js — o "maestro": telas, painéis do mestre, tela do jogador e as mensagens entre eles.
-import { guardar, ler, apagar, chaves, pedirPersistencia, espaco, tamanhoLegivel, hashDe } from './armazem.js?v=2.2';
-import { importarMapa, carregarMapa, liberarMapa, retratoPequeno, guardarArquivo } from './mapas.js?v=2.2';
-import { criarTabuleiro, estadoDe, celulasDe, custoMovimento, textoMetros } from './tabuleiro.js?v=2.2';
-import { limparFicha, tokenDoMonstro, limparFichaDoToken, limparRecursos } from './fichas.js?v=2.2';
-import { LUZES, calcularVisao, comoVe } from './visao.js?v=2.2';
-import { atingidos, limparMolde, FORMAS } from './moldes.js?v=2.2';
-import { CONDICOES, CONDICAO, EXAUSTAO, limparCondicoes } from './condicoes.js?v=2.2';
-import { rolar, rolarD20 } from './dados.js?v=2.2';
-import { ATRIBUTOS } from './fichas.js?v=2.2';
-import * as ponte from './ponte.js?v=2.2';
-import { criarJanelaRolagens, criarJanelaDado, linhasDoPedido, rolarLivre, rolarTeste, animacaoDoPedido } from './rolagens.js?v=2.2';
-import { animateDice, diceAnimationsEnabled, setDiceAnimations } from './dice3d.js?v=2.2';
-import { barraDeAbas, abaPersonagem, abaAtributos, abaCombate, abaHabilidades, blocoCondicoes } from './fichaUI.js?v=2.2';
-import { comSinal } from './dados.js?v=2.2';
-import { abrirSala, entrarNaSala, novoCodigo, codigoValido, enviarArquivo, criarReceptor, lerPonte, salvarPonte, testarPonte } from './conexao.js?v=2.2';
+import { guardar, ler, apagar, chaves, pedirPersistencia, espaco, tamanhoLegivel, hashDe } from './armazem.js?v=2.3';
+import { importarMapa, carregarMapa, liberarMapa, retratoPequeno, guardarArquivo } from './mapas.js?v=2.3';
+import { criarTabuleiro, estadoDe, celulasDe, custoMovimento, textoMetros } from './tabuleiro.js?v=2.3';
+import { limparFicha, tokenDoMonstro, limparFichaDoToken, limparRecursos } from './fichas.js?v=2.3';
+import { LUZES, calcularVisao, comoVe } from './visao.js?v=2.3';
+import { atingidos, limparMolde, FORMAS } from './moldes.js?v=2.3';
+import { CONDICOES, CONDICAO, EXAUSTAO, limparCondicoes } from './condicoes.js?v=2.3';
+import { rolar, rolarD20 } from './dados.js?v=2.3';
+import { ATRIBUTOS } from './fichas.js?v=2.3';
+import * as ponte from './ponte.js?v=2.3';
+import { criarJanelaRolagens, criarJanelaDado, linhasDoPedido, rolarLivre, rolarTeste, animacaoDoPedido } from './rolagens.js?v=2.3';
+import { animateDice, diceAnimationsEnabled, setDiceAnimations } from './dice3d.js?v=2.3';
+import { barraDeAbas, abaPersonagem, abaAtributos, abaCombate, abaHabilidades, blocoCondicoes } from './fichaUI.js?v=2.3';
+import { comSinal } from './dados.js?v=2.3';
+import { abrirSala, entrarNaSala, novoCodigo, codigoValido, enviarArquivo, criarReceptor, lerPonte, salvarPonte, testarPonte } from './conexao.js?v=2.3';
 
-import { $, uid, celular, el, avisar, definirStatus, avisoMapa, escolherArquivo, numero, inteiro, corValida, imagemValida, hashValido, TIPOS_IMAGEM, CORES, escolhaDeCor, limitador, titulo } from './util.js?v=2.2';
+import { $, uid, celular, el, avisar, definirStatus, avisoMapa, escolherArquivo, numero, inteiro, corValida, imagemValida, hashValido, TIPOS_IMAGEM, CORES, escolhaDeCor, limitador, titulo } from './util.js?v=2.3';
 
-const VERSAO = '2.2';
+const VERSAO = '2.3';
 
 // ---------- tabuleiro (compartilhado entre mestre e jogador) ----------
 let tab = null, papel = null, mapaAtual = null, hashCarregado = null;
@@ -962,7 +962,7 @@ function painelCenas() {
     noSite ? el('button', { class: 'btn primario', texto: '⚔ Encontros da Área do Mestre', onclick: abrirEncontrosDoMestre }) : null,
     el('div', { class: 'linha-campos' },
       el('button', { class: 'btn cresce', texto: '+ Monstro do livro nesta cena', onclick: abrirListaMonstros }),
-      el('button', { class: 'btn pequeno', texto: 'Importar monstros', title: 'Monstros personalizados: backup da Área do Mestre (Ficha Arcana) ou JSON de monstro', onclick: () => importarMonstros(() => abrirListaMonstros()) })),
+      el('button', { class: 'btn pequeno', texto: 'Importar monstros', title: 'Monstros personalizados: backup da Área do Mestre (Arcana RPG) ou JSON de monstro', onclick: () => importarMonstros(() => abrirListaMonstros()) })),
     el('button', { class: 'btn pequeno', texto: 'Pré-carregar todas as cenas nos jogadores', title: 'Manda os mapas e imagens agora, antes do jogo, para as cenas abrirem na hora.', disabled: !sala?.jogadores.size, onclick: preCarregar }),
   ];
 }
@@ -1207,7 +1207,9 @@ function lugaresNoInicio(c, tokens) {
   });
 }
 // coloca o token novo de um jogador no ponto de início (se a cena tiver um)
-function noInicio(c, tk) { const l = lugaresNoInicio(c, [tk]); if (l) { tk.x = l[0].x; tk.y = l[0].y; } }
+function noInicio(c, tk) { if (!c.inicio) { lugarLivre(c, tk); return; } const l = lugaresNoInicio(c, [tk]); if (l) { tk.x = l[0].x; tk.y = l[0].y; } }
+// o quadrado pedido (tk.x, tk.y) ou o livre mais perto: dois tokens nunca nascem um em cima do outro
+function lugarLivre(c, tk) { const ini = c.inicio; c.inicio = { cx: tk.x, cy: tk.y }; const l = lugaresNoInicio(c, [tk]); c.inicio = ini; if (l) { tk.x = l[0].x; tk.y = l[0].y; } }
 function marcarInicio(c, cel) {
   c.inicio = { cx: inteiro(cel.cx, -500, 5000), cy: inteiro(cel.cy, -500, 5000) };
   salvar(); tab.redesenhar(); if (tab.ferramenta === 'inicio') desenharOpcoesInicio(); atualizarSeAba('cenas');
@@ -1245,7 +1247,8 @@ function levarJogadores(c) {
     }
   }
   // com ponto de início: todos aparecem nele e em volta
-  const lugares = lugaresNoInicio(c, chegaram);
+  let lugares = lugaresNoInicio(c, chegaram);
+  if (!lugares && chegaram.length) { c.inicio = { cx: cel.cx, cy: cel.cy }; lugares = lugaresNoInicio(c, chegaram); c.inicio = null; }
   if (lugares) chegaram.forEach((t, k) => { t.x = lugares[k].x; t.y = lugares[k].y; });
   M.ativa = c.id; salvar();
   revelarAoExplorar(c);
@@ -1302,7 +1305,7 @@ function painelTokens() {
   const form = el('div', { class: 'bloco' },
     titulo(t ? 'Editar: ' + t.nome : 'Novo token', el('div', { class: 'acoes' },
       el('button', { class: 'btn pequeno', texto: '+ Monstro do livro', onclick: abrirListaMonstros }),
-      el('button', { class: 'btn pequeno', texto: 'Importar monstros', title: 'Monstros personalizados: backup da Área do Mestre (Ficha Arcana) ou JSON de monstro', onclick: () => importarMonstros(() => abrirListaMonstros()) }),
+      el('button', { class: 'btn pequeno', texto: 'Importar monstros', title: 'Monstros personalizados: backup da Área do Mestre (Arcana RPG) ou JSON de monstro', onclick: () => importarMonstros(() => abrirListaMonstros()) }),
       t ? el('button', { class: 'btn pequeno', texto: '+ Novo', onclick: () => { tab.selecionado = null; tab.redesenhar(); desenharPainelMestre(); } }) : null)),
     el('label', {}, 'Nome', campo('nome', { maxlength: 40 })),
     el('div', { class: 'linha-campos meio' }, el('span', { class: 'rotulo', texto: 'Cor' }),
@@ -1347,7 +1350,7 @@ function painelTokens() {
         el('button', { class: 'btn pequeno perigo', texto: 'Excluir', onclick: () => excluirToken(c, t) }))
       : el('button', { class: 'btn primario', texto: 'Colocar no centro da tela', onclick: () => {
         const n = { id: uid(), ...lerFormulario() }, centro = tab.centroDaTela(), cel = tab.celulaEm(centro.x, centro.y);
-        n.x = cel.cx; n.y = cel.cy; c.tokens.push(n); tab.selecionado = n.id; tab.imagemSelecionada = null; rascunhoNovo = null;
+        n.x = cel.cx; n.y = cel.cy; lugarLivre(c, n); c.tokens.push(n); tab.selecionado = n.id; tab.imagemSelecionada = null; rascunhoNovo = null;
         salvar(); tab.redesenhar(); enviarToken(c, n); desenharPainelMestre();
       } }),
   );
@@ -1713,7 +1716,7 @@ async function importarMonstros(depois) {
     else if (Array.isArray(raw)) lista = raw;
     else if (Array.isArray(raw?.monstros) || Array.isArray(raw?.monsters)) lista = raw.monstros || raw.monsters;
     else if (raw && (raw.name || raw.n)) lista = [raw];
-    else throw new Error('Não achei monstros neste arquivo. Use o backup da Área do Mestre (Ficha Arcana) ou um JSON de monstro.');
+    else throw new Error('Não achei monstros neste arquivo. Use o backup da Área do Mestre (Arcana RPG) ou um JSON de monstro.');
     const validos = lista.filter(m => m && typeof m === 'object' && (m.name || m.n)).slice(0, 1000).map(m => {
       const img = imagemValida(m.img) || imagemValida(imagens[m.id]) || imagemValida(m.image) || null;
       try { tokenDoMonstro(m); } catch { return null; }
@@ -1749,6 +1752,7 @@ async function abrirListaMonstros() {
       const c = cenaAberta(), base = tokenDoMonstro(m), centro = tab.centroDaTela(), cel = tab.celulaEm(centro.x, centro.y);
       const n = { id: uid(), ...base, nome: c.tokens.some(t => t.nome === base.nome) ? proximoNome(c, base.nome) : base.nome, dono: '', oculto: escondido.checked, img: m.img || null,
         x: cel.cx - Math.floor((celulasDe(base.tam) - 1) / 2), y: cel.cy - Math.floor((celulasDe(base.tam) - 1) / 2) };
+      lugarLivre(c, n);
       c.tokens.push(n); tab.selecionado = n.id; tab.imagemSelecionada = null;
       if (M.combate?.cenaId === c.id) M.combate.ordem.push({ id: n.id, ini: null });
       salvar(); tab.redesenhar(); enviarToken(c, n); if (M.combate) enviarCombate();
@@ -1766,7 +1770,7 @@ async function abrirListaMonstros() {
     el('div', { class: 'linha-campos meio' },
       el('label', { class: 'marcar' }, escondido, 'Colocar escondido dos jogadores'),
       el('span', { class: 'espaco' }),
-      el('button', { class: 'btn pequeno primario', texto: 'Importar monstros personalizados', title: 'Backup da Área do Mestre (Ficha Arcana), uma lista de monstros ou um monstro em JSON', onclick: () => importarMonstros(mostrar) }),
+      el('button', { class: 'btn pequeno primario', texto: 'Importar monstros personalizados', title: 'Backup da Área do Mestre (Arcana RPG), uma lista de monstros ou um monstro em JSON', onclick: () => importarMonstros(mostrar) }),
       M.meusMonstros.length ? el('button', { class: 'btn pequeno perigo', texto: `Apagar os meus (${M.meusMonstros.length})`, onclick: () => { if (!confirm('Apagar todos os seus monstros personalizados? Os tokens que já estão no mapa ficam.')) return; M.meusMonstros = []; salvar(); fecharModal(); abrirListaMonstros(); } }) : null),
     resultados,
     el('p', { class: 'dica', texto: `${livro.length} monstros do Livro dos Monstros 2024${M.meusMonstros.length ? ` e ${M.meusMonstros.length} seus (marcados "meu")` : ''}. O token já vem com PV, CA, deslocamento, tamanho e ataques.` }),
@@ -1940,7 +1944,7 @@ async function restaurarBackup() {
   if (!arq) return;
   try {
     const topo = await arq.slice(0, 18).text();
-    if (!topo.startsWith('ARCTAB1\n')) throw new Error('Este arquivo não é um backup do Arcana Tabuleiro.');
+    if (!topo.startsWith('ARCTAB1\n')) throw new Error('Este arquivo não é um backup do Tabuleiro (Arcana RPG).');
     const n = Number(topo.slice(8, 18));
     const cab = JSON.parse(await arq.slice(18, 18 + n).text());
     if (cab.formato !== 'arcana-tabuleiro' || !Array.isArray(cab.estado?.cenas)) throw new Error('Backup inválido.');
@@ -1997,7 +2001,7 @@ function painelBackup() {
         if (!confirm('Gerar um código novo? Quem estiver conectado vai cair.')) return;
         M.codigo = novoCodigo(); await guardar('dados', 'mestre', M); sala?.fechar(); setTimeout(() => location.reload(), 700);
       } })),
-    el('p', { class: 'dica', texto: `Arcana Tabuleiro ${VERSAO}` }),
+    el('p', { class: 'dica', texto: `Arcana RPG · Tabuleiro ${VERSAO}` }),
   ];
 }
 
@@ -2444,14 +2448,14 @@ function desenharPainelJogador() {
       $('#painel').classList.remove('aberto');
     } }) : null,
     J.fichaSite ? el('button', { class: 'btn pequeno primario', texto: '📜 Ficha completa', title: 'Abre a sua ficha do site por cima do mapa. As rolagens feitas nela valem no tabuleiro.', onclick: abrirFichaCompleta }) : null,
-    el('button', { class: 'btn pequeno', texto: J.ficha ? 'Trocar ficha (arquivo)' : 'Carregar minha ficha (arquivo)', title: 'Arquivo da Ficha Arcana: Exportar ficha › Exportar para o tabuleiro', onclick: carregarFicha }),
+    el('button', { class: 'btn pequeno', texto: J.ficha ? 'Trocar ficha (arquivo)' : 'Carregar minha ficha (arquivo)', title: 'Arquivo da ficha (Arcana RPG): Exportar ficha › Exportar para o tabuleiro', onclick: carregarFicha }),
     J.ficha && eu && !eu.ficha ? el('button', { class: 'btn pequeno', texto: 'Usar ficha neste token', onclick: mandarFicha }) : null,
     eu ? el('button', { class: 'btn pequeno', texto: 'Achar no mapa', onclick: () => { tab.centralizarEm(eu); $('#painel').classList.remove('aberto'); } }) : null);
 
   let corpo;
   if (!eu) {
     corpo = [el('div', { class: 'bloco' }, titulo(J.cena ? J.cena.nome : 'Esperando o mestre'),
-      el('p', { class: 'dica', texto: `Você é ${J.eu.nome}. Coloque seu token no mapa e carregue a ficha exportada da Ficha Arcana.` }), botoesFicha)];
+      el('p', { class: 'dica', texto: `Você é ${J.eu.nome}. Coloque seu token no mapa e escolha a sua ficha do site (ou carregue o arquivo exportado).` }), botoesFicha)];
   } else if (J.aba === 'atributos') corpo = abaAtributos(eu, { aoTeste: rolarTesteJanela });
   else if (J.aba === 'combate') {
     const alvos = (J.cena?.tokens || []).filter(t => t.id !== eu.id).map(t => ({ id: t.id, nome: t.nome }));

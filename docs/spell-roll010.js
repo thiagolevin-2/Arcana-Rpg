@@ -1,6 +1,6 @@
 // Um plano confirmado acompanha o ataque até a rolagem de dano.
 // Não interpreta duração, alvos nem consequências de uma magia.
-import {validMacroFormula,MACRO_DAMAGE_TYPES} from './macros094-data.js?v=2.2';
+import {validMacroFormula,MACRO_DAMAGE_TYPES} from './macros094-data.js?v=2.3';
 
 export function resolveSpellRoll(automatic,configuration={}){
  const mode=configuration.mode||'auto';

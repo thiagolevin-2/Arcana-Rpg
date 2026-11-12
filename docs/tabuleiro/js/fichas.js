@@ -72,7 +72,7 @@ export function limparRecursos(lista) { return limparExtras({ recursos: lista })
 
 // Ficha exportada pela Ficha Arcana ("Exportar para o tabuleiro").
 export function limparFicha(raw) {
-  if (!raw || typeof raw !== 'object' || raw.formato !== 'arcana-tabuleiro-ficha') throw new Error('Este arquivo não é uma ficha exportada para o tabuleiro. Na Ficha Arcana use: Exportar ficha › Exportar para o tabuleiro.');
+  if (!raw || typeof raw !== 'object' || raw.formato !== 'arcana-tabuleiro-ficha') throw new Error('Este arquivo não é uma ficha exportada para o tabuleiro. No site Arcana RPG use: Exportar ficha › Exportar para o tabuleiro (ou escolha a ficha do site ao entrar).');
   const acoes = [];
   for (const a of (raw.ataques || []).slice(0, 30)) acoes.push(limparAcao({ nome: a.nome, acerto: a.acerto, partes: [{ dano: a.dano, tipo: a.tipo }], critico: a.critico }, 'Ataques'));
   for (const m of (raw.macros || []).slice(0, 30)) acoes.push(limparAcao({ nome: m.nome, acerto: m.acerto, cd: m.cd, salva: m.salvaguarda, partes: m.partes, critico: m.critico, obs: m.resumo }, 'Macros'));

@@ -38,7 +38,7 @@ input[type=range]{padding:0;accent-color:var(--verde)}
 .inicio{min-height:100%;display:grid;align-content:center;gap:28px;padding:32px 16px;max-width:880px;margin:0 auto}
 .inicio-topo h1{font-size:clamp(30px,5vw,44px);color:var(--ouro);letter-spacing:.01em}
 .inicio-topo p{color:var(--apagado);max-width:560px;margin:10px 0 0}
-.inicio-cartoes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.inicio-cartoes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;align-items:start}
 .cartao{background:var(--papel);border:1px solid var(--linha);border-radius:var(--raio);padding:22px;display:grid;gap:14px;align-content:start}
 .cartao p{margin:0;color:var(--apagado)}
 .cartao form{display:grid;gap:12px}
@@ -127,7 +127,7 @@ input[type=range]{padding:0;accent-color:var(--verde)}
 .bloco.cresce{flex:1 1 0;min-height:150px;display:flex;flex-direction:column}
 .bloco.cresce > .lista{flex:1 1 0;min-height:0;overflow:auto;align-content:start;padding-right:2px}
 .titulo{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:30px}
-.titulo h3{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.titulo h3{min-width:0;overflow-wrap:anywhere}
 .linha-campos{display:flex;gap:8px;align-items:flex-end}
 .linha-campos.meio{align-items:center}
 .linha-campos > *{min-width:0}
@@ -200,8 +200,8 @@ input[type=range]{padding:0;accent-color:var(--verde)}
 .grupo-acoes h4{margin:4px 0 0;font-size:12px;color:var(--apagado);text-transform:uppercase;letter-spacing:.06em}
 .acao{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:6px 8px;border:1px solid var(--linha);border-radius:9px;background:#16211b}
 .acao-nome{display:grid;min-width:0}
-.acao-nome strong{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.acao-nome small{color:var(--apagado);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acao-nome strong{font-size:14px;overflow-wrap:anywhere}
+.acao-nome small{color:var(--apagado);font-size:12px;overflow-wrap:anywhere}
 .acao-bonus{font-weight:700;color:var(--ouro);font-size:15px;white-space:nowrap}
 .testes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .testes .btn{padding:0 4px;font-size:13px}
@@ -291,8 +291,8 @@ details.bloco summary{cursor:pointer;color:var(--ouro);font-size:13px;text-trans
 .cartao-ataque:active{transform:translateY(1px)}
 .cartao-ataque .icone{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#2c2a1b;color:var(--ouro);font-size:22px;border:1px solid #5a5233}
 .cartao-ataque .meio{display:grid;min-width:0}
-.cartao-ataque strong{font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cartao-ataque small{color:var(--apagado);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cartao-ataque strong{font-size:15px;overflow-wrap:anywhere}
+.cartao-ataque small{color:var(--apagado);font-size:12px;overflow-wrap:anywhere}
 .cartao-ataque .bonus{font-size:22px;font-weight:800;color:var(--ouro)}
 .habilidades{display:grid;gap:12px}
 .habilidade{border:1px solid var(--linha);border-radius:10px;background:#16211b}
@@ -471,3 +471,26 @@ details.bloco[open]>summary{margin-bottom:6px}
 .ficha-completa header .dica{margin:0;font-size:12px;flex:1;min-width:140px}
 .ficha-completa header select{min-height:34px;max-width:200px}
 .ficha-completa iframe{flex:1;width:100%;border:0;background:#fff}
+.inicio-topo h1 .h1-marca{display:block;font-size:.42em;letter-spacing:.18em;text-transform:uppercase;color:var(--apagado);margin-top:4px;font-weight:600}
+
+/* revisão 2.3: no celular a barra de cima não corta o status */
+@media (max-width:600px){
+  .barra .versao{display:none}
+  #chip-codigo{letter-spacing:.08em;padding:4px 8px;font-size:13px}
+  .barra{gap:6px}
+}
+/* revisão 2.3: no celular, o painel aberto fica por cima do aviso de iniciativa (o botão "Rolar iniciativa" também está no painel) */
+@media (max-width:900px){ .aviso-iniciativa{z-index:15;max-width:calc(100% - 24px)} }
+/* revisão 2.3: lista de monstros cabe na janela (um nome comprido não estica as linhas) */
+.resultados{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;overflow-x:hidden}
+.resultados .item{min-width:0}
+.resultados .item .nome{min-width:0;overflow-wrap:anywhere;white-space:normal}
+.resultados .item .etiqueta{flex-shrink:0}
+/* revisão 2.3: celular — a barra de cima mostra só a bolinha do status e o botão não quebra em duas linhas */
+@media (max-width:600px){
+  .status span{display:none}
+  #btn-sair{white-space:nowrap}
+}
+/* revisão 2.3: título do bloco divide a linha com os botões (quebra as palavras, sem cortar com "…") */
+.titulo h3{flex:1 1 auto;white-space:normal}
+

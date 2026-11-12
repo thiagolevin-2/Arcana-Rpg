@@ -1,5 +1,5 @@
-import {add,sub,scale,dot,cross,norm,average,quaternion,multiply,rotate,dieModel,landingOrientation,faceLabel,presentationCamera} from './dice-geometry.js?v=2.2';
-import {rollOutcome} from './roll-outcome.js?v=2.2';
+import {add,sub,scale,dot,cross,norm,average,quaternion,multiply,rotate,dieModel,landingOrientation,faceLabel,presentationCamera} from './dice-geometry.js?v=2.3';
+import {rollOutcome} from './roll-outcome.js?v=2.3';
 const motionPreference=typeof matchMedia==='function'?matchMedia('(prefers-reduced-motion: reduce)'):null;
 let preference=null,active=null;
 try{preference=localStorage.getItem('arcana-dice3d')}catch{}
