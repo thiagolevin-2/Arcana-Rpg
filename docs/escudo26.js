@@ -49,8 +49,8 @@ export function pesquisar26(q,fontes,{maxMonstros=12,max=60}={}){
 // ---------- janelas do Escudo ----------
 const CHAVE='arcana-escudo-26';
 export const MAX_JANELAS=8;
-export const TIPOS_JANELA=['combate','encontros','npcs','anotacoes','homebrews','historico','mesa','encontro','npc','monstro','nota','homebrew'];
-const TAMANHO={combate:[860,620],mesa:[780,620],historico:[420,520],encontros:[520,560],npcs:[560,600],anotacoes:[560,600],homebrews:[560,600]};
+export const TIPOS_JANELA=['dados','combate','encontros','npcs','anotacoes','homebrews','historico','mesa','encontro','npc','monstro','nota','homebrew'];
+const TAMANHO={dados:[760,660],combate:[860,620],mesa:[780,620],historico:[420,520],encontros:[520,560],npcs:[560,600],anotacoes:[560,600],homebrews:[560,600]};
 export function carregarJanelas26(){
  try{const v=JSON.parse(localStorage.getItem(CHAVE)||'[]');if(!Array.isArray(v))return [];
   const vistas=new Set();

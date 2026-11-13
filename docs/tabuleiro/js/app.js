@@ -1,23 +1,23 @@
 // app.js — o "maestro": telas, painéis do mestre, tela do jogador e as mensagens entre eles.
-import { guardar, ler, apagar, chaves, pedirPersistencia, espaco, tamanhoLegivel, hashDe } from './armazem.js?v=2.6';
-import { importarMapa, carregarMapa, liberarMapa, retratoPequeno, guardarArquivo } from './mapas.js?v=2.6';
-import { criarTabuleiro, estadoDe, celulasDe, custoMovimento, textoMetros } from './tabuleiro.js?v=2.6';
-import { limparFicha, tokenDoMonstro, limparFichaDoToken, limparRecursos } from './fichas.js?v=2.6';
-import { LUZES, calcularVisao, comoVe } from './visao.js?v=2.6';
-import { atingidos, limparMolde, FORMAS } from './moldes.js?v=2.6';
-import { CONDICOES, CONDICAO, EXAUSTAO, limparCondicoes } from './condicoes.js?v=2.6';
-import { rolar, rolarD20 } from './dados.js?v=2.6';
-import { ATRIBUTOS } from './fichas.js?v=2.6';
-import * as ponte from './ponte.js?v=2.6';
-import { criarJanelaRolagens, criarJanelaDado, linhasDoPedido, rolarLivre, rolarTeste, animacaoDoPedido } from './rolagens.js?v=2.6';
-import { animateDice, diceAnimationsEnabled, setDiceAnimations } from './dice3d.js?v=2.6';
-import { barraDeAbas, abaPersonagem, abaAtributos, abaCombate, abaHabilidades, blocoCondicoes } from './fichaUI.js?v=2.6';
-import { comSinal } from './dados.js?v=2.6';
-import { abrirSala, entrarNaSala, novoCodigo, codigoValido, enviarArquivo, criarReceptor, lerPonte, salvarPonte, testarPonte } from './conexao.js?v=2.6';
+import { guardar, ler, apagar, chaves, pedirPersistencia, espaco, tamanhoLegivel, hashDe } from './armazem.js?v=2.7';
+import { importarMapa, carregarMapa, liberarMapa, retratoPequeno, guardarArquivo } from './mapas.js?v=2.7';
+import { criarTabuleiro, estadoDe, celulasDe, custoMovimento, textoMetros } from './tabuleiro.js?v=2.7';
+import { limparFicha, tokenDoMonstro, limparFichaDoToken, limparRecursos } from './fichas.js?v=2.7';
+import { LUZES, calcularVisao, comoVe } from './visao.js?v=2.7';
+import { atingidos, limparMolde, FORMAS } from './moldes.js?v=2.7';
+import { CONDICOES, CONDICAO, EXAUSTAO, limparCondicoes } from './condicoes.js?v=2.7';
+import { rolar, rolarD20 } from './dados.js?v=2.7';
+import { ATRIBUTOS } from './fichas.js?v=2.7';
+import * as ponte from './ponte.js?v=2.7';
+import { criarJanelaRolagens, criarJanelaDado, linhasDoPedido, rolarLivre, rolarTeste, animacaoDoPedido } from './rolagens.js?v=2.7';
+import { animateDice, diceAnimationsEnabled, setDiceAnimations } from './dice3d.js?v=2.7';
+import { barraDeAbas, abaPersonagem, abaAtributos, abaCombate, abaHabilidades, blocoCondicoes } from './fichaUI.js?v=2.7';
+import { comSinal } from './dados.js?v=2.7';
+import { abrirSala, entrarNaSala, novoCodigo, codigoValido, enviarArquivo, criarReceptor, lerPonte, salvarPonte, testarPonte } from './conexao.js?v=2.7';
 
-import { $, uid, celular, TOQUE, el, avisar, definirStatus, avisoMapa, escolherArquivo, numero, inteiro, corValida, imagemValida, hashValido, TIPOS_IMAGEM, CORES, escolhaDeCor, limitador, titulo } from './util.js?v=2.6';
+import { $, uid, celular, TOQUE, el, avisar, definirStatus, avisoMapa, escolherArquivo, numero, inteiro, corValida, imagemValida, hashValido, TIPOS_IMAGEM, CORES, escolhaDeCor, limitador, titulo } from './util.js?v=2.7';
 
-const VERSAO = '2.6';
+const VERSAO = '2.7';
 
 // ---------- tabuleiro (compartilhado entre mestre e jogador) ----------
 let tab = null, papel = null, mapaAtual = null, hashCarregado = null;
@@ -502,7 +502,7 @@ function desfazerDano(entrada) {
   janela.adicionar(entrada);
 }
 // grupos de dados { lados, valores } que chegam pela rede
-const LADOS = [4, 6, 8, 10, 12, 20, 100];
+const LADOS = [2, 4, 6, 8, 10, 12, 20, 100]; // 2.7: d2 = moeda
 function limparGrupos(lista) {
   return (Array.isArray(lista) ? lista : []).slice(0, 10).filter(g => LADOS.includes(g?.lados))
     .map(g => ({ lados: g.lados, valores: (Array.isArray(g.valores) ? g.valores : []).slice(0, 40).map(v => inteiro(v, 1, g.lados, 1)) }));
@@ -2167,7 +2167,7 @@ function limparEntrada(e) {
 }
 function limparAnimacao(a) {
   if (!a || typeof a !== 'object' || !Array.isArray(a.dice)) return null;
-  const dice = a.dice.slice(0, 24).filter(d => [4, 6, 8, 10, 12, 20].includes(d?.sides))
+  const dice = a.dice.slice(0, 24).filter(d => [2, 4, 6, 8, 10, 12, 20].includes(d?.sides))
     .map(d => ({ sides: d.sides, value: inteiro(d.value, 1, d.sides, 1), selected: !!d.selected, ...(['tens', 'ones'].includes(d.percentile) ? { percentile: d.percentile } : {}) }));
   if (!dice.length) return null;
   return { dice, total: String(a.total ?? '').slice(0, 10), natural: a.natural == null ? null : inteiro(a.natural, 1, 20, 1),

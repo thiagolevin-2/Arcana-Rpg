@@ -16,6 +16,8 @@ function hull(vertices){const seen=new Set(),faces=[],epsilon=1e-6;for(let i=0;i
  }return faces}
 const cache=new Map();
 export function dieModel(sides){if(cache.has(sides))return cache.get(sides);let vertices=[];const phi=(1+Math.sqrt(5))/2;
+ // d2: uma moeda (prisma fino de 24 lados). As duas faces grandes valem 1 e 2; a borda não tem número.
+ if(sides===2)for(let i=0;i<24;i++){const a=i*Math.PI*2/24;for(const y of [.16,-.16])vertices.push([Math.cos(a),y,Math.sin(a)])}
  if(sides===4)vertices=[[1,1,1],[-1,-1,1],[-1,1,-1],[1,-1,-1]];
  if(sides===6)for(const x of [-1,1])for(const y of [-1,1])for(const z of [-1,1])vertices.push([x,y,z]);
  if(sides===8)vertices=[[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]];
@@ -25,6 +27,7 @@ export function dieModel(sides){if(cache.has(sides))return cache.get(sides);let 
  if(!vertices.length)return null;const radius=Math.max(...vertices.map(v=>Math.hypot(...v)));vertices=vertices.map(v=>scale(v,1/radius));const faces=hull(vertices);
  // Assign opposite pairs on a standard cube so opposing faces add up to 7.
  if(sides===6){const assigned=new Set();let value=1;for(let i=0;i<faces.length;i++){if(assigned.has(i))continue;const opposite=faces.findIndex((f,j)=>j!==i&&dot(f.normal,faces[i].normal)<-.999);faces[i].value=value;faces[opposite].value=7-value;assigned.add(i);assigned.add(opposite);value++}}
+ else if(sides===2)faces.forEach(f=>f.value=f.normal[1]>.99?1:f.normal[1]<-.99?2:0);
  else faces.forEach((f,i)=>f.value=i+1);
  const model={sides,vertices,faces};cache.set(sides,model);return model;
 }

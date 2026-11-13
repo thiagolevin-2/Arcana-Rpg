@@ -4,8 +4,8 @@
 // O mestre é o "anfitrião": guarda o estado da mesa e repassa para todos.
 // Jogador: barra lateral à direita (não cobre a ficha) com iniciativa, pedidos e o registro ao vivo.
 // Mestre: aba "Mesa online" com código, jogadores e pedidos; combate e painéis ficam na aba Encontros.
-import {ABILITIES,SKILLS} from './data.js?v=2.6';
-import * as ponte from './tabuleiro/js/ponte.js?v=2.6';
+import {ABILITIES,SKILLS} from './data.js?v=2.7';
+import * as ponte from './tabuleiro/js/ponte.js?v=2.7';
 
 const CFG_KEY='arcana-mesa',HOST_KEY='arcana-mesa-host',SERVER_KEY='arcana-mesa-server',DRAWER_KEY='arcana-mesa-drawer';
 const ALPHABET='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
@@ -236,7 +236,9 @@ export function createMesa({toast=()=>{},rerender=()=>{},player={},dm={}}={}){
   return false;}
  function handleChange(t){if(t.id==='mesa-backup-file'){const f=t.files?.[0];t.value='';if(f)restoreBackup(f).catch(e=>toast(e.message||'Não foi possível restaurar.'));return true;}if(role!=='dm')return false;if(t.id==='mesa-show-dm'){host.showDmRolls=t.checked;broadcast(true);return true;}return false;}
 
- return {dmView,dmPlayerPanel,handleAction,handleChange,onPlayerLog,onSheetChange,onDmLog,onDmChange,resume,afterRender,askInitiative,
+ // 2.7: o Escudo do Mestre mostra a situação da sala
+ const dmStatus=()=>({sala:role==='dm'?host.code||'':'',status,online:Object.values(host.players||{}).filter(p=>p.online).length,total:Object.keys(host.players||{}).length});
+ return {dmStatus,dmView,dmPlayerPanel,handleAction,handleChange,onPlayerLog,onSheetChange,onDmLog,onDmChange,resume,afterRender,askInitiative,
   players:()=>role==='dm'?Object.values(host.players):[],
   damagePlayer,showImage,canShowImage:()=>role==='dm'&&Object.values(host.players).some(p=>p.online),
   get role(){return role;},get status(){return status;},get drawerOpen(){return plOpen();},

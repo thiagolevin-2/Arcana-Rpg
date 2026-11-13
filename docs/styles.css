@@ -1281,3 +1281,38 @@ body.mesa-open .dm-dock{right:calc(var(--mesa-w) + 12px)}
 @media (min-width:1000px){.dm-parte-escudo .dm-escudo{margin-left:0;margin-right:auto}}
 /* celular: a barra das janelas tem altura fixa (nomes com até 2 linhas) e a janela termina logo acima dela */
 @media (max-width:700px){.dm-dock{height:64px;min-height:0;padding:6px 8px}.dm-dock-btn{min-height:44px;max-height:52px;font-size:12.5px;line-height:1.15;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}.dm-win{height:calc(100dvh - 64px)!important}}
+
+/* ---------- Arcana RPG 2.7: Escudo do Mestre reorganizado ---------- */
+.dm-parte-escudo .dm-hero{padding:18px 26px;margin-top:16px;margin-bottom:16px}
+.dm-parte-escudo .dm-hero h1{font-size:30px;margin:2px 0}
+.dm-parte-escudo .dm-hero .eyebrow{display:none}
+.dm-parte-escudo .dm-section-header{margin-bottom:8px}
+.dm-esc-bloco{display:grid;gap:10px;margin-bottom:14px}
+.dm-esc-bloco h3{margin:0;font-size:16px}
+.dm-esc-cab{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dm-esc-status{font-size:13px;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.dm-esc-status::before{content:'';width:9px;height:9px;border-radius:50%;background:var(--line)}
+.dm-esc-status.is-on{color:var(--green);font-weight:600}
+.dm-esc-status.is-on::before{background:#4caf6e}
+.dm-esc-mesa-botoes{display:flex;gap:8px;flex-wrap:wrap}
+.dm-esc-bloco .hint{margin:0}
+.dm-esc-rapidos{display:flex;flex-wrap:wrap;gap:6px}
+.dm-esc-rapidos .die{width:42px;height:44px;flex:0 0 auto}
+.dm-esc-rapidos .die svg{width:18px;height:18px}
+.dm-esc-dados .dm-result{margin:0}
+.dm-esc-janelas-grade{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.dm-esc-janelas-grade .dm-escudo-btn{display:flex;align-items:center;justify-content:flex-start;text-align:left;padding:9px 12px;min-height:42px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);font-weight:600;font-size:14px;cursor:pointer}
+.dm-esc-janelas-grade .dm-escudo-btn:hover{border-color:var(--gold)}
+.dm-esc-janelas-grade .dm-escudo-btn.is-aberta{border-color:var(--green);background:var(--green-soft)}
+.dm-esc-arquivos>summary{font-weight:600;font-size:14px}
+.dm-esc-arquivos .dm-head-tools{flex-wrap:wrap;justify-content:flex-start}
+/* a Mesa de dados dentro da janela: uma coluna quando a janela é estreita */
+.dm-win-body .dice-workshop{gap:16px}
+@container (max-width:680px){.dm-win-body .dice-workshop{grid-template-columns:minmax(0,1fr)}}
+.dm-dados .dice-shortcuts .btn{min-width:46px}
+.dm-esc-rapidos{gap:5px}
+.dm-esc-rapidos .die{width:38px;height:46px}
+@media (max-width:700px){.dm-esc-rapidos{gap:4px}.dm-esc-rapidos .die{width:34px;height:44px}}
+/* celular: com a barra de janelas do Escudo, o botão "Feed de dados" fica logo acima dela; rótulo CD/CA da animação legível */
+@media (max-width:700px){body:has(.dm-dock) .mesa-fab{bottom:76px}}
+@media (max-width:600px){.dice3d-dc-label{font-size:11px!important;letter-spacing:.6px!important}}
