@@ -2,9 +2,9 @@
 // Coordenadas do "mundo" = pixels do mapa original. A "câmera" (vista) diz
 // qual pedaço do mundo aparece na tela e com que zoom.
 
-import { calcularVisao, comoVe, caminhoDoPoligono, distanciaAoSegmento, simplificarCurva } from './visao.js?v=2.5';
-import { geometria, atingidos, FORMAS } from './moldes.js?v=2.5';
-import { CONDICAO } from './condicoes.js?v=2.5';
+import { calcularVisao, comoVe, caminhoDoPoligono, distanciaAoSegmento, simplificarCurva } from './visao.js?v=2.6';
+import { geometria, atingidos, FORMAS } from './moldes.js?v=2.6';
+import { CONDICAO } from './condicoes.js?v=2.6';
 
 export const METROS_POR_QUADRADO = 1.5;
 

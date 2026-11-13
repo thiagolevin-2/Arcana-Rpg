@@ -1,9 +1,9 @@
 // Ficha Arcana 0.13 — escolhas e recursos da ficha; efeitos de mesa ficam descritos.
-import {CLASSES,ABILITIES,WEAPONS} from './data.js?v=2.5';
-import {derive,resources,roll,die,normalizeWeapon} from './core.js?v=2.5';
-import {availableActionSources} from './rules095.js?v=2.5';
-import {receiveHealing} from './rules09.js?v=2.5';
-import {normalizeSubclass013,subclassFeatures013,subclassChoices013,setSubclassChoice013,subclassPools013,adjustSubclassPool013,subclassActions013,activateSubclass013,confirmDeferred013,subclassPassives013,subclassSpellPlans013,subclassCompanionTemplates013,linkSubclassCompanion013,ward013,alterWard013,rollPortent013,usePortent013,subclassWeaponPresets013,installSubclassWeapon013,ELIXIRS013,produceElixir013,consumeElixir013,wildSurgeTable013,chooseControlledSurge013} from './subclass-rules013.js?v=2.5';
+import {CLASSES,ABILITIES,WEAPONS} from './data.js?v=2.6';
+import {derive,resources,roll,die,normalizeWeapon} from './core.js?v=2.6';
+import {availableActionSources} from './rules095.js?v=2.6';
+import {receiveHealing} from './rules09.js?v=2.6';
+import {normalizeSubclass013,subclassFeatures013,subclassChoices013,setSubclassChoice013,subclassPools013,adjustSubclassPool013,subclassActions013,activateSubclass013,confirmDeferred013,subclassPassives013,subclassSpellPlans013,subclassCompanionTemplates013,linkSubclassCompanion013,ward013,alterWard013,rollPortent013,usePortent013,subclassWeaponPresets013,installSubclassWeapon013,ELIXIRS013,produceElixir013,consumeElixir013,wildSurgeTable013,chooseControlledSurge013} from './subclass-rules013.js?v=2.6';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const button=(label,action,data='',cls='small')=>`<button type="button" class="btn ${cls}" data-action="${action}" ${data}>${esc(label)}</button>`;
 const data=(key,value)=>`data-${key}="${esc(value)}"`;

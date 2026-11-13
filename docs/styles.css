@@ -1152,3 +1152,132 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid 
 @media (max-width:600px){ .class-meta{flex-wrap:wrap;justify-content:center;gap:2px 6px} .class-meta span{white-space:nowrap} }
 /* celular: "7/7d6 dados de vida" quebrava uma palavra por linha */
 @media (max-width:600px){ .hp-extra{flex-wrap:wrap;row-gap:6px} .hp-extra>span:first-child{white-space:nowrap} }
+
+/* ---------- Arcana RPG 2.6: Calabouço e Escudo do Mestre ---------- */
+.dm-partes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:-6px 0 22px}
+.dm-parte{display:flex;align-items:center;gap:14px;text-align:left;padding:14px 18px;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);color:var(--ink);cursor:pointer;box-shadow:var(--shadow);transition:border-color .15s,transform .15s,background .15s}
+.dm-parte:hover{border-color:var(--gold);transform:translateY(-1px)}
+.dm-parte.is-on{border:2px solid var(--green);background:var(--green-soft)}
+.dm-parte-ic{font-size:30px;line-height:1;flex:0 0 auto}
+.dm-parte b{display:block;font-size:18px}
+.dm-parte small{display:block;color:var(--muted);font-size:12.5px;margin-top:3px;line-height:1.35}
+/* Calabouço: montar encontro */
+.dm-build{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px;margin:14px 0}
+.dm-build h3{margin:0}
+.dm-build-list>.between{gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.dm-build-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.dm-build-name{flex:1;min-width:0;display:grid;gap:2px}
+.dm-build-name small{color:var(--muted);font-size:12.5px}
+.dm-build-tools{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.dm-build-notes textarea{width:100%;min-height:200px;resize:vertical;line-height:1.5}
+.dm-build-play{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+.dm-build-play p{margin:4px 0 0}
+/* Calabouço: anotações e homebrews */
+.dm-notas{display:grid;grid-template-columns:minmax(220px,300px) minmax(0,1fr);gap:16px;align-items:start}
+.dm-notas-lista{display:grid;gap:10px;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
+.dm-notas-lista>.between{gap:8px;flex-wrap:wrap}
+.dm-notas-itens{display:grid;gap:6px}
+.dm-notas-item{display:grid;text-align:left;gap:2px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);cursor:pointer;min-height:44px}
+.dm-notas-item:hover{border-color:var(--gold)}
+.dm-notas-item.is-sel{border-color:var(--green);background:var(--green-soft)}
+.dm-notas-item small{color:var(--muted);font-size:12px}
+.dm-notas-editor{display:grid;gap:12px}
+.dm-notas-editor input,.dm-notas-editor textarea,.dm-notas-editor select,.dm-notas-lista select{width:100%}
+.dm-notas-editor textarea{min-height:130px;resize:vertical;line-height:1.5}
+.dm-notas-parte{border:1px solid var(--line);border-radius:12px;padding:10px 14px 12px;display:grid;gap:8px;margin:0}
+.dm-notas-parte legend{color:var(--muted);font-size:12px;padding:0 6px}
+/* Escudo: a mesa (pesquisa, botões das janelas, abrir a mesa) */
+.dm-escudo-busca{display:grid;gap:8px}
+.dm-escudo-busca input{font-size:17px;padding:12px 14px;width:100%}
+.dm-escudo-busca .hint{margin:0}
+.dm-escudo-res{display:grid;gap:8px;max-height:min(460px,60vh);overflow:auto}
+.dm-res{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:10px;row-gap:2px;align-items:baseline;text-align:left;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);cursor:pointer;min-height:44px}
+.dm-res:hover{border-color:var(--gold)}
+.dm-res .badge{grid-row:span 3;align-self:start}
+.dm-res small{color:var(--muted);font-size:12.5px}
+.dm-res-trecho{font-size:13px;color:var(--muted);line-height:1.4}
+.dm-escudo-abrir{margin:20px 0}
+.dm-escudo-abrir h3,.dm-escudo-mesa h3{margin:0 0 10px}
+.dm-escudo-botoes{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.dm-escudo-btn{display:grid;gap:4px;text-align:left;cursor:pointer;padding:14px;color:var(--ink);margin:0}
+.dm-escudo-btn:hover{border-color:var(--gold)}
+.dm-escudo-btn b{font-size:15px}
+.dm-escudo-btn small{color:var(--muted);font-size:12.5px}
+.dm-escudo-mesa-opcoes{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.dm-escudo-mesa-opcoes>div{display:grid;gap:6px;align-content:start;justify-items:start;padding:14px;border:1px solid var(--line);border-radius:12px}
+.dm-escudo-mesa-opcoes p{margin:0}
+.dm-screen.com-janelas{padding-bottom:72px}
+/* Escudo: janelas que se movem (arrastar pela barra de título, aumentar pelo canto) */
+.dm-win{position:fixed;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 60px #0b1a1238,0 2px 8px #0b1a121c;overflow:hidden;resize:both;min-width:300px;min-height:180px;max-width:100vw;max-height:100vh}
+.dm-win.is-min{display:none}
+.dm-win.is-top{border-color:var(--gold);box-shadow:0 22px 70px #0b1a1250,0 2px 8px #0b1a1224}
+.dm-win.is-arrastando{opacity:.94}
+.dm-win-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 8px 6px 14px;background:var(--green);color:var(--paper);cursor:move;user-select:none;touch-action:none;flex:0 0 auto;min-height:44px}
+.dm-win-head b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.dm-win-tools{display:flex;gap:4px;flex:0 0 auto}
+.dm-win-tools .btn{color:inherit;border-color:color-mix(in srgb,var(--paper) 40%,transparent);background:transparent;min-width:34px;min-height:34px;justify-content:center}
+.dm-win-tools .btn:hover{background:color-mix(in srgb,var(--paper) 18%,transparent)}
+.dm-win-body{flex:1;overflow:auto;padding:14px;container-type:inline-size;overscroll-behavior:contain}
+.dm-win-filtro{width:100%;margin-bottom:10px}
+.dm-win-lista{display:grid;gap:6px}
+.dm-win-item{display:grid;gap:2px;text-align:left;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);cursor:pointer;min-height:44px}
+.dm-win-item:hover{border-color:var(--gold)}
+.dm-win-item small{color:var(--muted);font-size:12.5px}
+.dm-win-nav{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.dm-texto h2{margin:6px 0 8px}
+.dm-texto h3{margin:16px 0 4px;color:var(--green)}
+.dm-texto-corpo{white-space:pre-wrap;line-height:1.55;margin:0}
+.dm-texto-resumo{font-style:italic;color:var(--muted);margin:0 0 6px}
+.dm-texto+.flex{margin-top:14px}
+.dm-enc-criaturas{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.dm-enc-criaturas li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--paper)}
+.dm-enc-criaturas span{display:grid;min-width:0}
+.dm-enc-criaturas small{color:var(--muted);font-size:12.5px}
+/* combate dentro da janela: o painel da criatura vai para baixo quando a janela é estreita */
+.dm-win-body .dm-side{top:0}
+@container (max-width:760px){.dm-win-body .dm-combat.has-side{grid-template-columns:minmax(0,1fr)}.dm-win-body .dm-side{position:static;max-height:none}}
+/* barra das janelas abertas */
+.dm-dock{position:fixed;left:12px;bottom:12px;right:90px;z-index:39;display:flex;gap:6px;flex-wrap:wrap;pointer-events:none}
+.dm-dock-btn{pointer-events:auto;max-width:230px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:8px 14px;min-height:36px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);box-shadow:var(--shadow);cursor:pointer;font-size:13px}
+.dm-dock-btn:hover{border-color:var(--gold)}
+.dm-dock-btn.is-top{border-color:var(--green);background:var(--green-soft);font-weight:600}
+.dm-dock-btn.is-min{opacity:.78;font-style:italic}
+/* celular: uma janela por vez, em tela cheia; a barra das janelas fica embaixo */
+@media (max-width:700px){
+  .dm-partes{gap:8px;margin-bottom:16px}
+  .dm-parte{padding:10px 12px;gap:10px}
+  .dm-parte-ic{font-size:24px}
+  .dm-parte b{font-size:15px}
+  .dm-parte small{display:none}
+  .dm-build,.dm-notas{grid-template-columns:minmax(0,1fr)}
+  .dm-notas-lista{position:static;max-height:none}
+  .dm-escudo-mesa-opcoes{grid-template-columns:minmax(0,1fr)}
+  .dm-win{left:0!important;top:0!important;width:100%!important;height:calc(100dvh - 60px)!important;max-height:none;border-radius:0;border:0;resize:none;display:none}
+  .dm-win.is-top{display:flex}
+  .dm-win.is-min{display:none}
+  .dm-win-head{cursor:default}
+  .dm-dock{left:0;right:0;bottom:0;padding:8px;gap:6px;background:var(--paper);border-top:1px solid var(--line);flex-wrap:nowrap;overflow-x:auto;pointer-events:auto;min-height:60px;align-items:center}
+  .dm-dock-btn{flex:0 0 auto;max-width:180px;box-shadow:none;min-height:40px}
+}
+/* computador largo: a mesa do Escudo é uma coluna à esquerda; as janelas abrem à direita dela */
+@media (min-width:1000px){.dm-parte-escudo .dm-escudo{max-width:400px}.dm-parte-escudo .dm-escudo .dm-escudo-botoes{grid-template-columns:1fr 1fr}.dm-parte-escudo .dm-escudo .dm-escudo-mesa-opcoes{grid-template-columns:minmax(0,1fr)}}
+.dm-dock-mesa{font-weight:600}
+body.mesa-open .dm-dock{right:calc(var(--mesa-w) + 12px)}
+.dm-parte-ic{width:34px;height:34px;display:grid;place-items:center;color:var(--green)}
+.dm-parte-ic svg{width:100%;height:100%}
+.dm-parte.is-on .dm-parte-ic{color:var(--gold)}
+/* celular: as abas do Calabouço quebram linha (Anotações e Homebrews ficavam escondidas para o lado) */
+@media (max-width:700px){.dm-parte-escudo .dm-tabs,.dm-parte-calabouco .dm-tabs{flex-wrap:wrap;gap:6px 10px;overflow:visible}.dm-parte-ic{width:26px;height:26px}}
+/* títulos das janelas do Escudo: nome comprido quebra em 2 linhas em vez de ser cortado com "…" */
+.dm-win-head b{white-space:normal;overflow-wrap:anywhere;line-height:1.25;text-overflow:clip}
+@media (max-width:600px){.dm-stat-title small,.dm-ability b{font-size:11px!important}}
+/* combate dentro de uma janela estreita: as colunas se ajustam à janela (não à tela) e os nomes quebram linha em vez de serem cortados */
+.dm-win-body .dm-row-name b,.dm-win-body .dm-row-name small{white-space:normal;overflow-wrap:anywhere;text-overflow:clip}
+@container (max-width:620px){.dm-win-body .dm-row{grid-template-columns:38px minmax(0,1fr) 96px;gap:8px}.dm-win-body .dm-row-ac,.dm-win-body .dm-row .dm-chip{display:none}}
+@container (max-width:400px){.dm-win-body .dm-row{grid-template-columns:32px minmax(0,1fr)}.dm-win-body .dm-row-hp{grid-column:2}}
+/* barra das janelas: nome comprido quebra em duas linhas (sem cortar com "…") */
+.dm-dock-btn{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.2;text-align:left}
+/* a coluna do Escudo encosta à esquerda (as janelas usam o espaço da direita) */
+@media (min-width:1000px){.dm-parte-escudo .dm-escudo{margin-left:0;margin-right:auto}}
+/* celular: a barra das janelas tem altura fixa (nomes com até 2 linhas) e a janela termina logo acima dela */
+@media (max-width:700px){.dm-dock{height:64px;min-height:0;padding:6px 8px}.dm-dock-btn{min-height:44px;max-height:52px;font-size:12.5px;line-height:1.15;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}.dm-win{height:calc(100dvh - 64px)!important}}

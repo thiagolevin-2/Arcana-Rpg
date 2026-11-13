@@ -1,23 +1,23 @@
 // app.js — o "maestro": telas, painéis do mestre, tela do jogador e as mensagens entre eles.
-import { guardar, ler, apagar, chaves, pedirPersistencia, espaco, tamanhoLegivel, hashDe } from './armazem.js?v=2.5';
-import { importarMapa, carregarMapa, liberarMapa, retratoPequeno, guardarArquivo } from './mapas.js?v=2.5';
-import { criarTabuleiro, estadoDe, celulasDe, custoMovimento, textoMetros } from './tabuleiro.js?v=2.5';
-import { limparFicha, tokenDoMonstro, limparFichaDoToken, limparRecursos } from './fichas.js?v=2.5';
-import { LUZES, calcularVisao, comoVe } from './visao.js?v=2.5';
-import { atingidos, limparMolde, FORMAS } from './moldes.js?v=2.5';
-import { CONDICOES, CONDICAO, EXAUSTAO, limparCondicoes } from './condicoes.js?v=2.5';
-import { rolar, rolarD20 } from './dados.js?v=2.5';
-import { ATRIBUTOS } from './fichas.js?v=2.5';
-import * as ponte from './ponte.js?v=2.5';
-import { criarJanelaRolagens, criarJanelaDado, linhasDoPedido, rolarLivre, rolarTeste, animacaoDoPedido } from './rolagens.js?v=2.5';
-import { animateDice, diceAnimationsEnabled, setDiceAnimations } from './dice3d.js?v=2.5';
-import { barraDeAbas, abaPersonagem, abaAtributos, abaCombate, abaHabilidades, blocoCondicoes } from './fichaUI.js?v=2.5';
-import { comSinal } from './dados.js?v=2.5';
-import { abrirSala, entrarNaSala, novoCodigo, codigoValido, enviarArquivo, criarReceptor, lerPonte, salvarPonte, testarPonte } from './conexao.js?v=2.5';
+import { guardar, ler, apagar, chaves, pedirPersistencia, espaco, tamanhoLegivel, hashDe } from './armazem.js?v=2.6';
+import { importarMapa, carregarMapa, liberarMapa, retratoPequeno, guardarArquivo } from './mapas.js?v=2.6';
+import { criarTabuleiro, estadoDe, celulasDe, custoMovimento, textoMetros } from './tabuleiro.js?v=2.6';
+import { limparFicha, tokenDoMonstro, limparFichaDoToken, limparRecursos } from './fichas.js?v=2.6';
+import { LUZES, calcularVisao, comoVe } from './visao.js?v=2.6';
+import { atingidos, limparMolde, FORMAS } from './moldes.js?v=2.6';
+import { CONDICOES, CONDICAO, EXAUSTAO, limparCondicoes } from './condicoes.js?v=2.6';
+import { rolar, rolarD20 } from './dados.js?v=2.6';
+import { ATRIBUTOS } from './fichas.js?v=2.6';
+import * as ponte from './ponte.js?v=2.6';
+import { criarJanelaRolagens, criarJanelaDado, linhasDoPedido, rolarLivre, rolarTeste, animacaoDoPedido } from './rolagens.js?v=2.6';
+import { animateDice, diceAnimationsEnabled, setDiceAnimations } from './dice3d.js?v=2.6';
+import { barraDeAbas, abaPersonagem, abaAtributos, abaCombate, abaHabilidades, blocoCondicoes } from './fichaUI.js?v=2.6';
+import { comSinal } from './dados.js?v=2.6';
+import { abrirSala, entrarNaSala, novoCodigo, codigoValido, enviarArquivo, criarReceptor, lerPonte, salvarPonte, testarPonte } from './conexao.js?v=2.6';
 
-import { $, uid, celular, TOQUE, el, avisar, definirStatus, avisoMapa, escolherArquivo, numero, inteiro, corValida, imagemValida, hashValido, TIPOS_IMAGEM, CORES, escolhaDeCor, limitador, titulo } from './util.js?v=2.5';
+import { $, uid, celular, TOQUE, el, avisar, definirStatus, avisoMapa, escolherArquivo, numero, inteiro, corValida, imagemValida, hashValido, TIPOS_IMAGEM, CORES, escolhaDeCor, limitador, titulo } from './util.js?v=2.6';
 
-const VERSAO = '2.5';
+const VERSAO = '2.6';
 
 // ---------- tabuleiro (compartilhado entre mestre e jogador) ----------
 let tab = null, papel = null, mapaAtual = null, hashCarregado = null;
