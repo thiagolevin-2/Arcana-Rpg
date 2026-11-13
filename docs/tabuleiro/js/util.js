@@ -1,6 +1,8 @@
 // util.js — pequenos ajudantes usados por todas as partes do tabuleiro.
 export const $ = s => document.querySelector(s);
 export const uid = () => crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2);
+// a tela é de toque (dedo): celular ou tablet
+export const TOQUE = matchMedia('(pointer: coarse)').matches;
 export const celular = matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 820;
 
 // ---------- pequenos ajudantes de tela ----------

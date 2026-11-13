@@ -1,10 +1,10 @@
 // fichaUI.js — as abas do personagem no painel: Personagem, Atributos, Combate e Habilidades.
 // Só monta a tela; quem chama decide o que cada botão faz (rolar, gastar um uso, mudar a vida).
-import { el, titulo } from './util.js?v=2.3';
-import { comSinal } from './dados.js?v=2.3';
-import { ATRIBUTOS, RECARGAS } from './fichas.js?v=2.3';
-import { textoMetros } from './tabuleiro.js?v=2.3';
-import { CONDICOES, EXAUSTAO } from './condicoes.js?v=2.3';
+import { el, titulo, TOQUE } from './util.js?v=2.5';
+import { comSinal } from './dados.js?v=2.5';
+import { ATRIBUTOS, RECARGAS } from './fichas.js?v=2.5';
+import { textoMetros } from './tabuleiro.js?v=2.5';
+import { CONDICOES, EXAUSTAO } from './condicoes.js?v=2.5';
 
 export const ABAS_FICHA = [['personagem', 'Personagem'], ['atributos', 'Atributos'], ['combate', 'Combate'], ['habilidades', 'Habilidades']];
 
@@ -71,7 +71,7 @@ export function abaAtributos(t, o) {
   const mods = f.atributos || {}, valores = f.valores || {}, sv = f.salvaguardas || {};
   const pericias = f.pericias || [];
   return [
-    el('div', { class: 'bloco' }, titulo('Atributos', el('span', { class: 'dica', texto: 'clique para rolar' })),
+    el('div', { class: 'bloco' }, titulo('Atributos', el('span', { class: 'dica', texto: TOQUE ? 'toque para rolar' : 'clique para rolar' })),
       el('div', { class: 'atributos' }, ATRIBUTOS.map(([k, sigla, nome]) => el('button', { class: 'atributo', title: 'Teste de ' + nome, onclick: () => o.aoTeste('Teste de ' + nome, mods[k] ?? 0, 'teste') },
         el('span', { class: 'sigla', texto: sigla }), el('b', { texto: comSinal(mods[k] ?? 0) }), el('small', { texto: valores[k] != null ? String(valores[k]) : '' }))))),
     el('div', { class: 'bloco' }, titulo('Salvaguardas'),

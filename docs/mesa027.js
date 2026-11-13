@@ -4,8 +4,8 @@
 // O mestre é o "anfitrião": guarda o estado da mesa e repassa para todos.
 // Jogador: barra lateral à direita (não cobre a ficha) com iniciativa, pedidos e o registro ao vivo.
 // Mestre: aba "Mesa online" com código, jogadores e pedidos; combate e painéis ficam na aba Encontros.
-import {ABILITIES,SKILLS} from './data.js?v=2.3';
-import * as ponte from './tabuleiro/js/ponte.js?v=2.3';
+import {ABILITIES,SKILLS} from './data.js?v=2.5';
+import * as ponte from './tabuleiro/js/ponte.js?v=2.5';
 
 const CFG_KEY='arcana-mesa',HOST_KEY='arcana-mesa-host',SERVER_KEY='arcana-mesa-server',DRAWER_KEY='arcana-mesa-drawer';
 const ALPHABET='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
@@ -44,11 +44,14 @@ function cleanState(st){const arr=v=>Array.isArray(v)?v:[];const init=st.init&&t
 export function createMesa({toast=()=>{},rerender=()=>{},player={},dm={}}={}){
  let cfg=readJSON(CFG_KEY,{});if(typeof cfg!=='object'||!cfg)cfg={};
  cfg.pid=cfg.pid||uid();
+ // 2.4: chave secreta deste aparelho. O número do jogador (pid) é visível para todos; a chave não sai daqui
+ // e impede que outra pessoa entre usando o número de alguém.
+ cfg.key=cfg.key||(uid()+uid());
  let role=null,status='off',lastError='',peer=null,conn=null,retryTimer=null,room=null,activeReq=null,stashed=null,lastSheetHash='',sheetTimer=null,lastTurnKey='',seenPending=new Set(),closing=false;
  let lastSeen=0,watchdog=null,lastPendKey='',missing=0,shown=null,zoom=false,hostShown=null,pick=null,lastPick=null;const hostLastAtk={};let dmDrawerOpen=readJSON('arcana-mesa-dm-drawer',true)!==false,inDm=false,mobDm=false,mobPl=false;const wide=()=>window.innerWidth>=1100;try{let rz=0;window.addEventListener('resize',()=>{cancelAnimationFrame(rz);rz=requestAnimationFrame(()=>drawUpdate());});}catch{}let drawerOpen=readJSON(DRAWER_KEY,false)===true,inSheet=false,drawerRoot=null,drawerFrame=0,flashIds=new Set();
  let host=normalizeHost(readJSON(HOST_KEY,null));const conns=new Map();let lastPublic='',pulse=null,rerenderTimer=null,lastStatus={};
  const saveCfg=()=>writeJSON(CFG_KEY,cfg);saveCfg();
- function normalizeHost(h){h=h&&typeof h==='object'?h:{};return {code:normalizeCode(h.code),players:h.players&&typeof h.players==='object'?h.players:{},log:Array.isArray(h.log)?h.log.slice(0,150):[],pending:Array.isArray(h.pending)?h.pending.slice(0,60):[],showDmRolls:h.showDmRolls!==false};}
+ function normalizeHost(h){h=h&&typeof h==='object'?h:{};return {code:normalizeCode(h.code),players:h.players&&typeof h.players==='object'?h.players:{},log:Array.isArray(h.log)?h.log.slice(0,150):[],pending:Array.isArray(h.pending)?h.pending.slice(0,60):[],showDmRolls:h.showDmRolls!==false,keys:h.keys&&typeof h.keys==='object'&&!Array.isArray(h.keys)?h.keys:{}};}
  const saveHost=()=>writeJSON(HOST_KEY,host);
  const softRerender=()=>{clearTimeout(rerenderTimer);rerenderTimer=setTimeout(()=>rerender(),40);};
  function destroyPeer(){clearTimeout(retryTimer);retryTimer=null;try{conn?.close();}catch{}conn=null;for(const c of conns.values()){try{c.close();}catch{}}conns.clear();try{peer?.destroy();}catch{}peer=null;}
@@ -65,7 +68,14 @@ export function createMesa({toast=()=>{},rerender=()=>{},player={},dm={}}={}){
  function hostClosed(c){for(const [pid,x] of conns)if(x===c){conns.delete(pid);if(host.players[pid])host.players[pid].online=false;broadcast(true);}}
  function addLog(e){const nid=uid();flashIds.add(nid);host.log.unshift({id:nid,t:Date.now(),who:clip(e.who,80),label:clip(e.label,160),total:clip(e.total,60),detail:clip(e.detail,400),kind:clip(e.kind||'roll',20),hidden:!!e.hidden});host.log=host.log.slice(0,150);}
  function hostReceive(c,d){if(!d||typeof d!=='object'||JSON.stringify(d).length>30000)return;
-  if(d.t==='hello'){const pid=clip(d.pid,60);if(!pid)return;const old=conns.get(pid);if(old&&old!==c){try{old.close();}catch{}}conns.set(pid,c);c._pid=pid;const sum=cleanSummary(d.sheet);host.players[pid]={pid,name:clip(d.name,60)||sum.charName,charName:sum.charName,summary:sum,online:true};saveHost();broadcast(true);if(hostShown){try{c.send({t:'image',name:hostShown.name,src:hostShown.src});}catch{}}return;}
+  // 2.4: limite por segundo, por conexão e por tipo. Ninguém rola dados tão rápido; quem tenta inundar a mesa
+  // (milhares de rolagens para apagar o registro e travar o mestre) tem o excesso ignorado.
+  {const now=Date.now(),tp=String(d.t).slice(0,20),rt=c._ritmo||(c._ritmo={});let rr=rt[tp];if(!rr||now-rr.t>=1000)rr=rt[tp]={t:now,n:0};if(++rr.n>({hello:2,sheet:4,roll:6,attackTarget:6,damageTarget:6,answer:6}[tp]||10))return;}
+  if(d.t==='hello'){const pid=clip(d.pid,60);if(!pid)return;
+    // 2.4: o mesmo jogador só volta com a mesma chave; outro aparelho usando o número dele é recusado
+    host.keys||={};const key=clip(d.key,100);if(host.keys[pid]&&host.keys[pid]!==key){try{c.send({t:'refused'});}catch{}setTimeout(()=>{try{c.close();}catch{}},400);toast('Alguém tentou entrar na mesa como '+(clip(d.name,60)||'um jogador')+', de outro aparelho. A entrada foi recusada.');return;}
+    if(!host.keys[pid]&&key){const ks=Object.keys(host.keys);if(ks.length>=300)delete host.keys[ks[0]];host.keys[pid]=key;}
+    const old=conns.get(pid);if(old&&old!==c){try{old.close();}catch{}}conns.set(pid,c);c._pid=pid;const sum=cleanSummary(d.sheet);host.players[pid]={pid,name:clip(d.name,60)||sum.charName,charName:sum.charName,summary:sum,online:true};saveHost();broadcast(true);if(hostShown){try{c.send({t:'image',name:hostShown.name,src:hostShown.src});}catch{}}return;}
   const pid=c._pid,pl=pid&&host.players[pid];if(!pl)return;
   if(d.t==='sheet'){const before=pl.summary;pl.summary=cleanSummary(d.sheet);pl.charName=pl.summary.charName||pl.charName;if(before&&before.life!==pl.summary.life&&pl.summary.life==='morrendo')addLog({who:pl.charName,label:'Caiu a 0 PV',total:'',detail:'Salvaguardas contra a morte',kind:'damage'});broadcast(true);return;}
   if(d.t==='roll'){const e=d.entry||{};addLog({who:pl.charName,label:e.label,total:e.total,detail:e.detail,kind:e.kind});if(String(e.label)==='Iniciativa'){const v=num(String(e.total).match(/-?\d+/)?.[0],-50,99,NaN);if(Number.isFinite(v))try{dm.setPlayerInitiative?.(pid,pl.charName,v);}catch(err){console.warn(err);}}broadcast(true);return;}
@@ -94,7 +104,7 @@ export function createMesa({toast=()=>{},rerender=()=>{},player={},dm={}}={}){
  function connectPlayer(attempt){destroyPeer();if(role!=='player')return;status=attempt?'reconnecting':'connecting';const p=new window.Peer(undefined,peerOptions());peer=p;
   p.on('open',()=>{if(peer!==p)return;const c=p.connect(hostPeerId(cfg.code),{reliable:true,serialization:'json'});conn=c;
    const timeout=setTimeout(()=>{if(conn===c&&!c.open){lastError='O mestre não respondeu. Tentando de novo…';retry(attempt);}},15000);
-   c.on('open',()=>{clearTimeout(timeout);if(conn!==c)return;missing=0;status='online';lastError='';lastSheetHash='';lastSeen=Date.now();clearInterval(watchdog);watchdog=setInterval(()=>{if(role!=='player'||conn!==c){clearInterval(watchdog);return;}if(Date.now()-lastSeen>10000){clearInterval(watchdog);status='reconnecting';lastError='Sem sinal do mestre. Tentando reconectar…';drawUpdate();connectPlayer(1);}},2000);c.send({t:'hello',pid:cfg.pid,name:cfg.name,sheet:summaryNow()});drawUpdate();});
+   c.on('open',()=>{clearTimeout(timeout);if(conn!==c)return;missing=0;status='online';lastError='';lastSheetHash='';lastSeen=Date.now();clearInterval(watchdog);watchdog=setInterval(()=>{if(role!=='player'||conn!==c){clearInterval(watchdog);return;}if(Date.now()-lastSeen>10000){clearInterval(watchdog);status='reconnecting';lastError='Sem sinal do mestre. Tentando reconectar…';drawUpdate();connectPlayer(1);}},2000);c.send({t:'hello',pid:cfg.pid,key:cfg.key,name:cfg.name,sheet:summaryNow()});drawUpdate();});
    c.on('data',d=>{try{playerReceive(d);}catch(e){console.warn('Mesa: mensagem ignorada',e);}});
    c.on('close',()=>{if(conn===c&&role==='player'&&!closing){status='reconnecting';drawUpdate();retry(attempt);}});
    c.on('error',()=>{if(conn===c)retry(attempt);});});
@@ -110,6 +120,7 @@ export function createMesa({toast=()=>{},rerender=()=>{},player={},dm={}}={}){
   if(d.t==='image'){if(d.clear){shown=null;zoom=false;drawUpdate();return;}if(!validImg(d.src))return;shown={name:clip(d.name,80),src:d.src};zoom=false;toast('O mestre mostrou: '+shown.name);if(inSheet&&!plOpen())setDrawer(true);else drawUpdate();return;}
   if(d.t==='hp'){const amount=num(d.amount,0,999);if(amount>0)player.applyHp?.(cfg.charId,amount,!!d.heal);return;}
   if(d.t==='closed'){if(role!=='player')return;lastError='O mestre encerrou a sala '+cfg.code+'.';toast('O mestre encerrou a mesa. Você foi desconectado.');leave(true);try{player.refresh?.();}catch{}return;}
+  if(d.t==='refused'){if(role!=='player')return;lastError='O mestre recusou a entrada: este jogador já está na sala '+cfg.code+' por outro aparelho.';toast('Entrada recusada: este jogador já entrou por outro aparelho.');leave(true);try{player.refresh?.();}catch{}return;}
   if(d.t==='kicked'){if(role!=='player')return;lastError='O mestre removeu você da sala '+cfg.code+'.';toast('O mestre removeu você da mesa.');leave(true);try{player.refresh?.();}catch{}return;}
  }
  function leave(silent){shown=null;zoom=false;clearInterval(watchdog);clearTimeout(retryTimer);missing=0;lastTurnKey='';seenPending=new Set();closing=true;destroyPeer();role=null;status='off';room=null;cfg.role=null;saveCfg();if(!silent)toast('Você saiu da mesa.');drawUpdate();rerender();}

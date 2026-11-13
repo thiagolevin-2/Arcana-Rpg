@@ -1,23 +1,23 @@
 // app.js — o "maestro": telas, painéis do mestre, tela do jogador e as mensagens entre eles.
-import { guardar, ler, apagar, chaves, pedirPersistencia, espaco, tamanhoLegivel, hashDe } from './armazem.js?v=2.3';
-import { importarMapa, carregarMapa, liberarMapa, retratoPequeno, guardarArquivo } from './mapas.js?v=2.3';
-import { criarTabuleiro, estadoDe, celulasDe, custoMovimento, textoMetros } from './tabuleiro.js?v=2.3';
-import { limparFicha, tokenDoMonstro, limparFichaDoToken, limparRecursos } from './fichas.js?v=2.3';
-import { LUZES, calcularVisao, comoVe } from './visao.js?v=2.3';
-import { atingidos, limparMolde, FORMAS } from './moldes.js?v=2.3';
-import { CONDICOES, CONDICAO, EXAUSTAO, limparCondicoes } from './condicoes.js?v=2.3';
-import { rolar, rolarD20 } from './dados.js?v=2.3';
-import { ATRIBUTOS } from './fichas.js?v=2.3';
-import * as ponte from './ponte.js?v=2.3';
-import { criarJanelaRolagens, criarJanelaDado, linhasDoPedido, rolarLivre, rolarTeste, animacaoDoPedido } from './rolagens.js?v=2.3';
-import { animateDice, diceAnimationsEnabled, setDiceAnimations } from './dice3d.js?v=2.3';
-import { barraDeAbas, abaPersonagem, abaAtributos, abaCombate, abaHabilidades, blocoCondicoes } from './fichaUI.js?v=2.3';
-import { comSinal } from './dados.js?v=2.3';
-import { abrirSala, entrarNaSala, novoCodigo, codigoValido, enviarArquivo, criarReceptor, lerPonte, salvarPonte, testarPonte } from './conexao.js?v=2.3';
+import { guardar, ler, apagar, chaves, pedirPersistencia, espaco, tamanhoLegivel, hashDe } from './armazem.js?v=2.5';
+import { importarMapa, carregarMapa, liberarMapa, retratoPequeno, guardarArquivo } from './mapas.js?v=2.5';
+import { criarTabuleiro, estadoDe, celulasDe, custoMovimento, textoMetros } from './tabuleiro.js?v=2.5';
+import { limparFicha, tokenDoMonstro, limparFichaDoToken, limparRecursos } from './fichas.js?v=2.5';
+import { LUZES, calcularVisao, comoVe } from './visao.js?v=2.5';
+import { atingidos, limparMolde, FORMAS } from './moldes.js?v=2.5';
+import { CONDICOES, CONDICAO, EXAUSTAO, limparCondicoes } from './condicoes.js?v=2.5';
+import { rolar, rolarD20 } from './dados.js?v=2.5';
+import { ATRIBUTOS } from './fichas.js?v=2.5';
+import * as ponte from './ponte.js?v=2.5';
+import { criarJanelaRolagens, criarJanelaDado, linhasDoPedido, rolarLivre, rolarTeste, animacaoDoPedido } from './rolagens.js?v=2.5';
+import { animateDice, diceAnimationsEnabled, setDiceAnimations } from './dice3d.js?v=2.5';
+import { barraDeAbas, abaPersonagem, abaAtributos, abaCombate, abaHabilidades, blocoCondicoes } from './fichaUI.js?v=2.5';
+import { comSinal } from './dados.js?v=2.5';
+import { abrirSala, entrarNaSala, novoCodigo, codigoValido, enviarArquivo, criarReceptor, lerPonte, salvarPonte, testarPonte } from './conexao.js?v=2.5';
 
-import { $, uid, celular, el, avisar, definirStatus, avisoMapa, escolherArquivo, numero, inteiro, corValida, imagemValida, hashValido, TIPOS_IMAGEM, CORES, escolhaDeCor, limitador, titulo } from './util.js?v=2.3';
+import { $, uid, celular, TOQUE, el, avisar, definirStatus, avisoMapa, escolherArquivo, numero, inteiro, corValida, imagemValida, hashValido, TIPOS_IMAGEM, CORES, escolhaDeCor, limitador, titulo } from './util.js?v=2.5';
 
-const VERSAO = '2.3';
+const VERSAO = '2.5';
 
 // ---------- tabuleiro (compartilhado entre mestre e jogador) ----------
 let tab = null, papel = null, mapaAtual = null, hashCarregado = null;
@@ -117,7 +117,19 @@ function prepararTabuleiro(eventos, opcoesRolagens) {
   });
   atualizarBotao3d();
   $('#btn-dados').addEventListener('click', () => { $('#rolagens').classList.toggle('mostrar-celular'); janela.abrir(); });
-  const dicas = {
+  // no celular (dedo), as dicas falam de toque; no computador, de mouse e teclado
+  const dicas = TOQUE ? {
+    regua: 'Régua: arraste o dedo para medir. Cada quadrado = 1,5 m.',
+    ping: 'Ping: toque no mapa para mostrar um ponto a todos. Na ferramenta Mover, segure o dedo num lugar vazio.',
+    laser: 'Bolinha com rastro: arraste o dedo no mapa. Todos veem o caminho.',
+    grade: 'Ajustar grade: dê zoom com dois dedos e arraste por cima de UM quadrado desenhado no mapa, de canto a canto.',
+    nevoa: 'Névoa: arraste o dedo para revelar ou esconder. Dois dedos movem o mapa. As opções ficam na barra de cima.',
+    paredes: 'Paredes: toque ponto a ponto; dois toques rápidos terminam. Dois dedos movem o mapa. "Curva": arraste à mão livre. "Trancada" e "Oculta": arraste para criar, ou toque numa porta para trancar ou esconder. Na ferramenta Mover: um toque abre/fecha a porta, dois toques rápidos trancam.',
+    desenho: 'Desenho: arraste o dedo para desenhar. Dois dedos movem o mapa. A borracha apaga um traço seu.',
+    molde: 'Molde de magia: escolha a forma e o tamanho na barra de cima. Toque na origem e arraste para apontar. Os atingidos ficam com um anel vermelho.',
+    inicio: 'Início dos jogadores: toque no quadrado onde os personagens aparecem. Na ferramenta Mover, arraste a bandeira.',
+    terreno: 'Terreno difícil: toque ou arraste para pintar. Comece num quadrado já pintado para apagar. Custa o dobro para andar.',
+  } : {
     regua: 'Régua: arraste para medir. Cada quadrado = 1,5 m.',
     ping: 'Ping: clique no mapa para mostrar um ponto a todos.',
     laser: 'Bolinha com rastro: segure o botão e mexa o mouse. Todos veem o caminho.',
@@ -134,7 +146,7 @@ function prepararTabuleiro(eventos, opcoesRolagens) {
     tab.ferramenta = f;
     document.querySelectorAll('[data-ferramenta]').forEach(b => b.classList.toggle('ativo', b.dataset.ferramenta === f));
     $('#tela').style.cursor = f === 'mover' ? 'grab' : 'crosshair';
-    const d = $('#dica-ferramenta'); d.hidden = !dicas[f]; d.textContent = dicas[f] || '';
+    mostrarDicaFerramenta(dicas[f]);
     $('#opcoes-desenho').hidden = f !== 'desenho'; if (f === 'desenho') desenharOpcoesDesenho();
     $('#opcoes-molde').hidden = f !== 'molde'; if (f === 'molde') desenharOpcoesMolde();
     eventos.aoFerramenta?.(f);
@@ -220,7 +232,8 @@ function revelarAoExplorar(cena, tokens = cena?.tokens.filter(t => t.tipo === 'p
 }
 
 // galeria: tokens que o mestre subiu ({ id, nome, img, dono }); bloqueados: jogadores expulsos
-const M = { codigo: null, cenas: [], aberta: null, ativa: null, conhecidos: {}, combate: null, fichas: {}, galeria: [], bloqueados: {} };
+// chaves (2.4): a chave secreta do aparelho de cada jogador, guardada na primeira entrada
+const M = { codigo: null, cenas: [], aberta: null, ativa: null, conhecidos: {}, combate: null, fichas: {}, galeria: [], bloqueados: {}, chaves: {} };
 const noSite = /\/tabuleiro\/(index\.html)?$/.test(location.pathname);
 let sala = null, abaMestre = 'cenas', salvarTimer = null, escolherFerramenta = null, rascunhoNovo = null;
 const envios = new Map(); // jogadorId -> { fila: Promise, texto }
@@ -233,7 +246,7 @@ function novaCena(nome) {
     visao: { ativa: false, ambiente: 'escuro' }, escuridoes: [], desenhos: [], moldes: [], inicio: null,
   };
 }
-function normalizar() { for (const c of M.cenas) { c.tokens ||= []; c.imagens ||= []; c.dificil ||= []; c.nevoa ||= { ativa: false, reveladas: [] }; c.paredes ||= []; c.luzes ||= []; c.visao ||= { ativa: false, ambiente: 'escuro' }; c.escuridoes ||= []; c.desenhos ||= []; c.moldes ||= []; c.inicio ??= null; } M.fichas ||= {}; M.galeria ||= []; M.bloqueados ||= {}; if (M.combate && !M.cenas.some(c => c.id === M.combate.cenaId)) M.combate = null; }
+function normalizar() { for (const c of M.cenas) { c.tokens ||= []; c.imagens ||= []; c.dificil ||= []; c.nevoa ||= { ativa: false, reveladas: [] }; c.paredes ||= []; c.luzes ||= []; c.visao ||= { ativa: false, ambiente: 'escuro' }; c.escuridoes ||= []; c.desenhos ||= []; c.moldes ||= []; c.inicio ??= null; } M.fichas ||= {}; M.galeria ||= []; M.bloqueados ||= {}; if (!M.chaves || typeof M.chaves !== 'object' || Array.isArray(M.chaves)) M.chaves = {}; if (M.combate && !M.cenas.some(c => c.id === M.combate.cenaId)) M.combate = null; }
 const cenaAberta = () => M.cenas.find(c => c.id === M.aberta) || M.cenas[0];
 const cenaAtiva = () => M.cenas.find(c => c.id === M.ativa) || null;
 const salvar = () => { clearTimeout(salvarTimer); salvarTimer = setTimeout(() => { guardar('dados', 'mestre', M).catch(e => avisar('Não consegui salvar: ' + e.message, true)); sincronizarEncontros(); }, 300); };
@@ -705,6 +718,19 @@ function ligarSala() {
       enviarCena(); enviarCombate(); tab.redesenhar(); // o token dele some para os outros
       atualizarStatusMestre(); atualizarSeAba('jogadores', 'cenas');
     },
+    // 2.4: quem chega com o número de um jogador conhecido precisa trazer a mesma chave secreta do aparelho dele
+    podeEntrar: (j, chave) => {
+      const guardada = M.chaves[j.id];
+      if (guardada && guardada !== chave) {
+        avisar(`Alguém tentou entrar como ${j.nome}, de outro aparelho. A entrada foi recusada.`, true);
+        return false;
+      }
+      if (!guardada && chave) {
+        const ids = Object.keys(M.chaves); if (ids.length >= 500) delete M.chaves[ids[0]];
+        M.chaves[j.id] = chave; salvar();
+      }
+      return true;
+    },
     aoMensagem: (j, msg) => tratarMensagemDoJogador(j, msg),
     aoFalha: () => avisar('Alguém tentou entrar, mas a internet bloqueou o caminho até você. Ligue a ponte em Ajustes › Conexão.', true),
   });
@@ -715,7 +741,32 @@ function atualizarStatusMestre() {
   definirStatus((n ? `Sala aberta · ${n} ${n === 1 ? 'jogador' : 'jogadores'}` : 'Sala aberta · esperando jogadores') + esp, 'on');
 }
 
+// 2.4: limite de mensagens por segundo, por jogador e por tipo. Um jogador normal nunca chega perto;
+// quem tenta inundar a mesa (milhares de pings, abrir e fechar porta sem parar) tem o excesso ignorado.
+const LIMITE_POR_SEGUNDO = { ping: 4, porta: 4, ficha: 2, 'criar-token': 4, 'galeria-escolher': 4, 'apagar-moldes': 5, rolar: 8, 'rolagem-ficha': 8,
+  desenho: 10, molde: 10, preciso: 10, 'meu-token': 15, 'apagar-desenho': 20, mover: 30, laser: 40, regua: 40 };
+// Movimento, laser e régua: vale a ÚLTIMA posição. O excesso não é jogado fora: a última mensagem
+// de cada token espera o segundo acabar e é aplicada (o token termina onde o jogador soltou).
+const SO_A_ULTIMA = new Set(['mover', 'laser', 'regua']);
+function dentroDoLimite(j, tipo, msg) {
+  const agora = Date.now(), ritmo = j.ritmo || (j.ritmo = {});
+  let r = ritmo[tipo];
+  if (!r || agora - r.desde >= 1000) r = ritmo[tipo] = { desde: agora, n: 0 };
+  if (++r.n <= (LIMITE_POR_SEGUNDO[tipo] || 20)) return true;
+  if (SO_A_ULTIMA.has(tipo)) {
+    const fila = j.atrasadas || (j.atrasadas = new Map()), chave = tipo + ':' + String(msg.id ?? '').slice(0, 64);
+    if (fila.has(chave) || fila.size < 20) {
+      const nova = !fila.has(chave); fila.set(chave, msg);
+      if (nova) setTimeout(() => {
+        const m = fila.get(chave); fila.delete(chave);
+        if (m && [...(sala?.jogadores.values() || [])].includes(j)) tratarMensagemDoJogador(j, m);
+      }, Math.max(10, 1000 - (agora - r.desde) + 10));
+    }
+  }
+  return false;
+}
 function tratarMensagemDoJogador(j, msg) {
+  if (!dentroDoLimite(j, String(msg.t).slice(0, 30), msg)) return;
   // o espectador só pode pedir os arquivos (mapas e imagens) que faltam
   if (j.espectador) { if (msg.t === 'preciso' && hashValido(msg.hash)) mandarMapa(j, msg.hash); return; }
   const c = cenaAtiva();
@@ -864,7 +915,7 @@ async function abrirCenaNoTabuleiro() {
   for (const h of imagensDaCena(c)) abrirImagem(h);
   tab.pulsando = !!M.combate && M.combate.cenaId === c.id;
   if (c.mapa) await mostrarMapa(c, c.mapa.hash); else await mostrarMapa(c, null);
-  tab.enquadrar();
+  tab.enquadrarInicio();
 }
 
 function excluirToken(c, t) {
@@ -877,6 +928,32 @@ function excluirImagem(c, im) {
   if (tab.imagemSelecionada === im.id) tab.imagemSelecionada = null;
   salvar(); tab.redesenhar(); enviarImagens(c); imagensDaCena(c); limparArquivosSemUso(); desenharPainelMestre();
 }
+// a altura da barra de ferramentas muda no celular (uma ou duas linhas de botões): o painel e os avisos ficam logo acima dela
+{
+  const ferr = document.querySelector('.ferramentas');
+  const medir = () => document.documentElement.style.setProperty('--ferr-alt', (ferr && matchMedia('(max-width:900px)').matches ? ferr.offsetHeight : 0) + 'px');
+  if (ferr && 'ResizeObserver' in window) new ResizeObserver(medir).observe(ferr);
+  addEventListener('resize', medir); medir();
+}
+// no celular, as barras de opções (névoa, paredes, desenho, molde) cobrem boa parte do mapa:
+// um botão "▴ Recolher" deixa só um botão pequeno ("Opções de … ▾") para mostrar de novo
+for (const [id, nome] of [['opcoes-nevoa', 'Névoa'], ['opcoes-paredes', 'Paredes'], ['opcoes-desenho', 'Desenho'], ['opcoes-molde', 'Molde']]) {
+  const caixa = document.getElementById(id); if (!caixa) continue;
+  const botao = el('button', { type: 'button', class: 'btn pequeno recolher', onclick: () => { caixa.classList.toggle('recolhida'); rotular(); } });
+  const rotular = () => { const r = caixa.classList.contains('recolhida'); botao.textContent = r ? `Opções: ${nome} ▾` : '▴ Recolher'; botao.setAttribute('aria-expanded', String(!r)); };
+  rotular();
+  // cada barra é redesenhada inteira quando muda algo: o botão volta sozinho
+  new MutationObserver(() => { if (botao.parentNode !== caixa) caixa.prepend(botao); }).observe(caixa, { childList: true });
+}
+// dica da ferramenta (embaixo do mapa). No celular ela some sozinha depois de alguns segundos; tocar nela também fecha.
+let dicaTempo = 0;
+function mostrarDicaFerramenta(texto) {
+  const d = $('#dica-ferramenta'); d.hidden = !texto; d.textContent = texto || '';
+  clearTimeout(dicaTempo);
+  if (TOQUE && texto) dicaTempo = setTimeout(() => { d.hidden = true; }, 9000);
+}
+$('#dica-ferramenta')?.addEventListener('click', e => { e.currentTarget.hidden = true; });
+let dicaModoParedes = 'parede';
 function abrirPainelCelular() { if (matchMedia('(max-width:900px)').matches) { $('#painel').classList.add('aberto'); $('#btn-painel').setAttribute('aria-expanded', 'true'); } }
 
 // ---------- painel do mestre ----------
@@ -1220,13 +1297,14 @@ function tirarInicio(c) {
   avisar('Ponto de início tirado: os tokens novos aparecem no meio da tela de quem cria.');
 }
 function desenharOpcoesInicio() {
-  const c = cenaAberta();
-  $('#opcoes-inicio').replaceChildren(
+  const c = cenaAberta(), clique = TOQUE ? 'Toque' : 'Clique';
+  // (sem o filter, os "null" dos botões que não aparecem viravam o texto "nullnull" na barra)
+  $('#opcoes-inicio').replaceChildren(...[
     el('span', { class: 'nome-molde', texto: '⚑ Início dos jogadores' }),
-    el('span', { class: 'dica', texto: c.inicio ? 'Clique em outro quadrado ou arraste a bandeira para mudar.' : 'Clique no quadrado onde os personagens vão aparecer.' }),
+    el('span', { class: 'dica', texto: c.inicio ? clique + ' em outro quadrado ou arraste a bandeira para mudar.' : clique + ' no quadrado onde os personagens vão aparecer.' }),
     c.inicio ? el('button', { class: 'btn pequeno', texto: 'Mostrar', onclick: () => tab.centralizarEm({ x: c.inicio.cx, y: c.inicio.cy, tam: 1 }) }) : null,
     c.inicio ? el('button', { class: 'btn pequeno perigo', texto: 'Tirar o ponto', onclick: () => tirarInicio(c) }) : null,
-    el('button', { class: 'btn pequeno', texto: 'Pronto', onclick: () => escolherFerramenta('mover') }));
+    el('button', { class: 'btn pequeno', texto: 'Pronto', onclick: () => escolherFerramenta('mover') })].filter(Boolean));
 }
 
 // Leva os jogadores (e os tokens deles) para a cena: os tokens com dono saem das outras cenas
@@ -1597,12 +1675,13 @@ function desenharOpcoesParedes() {
       c.tokens.filter(t => t.tipo === 'pc' || t.visao).map(t => el('option', { value: t.id, texto: 'Ver como ' + t.nome, selected: verComo === t.id }))),
     // botão de apagar: entra (ou sai) do modo de apagar uma por uma; "Limpar tudo" só aparece dentro do modo
     el('button', { class: 'btn pequeno perigo' + (o.modo === 'apagar' ? ' ativo' : ''), 'aria-pressed': String(o.modo === 'apagar'),
-      texto: o.modo === 'apagar' ? '✓ Apagando (clique para sair)' : '🗑 Apagar uma parede',
+      texto: o.modo === 'apagar' ? (TOQUE ? '✓ Apagando (toque para sair)' : '✓ Apagando (clique para sair)') : '🗑 Apagar uma parede',
       title: 'Clique numa parede (ou porta, luz, escuridão) para apagar só ela',
       onclick: () => { o.modo = o.modo === 'apagar' ? 'parede' : 'apagar'; tab.terminarParede?.(); tab.redesenhar(); desenharOpcoesParedes(); } }),
     o.modo === 'apagar' ? el('button', { class: 'btn pequeno', texto: 'Limpar a cena toda…', title: 'Apaga todas as paredes, portas, luzes e escuridões', onclick: () => { if (!confirm('Apagar TODAS as paredes, portas, luzes e escuridões desta cena?')) return; c.paredes = []; c.luzes = []; c.escuridoes = []; salvar(); tab.redesenhar(); enviarCena(); } }) : null,
-    el('span', { class: 'dica', texto: { parede: 'Clique ponto a ponto; duplo clique termina.', curva: 'Arraste à mão livre: vira uma parede curva.', porta: 'Arraste de um lado ao outro da porta.', trancada: 'Arraste para criar uma porta trancada, ou clique numa porta para trancar/destrancar.', secreta: 'Arraste para criar uma porta oculta (os jogadores veem parede), ou clique numa porta para esconder/revelar.', luz: 'Clique onde fica a luz.', escuridao: 'Clique para pôr escuridão mágica: nem a visão no escuro enxerga dentro.', apagar: 'Passe o mouse: o que fica vermelho é o que vai ser apagado. Clique para apagar só aquilo (uma curva sai inteira).' }[o.modo] }),
+    el('span', { class: 'dica', texto: (TOQUE ? { parede: 'Toque ponto a ponto; dois toques rápidos terminam.', curva: 'Arraste o dedo à mão livre: vira uma parede curva.', porta: 'Arraste de um lado ao outro da porta.', trancada: 'Arraste para criar uma porta trancada, ou toque numa porta para trancar/destrancar.', secreta: 'Arraste para criar uma porta oculta (os jogadores veem parede), ou toque numa porta para esconder/revelar.', luz: 'Toque onde fica a luz.', escuridao: 'Toque para pôr escuridão mágica: nem a visão no escuro enxerga dentro.', apagar: 'Toque numa parede, porta, luz ou escuridão para apagar só ela (uma curva sai inteira).' } : { parede: 'Clique ponto a ponto; duplo clique termina.', curva: 'Arraste à mão livre: vira uma parede curva.', porta: 'Arraste de um lado ao outro da porta.', trancada: 'Arraste para criar uma porta trancada, ou clique numa porta para trancar/destrancar.', secreta: 'Arraste para criar uma porta oculta (os jogadores veem parede), ou clique numa porta para esconder/revelar.', luz: 'Clique onde fica a luz.', escuridao: 'Clique para pôr escuridão mágica: nem a visão no escuro enxerga dentro.', apagar: 'Passe o mouse: o que fica vermelho é o que vai ser apagado. Clique para apagar só aquilo (uma curva sai inteira).' })[o.modo] }),
   ].filter(Boolean));
+  if (TOQUE && o.modo !== dicaModoParedes) { dicaModoParedes = o.modo; mostrarDicaFerramenta($('#opcoes-paredes .dica')?.textContent); }
 }
 
 // ---------- barra de opções da névoa ----------
@@ -1690,7 +1769,7 @@ function painelCombate() {
       }),
       el('details', { class: 'bloco' }, el('summary', { texto: 'Atributos e salvaguardas' }),
         abaAtributos(t, { aoTeste: (nome, bonus, tipo) => janelaDado.abrir({ titulo: nome, teste: { nome, bonus, tipo }, enviar }) }))));
-  } else blocos.push(el('p', { class: 'dica', texto: 'Clique num token para ver e rolar as ações dele aqui.' }));
+  } else blocos.push(el('p', { class: 'dica', texto: TOQUE ? 'Toque duas vezes num token para ver e rolar as ações dele aqui.' : 'Clique num token para ver e rolar as ações dele aqui.' }));
   return blocos;
 }
 
@@ -1876,7 +1955,7 @@ function excluirJogador(id, nTokens) {
   for (const c of M.cenas) { for (const t of c.tokens.filter(t => t.dono === id)) enviarToken(c, t, true); c.tokens = c.tokens.filter(t => t.dono !== id); }
   if (M.combate) M.combate.ordem = M.combate.ordem.filter(o => M.cenas.some(c => c.tokens.some(t => t.id === o.id)));
   for (const g of M.galeria) if (g.dono === id) g.dono = null;
-  delete M.conhecidos[id]; delete M.fichas[id];
+  delete M.conhecidos[id]; delete M.fichas[id]; delete M.chaves[id];
   for (const c of sala?.jogadores.values() || []) if (c.id === id) { sala.enviar(c, { t: 'expulso', excluido: true }); setTimeout(() => { try { c.conn.close(); } catch {} }, 400); }
   salvar(); tab.redesenhar(); enviarGaleria(); enviarCombate(); desenharPainelMestre();
   avisar(`${j.nome} foi excluído.`);
@@ -2224,7 +2303,7 @@ async function receberCena(c) {
   } else { await mostrarMapa(estaCena, null); if (J.cena !== estaCena) return; }
   if (anterior !== J.cena?.id) {
     const meu = J.cena?.tokens.find(t => t.dono === J.eu.id);
-    tab.enquadrar();
+    tab.enquadrarInicio();
     if (meu) tab.centralizarEm(meu);
   }
   desenharPainelJogador();
@@ -2304,7 +2383,8 @@ function iniciarJogador(perfil, codigo) {
   papel = 'jogador';
   J.espectador = !!perfil.espectador;
   // o espectador usa outro id: assim não derruba o jogador que usa o mesmo navegador
-  J.eu = { id: J.espectador ? 'esp-' + perfil.id : perfil.id, nome: perfil.nome, cor: perfil.cor, celular, ...(J.espectador ? { espectador: true } : {}) };
+  // a chave secreta vai só na mensagem de entrada ("ola"); o mestre não a repassa a ninguém
+  J.eu = { id: J.espectador ? 'esp-' + perfil.id : perfil.id, nome: perfil.nome, cor: perfil.cor, celular, chave: perfil.chave || '', ...(J.espectador ? { espectador: true } : {}) };
   J.codigo = codigo;
   pedirPersistencia();
   let ultimaRegua = 0, reguaPendente = null;
@@ -2349,7 +2429,7 @@ function iniciarJogador(perfil, codigo) {
   if (J.espectador) $('#mesa').classList.add('espectador');
   tab.corPropria = J.eu.cor;
   tab.definirCena({ tokens: [], imagens: [], grade: { tam: 70, ox: 0, oy: 0 }, colunas: 30, linhas: 20 });
-  tab.enquadrar();
+  tab.enquadrarInicio();
   $('#chip-codigo').textContent = codigo;
   $('#chip-codigo').addEventListener('click', () => { navigator.clipboard?.writeText(codigo); avisar('Código copiado.'); });
   $('#btn-sair').addEventListener('click', () => { if (confirm('Sair da mesa?')) { J.conexao.sair(); location.reload(); } });
@@ -2368,7 +2448,8 @@ function iniciarJogador(perfil, codigo) {
     aoStatus: t => { definirStatus(t, 'espera'); if (!conectado || !J.cena) avisoMapa(t); else avisar(t); conectado = false; },
     aoMensagem: tratarMensagemDoMestre,
     aoFim: motivo => {
-      const texto = motivo === 'expulso' ? 'Você foi removido da mesa pelo mestre.' : motivo === 'excluido' ? 'O mestre excluiu você da mesa.' : 'O mestre encerrou a sala.';
+      const texto = motivo === 'expulso' ? 'Você foi removido da mesa pelo mestre.' : motivo === 'excluido' ? 'O mestre excluiu você da mesa.'
+        : motivo === 'recusado' ? 'Entrada recusada: este jogador já entrou na mesa por outro aparelho.' : 'O mestre encerrou a sala.';
       definirStatus(texto, 'off'); avisar(texto, motivo !== 'fim'); avisoMapa(texto);
     },
   });
@@ -2541,7 +2622,9 @@ window.arcanaTabuleiro = { get tab() { return tab; }, get sala() { return sala; 
     e.preventDefault();
     const codigo = $('#j-codigo').value.trim().toUpperCase();
     if (!codigoValido(codigo)) { avisar('O código tem 6 letras e números. Peça de novo ao mestre.', true); return; }
-    const p = { id: perfil?.id || uid(), nome: $('#j-nome').value.trim().slice(0, 40) || 'Jogador', cor: corEscolhida, codigo, espectador: $('#j-espectador').checked, fichaSite: $('#j-ficha').value || '' };
+    // chave secreta deste aparelho (2.4): criada uma vez e guardada só aqui
+    const chave = perfil?.chave || [...crypto.getRandomValues(new Uint8Array(18))].map(b => b.toString(16).padStart(2, '0')).join('');
+    const p = { id: perfil?.id || uid(), chave, nome: $('#j-nome').value.trim().slice(0, 40) || 'Jogador', cor: corEscolhida, codigo, espectador: $('#j-espectador').checked, fichaSite: $('#j-ficha').value || '' };
     salvarPerfil(p);
     iniciarJogador(p, codigo);
   });

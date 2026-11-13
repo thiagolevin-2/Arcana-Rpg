@@ -2,9 +2,9 @@
 // Coordenadas do "mundo" = pixels do mapa original. A "câmera" (vista) diz
 // qual pedaço do mundo aparece na tela e com que zoom.
 
-import { calcularVisao, comoVe, caminhoDoPoligono, distanciaAoSegmento, simplificarCurva } from './visao.js?v=2.3';
-import { geometria, atingidos, FORMAS } from './moldes.js?v=2.3';
-import { CONDICAO } from './condicoes.js?v=2.3';
+import { calcularVisao, comoVe, caminhoDoPoligono, distanciaAoSegmento, simplificarCurva } from './visao.js?v=2.5';
+import { geometria, atingidos, FORMAS } from './moldes.js?v=2.5';
+import { CONDICAO } from './condicoes.js?v=2.5';
 
 export const METROS_POR_QUADRADO = 1.5;
 
@@ -103,14 +103,19 @@ export function criarTabuleiro(canvas, eventos = {}) {
   }
   function pos(e) { const r = canvas.getBoundingClientRect(); return { sx: e.clientX - r.left, sy: e.clientY - r.top }; }
 
-  function tokenEm(wx, wy) {
+  // folga (em unidades do mapa): com o dedo, vale tocar um pouco fora do token; ganha o token mais perto
+  function tokenEm(wx, wy, folga = 0) {
     if (!cena) return null;
+    let perto = null, melhor = Infinity;
     for (let i = cena.tokens.length - 1; i >= 0; i--) {
-      const t = cena.tokens[i], c = centroToken(t), raio = celulasDe(t.tam) * grade().tam / 2;
-      if ((wx - c.x) ** 2 + (wy - c.y) ** 2 <= raio * raio) return t;
+      const t = cena.tokens[i], c = centroToken(t), raio = celulasDe(t.tam) * grade().tam / 2, d2 = (wx - c.x) ** 2 + (wy - c.y) ** 2;
+      if (d2 <= raio * raio) return t;
+      if (folga && d2 <= (raio + folga) ** 2 && d2 < melhor) { melhor = d2; perto = t; }
     }
-    return null;
+    return perto;
   }
+  // com o dedo, um token com menos de 44 px na tela ganha área de toque até 22 px do centro
+  const folgaDoDedo = () => (celularToque ? Math.max(0, 22 / vista.escala - grade().tam / 2) : 0);
 
   // ---------- API pública ----------
   api.definirCena = c => { cena = c; precisa = true; };
@@ -125,6 +130,16 @@ export function criarTabuleiro(canvas, eventos = {}) {
     const e = Math.min(largura / w, altura / h) * 0.95 || 1;
     vista.escala = e; vista.x = w / 2 - largura / 2 / e; vista.y = h / 2 - altura / 2 / e;
     precisa = true;
+  };
+  // "Enquadrar" automático (cena nova, entrar na mesa): no celular, caber o mapa inteiro deixa o quadrado
+  // com 10-15 px, pequeno demais para o dedo. Ali o quadrado fica com pelo menos 36 px (pinça para ver tudo).
+  api.enquadrarInicio = () => {
+    api.enquadrar();
+    if (!matchMedia('(pointer: coarse)').matches) return;
+    const min = 36 / grade().tam;
+    if (vista.escala >= min) return;
+    const c = telaParaMundo(largura / 2, altura / 2);
+    vista.escala = min; vista.x = c.x - largura / 2 / min; vista.y = c.y - altura / 2 / min; precisa = true;
   };
   api.centralizarEm = t => {
     const c = centroToken(t);
@@ -538,13 +553,30 @@ export function criarTabuleiro(canvas, eventos = {}) {
     g.globalAlpha = 1;
   }
 
-  function rotulo(texto, x, y, tamFonte, corFundo = 'rgba(17,25,20,.86)', corTexto = '#e5eadf') {
+  function rotulo(texto, x, y, tamFonte, corFundo = 'rgba(17,25,20,.86)', corTexto = '#e5eadf', maxLarg = Infinity) {
     g.font = `600 ${tamFonte}px system-ui, sans-serif`;
+    // sem espaço (token vizinho do lado): encurta com "…" em vez de encavalar no nome do outro
+    if (g.measureText(texto).width + tamFonte * 0.9 > maxLarg) {
+      let n = texto.length;
+      while (n > 1 && g.measureText(texto.slice(0, n) + '…').width + tamFonte * 0.9 > maxLarg) n--;
+      texto = texto.slice(0, n).trimEnd() + '…';
+    }
     const larg = g.measureText(texto).width + tamFonte * 0.9, alt = tamFonte * 1.5;
     g.fillStyle = corFundo;
     g.beginPath(); g.roundRect(x - larg / 2, y, larg, alt, alt / 2); g.fill();
     g.fillStyle = corTexto; g.textAlign = 'center'; g.textBaseline = 'middle';
     g.fillText(texto, x, y + alt / 2 + tamFonte * 0.04);
+  }
+
+  // espaço para o nome embaixo do token: até o token mais perto na mesma linha (o selecionado mostra tudo)
+  function larguraDoNome(t, c) {
+    if (t.id === api.selecionado) return Infinity;
+    const q = grade(); let livre = Infinity;
+    for (const o of cena?.tokens || []) {
+      if (o === t || o.id === t.id) continue;
+      const co = centroToken(o); if (Math.abs(co.y - c.y) < q.tam * 0.9) livre = Math.min(livre, Math.abs(co.x - c.x));
+    }
+    return livre === Infinity ? Infinity : Math.max(livre, q.tam * 0.9) * 0.96;
   }
 
   function desenharToken(t, x = t.x, y = t.y, fantasma = false) {
@@ -611,7 +643,7 @@ export function criarTabuleiro(canvas, eventos = {}) {
       }
       const fonte = Math.max(11 * px, Math.min(q.tam * 0.2, 15 * px));
       const texto = t.estado && !temPV ? `${t.nome} · ${t.estado}` : t.nome;
-      if (texto) rotulo(texto, c.x, c.y + raio + 4 * px, fonte);
+      if (texto) rotulo(texto, c.x, c.y + raio + 4 * px, fonte, undefined, undefined, larguraDoNome(t, c));
       // condições: bolinhas com ícone em volta do lado esquerdo do token
       const icones = (t.condicoes || []).map(k => CONDICAO[k]?.icone).filter(Boolean);
       if (t.exaustao > 0) icones.push('😩' + t.exaustao);
@@ -640,7 +672,7 @@ export function criarTabuleiro(canvas, eventos = {}) {
   }
   function dentro(im, wx, wy) { const { W, H } = medidas(im), { lx, ly } = paraLocal(im, wx, wy); return Math.abs(lx) <= W / 2 && Math.abs(ly) <= H / 2; }
   function naAlca(im, wx, wy) {
-    const { W, H } = medidas(im), { lx, ly } = paraLocal(im, wx, wy), r = 12 / vista.escala;
+    const { W, H } = medidas(im), { lx, ly } = paraLocal(im, wx, wy), r = (celularToque ? 22 : 12) / vista.escala; // com o dedo, a alça de redimensionar é mais fácil de pegar
     return Math.abs(lx - W / 2) <= r && Math.abs(ly - H / 2) <= r;
   }
   function imagemEm(wx, wy) {
@@ -835,12 +867,14 @@ export function criarTabuleiro(canvas, eventos = {}) {
 
   canvas.addEventListener('contextmenu', e => e.preventDefault());
 
-  let toqueLongo = null, celularToque = false;
+  let toqueLongo = null, celularToque = matchMedia('(pointer: coarse)').matches;
+  let toqueAtual = null, ultimoToque = null, duploToqueEm = 0;
   canvas.addEventListener('pointerdown', e => {
     canvas.setPointerCapture(e.pointerId);
     celularToque = e.pointerType === 'touch'; ctrlApertado = e.ctrlKey || e.metaKey;
     const p = pos(e);
     ponteiros.set(e.pointerId, p);
+    if (e.pointerType === 'touch') toqueAtual = ponteiros.size === 1 ? { t: performance.now(), sx: p.sx, sy: p.sy, id: e.pointerId } : null;
     if (ponteiros.size === 2) {
       // dois dedos: zoom de pinça (cancela o que estava fazendo)
       clearTimeout(toqueLongo);
@@ -924,7 +958,7 @@ export function criarTabuleiro(canvas, eventos = {}) {
       minhaRegua = { a: c, b: c }; arrasto = { tipo: 'regua', ...inicio }; precisa = true; return;
     }
     if (api.ferramenta === 'grade') { arrasto = { tipo: 'grade', ...inicio, a: w, b: null }; return; }
-    const t = tokenEm(w.x, w.y);
+    const t = tokenEm(w.x, w.y, folgaDoDedo());
     if (!t && api.ehMestre && api.ferramenta === 'mover' && mesmaCelula(cena?.inicio, celulaEm(w.x, w.y))) { arrasto = { tipo: 'inicio', ...inicio, cel: { ...cena.inicio }, mover: true }; precisa = true; return; }
     const sel = api.ehMestre && (cena?.imagens || []).find(i => i.id === api.imagemSelecionada);
     const im = !t && api.ehMestre ? imagemEm(w.x, w.y) : null;
@@ -937,9 +971,10 @@ export function criarTabuleiro(canvas, eventos = {}) {
     } else {
       arrasto = { tipo: 'pan', ...inicio, vx: vista.x, vy: vista.y, clique: t ? { token: t } : im ? { imagem: im } : 'vazio' };
     }
-    // segurar o dedo parado por um tempo = ping (no celular)
+    // segurar o dedo parado por um tempo = ping (no celular), só em lugar vazio ou no token dos outros.
+    // No token que a pessoa pode mover, segurar antes de arrastar é "pegar" o token: o arrasto continua.
     clearTimeout(toqueLongo);
-    if (e.pointerType === 'touch') {
+    if (e.pointerType === 'touch' && arrasto.tipo === 'pan') {
       toqueLongo = setTimeout(() => {
         if (arrasto && !arrasto.mexeu) { eventos.aoPing?.(w.x, w.y); arrasto = null; }
       }, 550);
@@ -1010,6 +1045,20 @@ export function criarTabuleiro(canvas, eventos = {}) {
   });
 
   function soltar(e) {
+    // toque duplo (dois toques rápidos no mesmo lugar) = duplo clique do mouse: abrir o token, trancar a porta
+    // (mestre), terminar a parede. Só nas ferramentas Mover e Paredes, para não trancar porta pintando névoa.
+    if (e.pointerType === 'touch' && toqueAtual?.id === e.pointerId) {
+      const p = pos(e), agora = performance.now(), toque = toqueAtual; toqueAtual = null;
+      const rapido = e.type === 'pointerup' && agora - toque.t < 350 && Math.hypot(p.sx - toque.sx, p.sy - toque.sy) < 12;
+      const duplo = rapido && ultimoToque && toque.t - ultimoToque.t < 400 && Math.hypot(p.sx - ultimoToque.sx, p.sy - ultimoToque.sy) < 30;
+      ultimoToque = rapido && !duplo ? { t: agora, sx: p.sx, sy: p.sy } : null;
+      if (duplo && (api.ferramenta === 'mover' || api.ferramenta === 'paredes')) {
+        duploToqueEm = agora;
+        ponteiros.delete(e.pointerId); if (ponteiros.size < 2) pinca = null; clearTimeout(toqueLongo);
+        if (arrasto?.id === e.pointerId) arrasto = null;
+        precisa = true; duploClique(p.sx, p.sy); return;
+      }
+    }
     ponteiros.delete(e.pointerId);
     if (ponteiros.size < 2) pinca = null;
     clearTimeout(toqueLongo);
@@ -1064,13 +1113,18 @@ export function criarTabuleiro(canvas, eventos = {}) {
 
   api.terminarParede = () => { api.cadeia = null; precisa = true; };
   canvas.addEventListener('dblclick', e => {
+    // o toque duplo já foi tratado no soltar (alguns celulares mandam também este evento: não faz duas vezes)
+    if (performance.now() - duploToqueEm < 700) return;
+    const p0 = pos(e); duploClique(p0.sx, p0.sy);
+  });
+  function duploClique(sx, sy) {
     if (api.ferramenta === 'paredes') { api.cadeia = null; precisa = true; return; }
-    if (api.ehMestre) { const p0 = pos(e), porta = portaEm(telaParaMundo(p0.sx, p0.sy)); if (porta) { eventos.aoTrancar?.(porta); return; } }
-    const { sx, sy } = pos(e), w = telaParaMundo(sx, sy), t = tokenEm(w.x, w.y);
+    if (api.ehMestre) { const porta = portaEm(telaParaMundo(sx, sy)); if (porta) { eventos.aoTrancar?.(porta); return; } }
+    const w = telaParaMundo(sx, sy), t = tokenEm(w.x, w.y, folgaDoDedo());
     if (t) { eventos.aoEditar?.(t); return; }
     const im = api.ehMestre ? imagemEm(w.x, w.y) : null;
     if (im) { api.imagemSelecionada = im.id; api.selecionado = null; eventos.aoSelecionarImagem?.(im); }
-  });
+  }
 
   return api;
 }

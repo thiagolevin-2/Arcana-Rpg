@@ -2,12 +2,13 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" data-ios="sem-zoom">
+<script>/* iPhone e iPad: sem isto, tocar num campo com letra pequena dá zoom sozinho na página (o zoom com dois dedos continua funcionando) */if(/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1))document.querySelector("meta[name=viewport]").content+=",maximum-scale=1"</script>
 <title>Tabuleiro · Arcana RPG</title>
 <meta name="description" content="Tabuleiro virtual para jogar D&D com os amigos: mapa, grade, tokens, régua e ping ao vivo.">
 <meta name="theme-color" content="#111914">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="estilo.css?v=2.3">
+<link rel="stylesheet" href="estilo.css?v=2.5">
 </head>
 <body>
 
@@ -115,7 +116,7 @@
 
 <div id="avisos" class="avisos" role="status" aria-live="polite"></div>
 
-<script src="vendor/peerjs-1.5.4.min.js?v=2.3"></script>
-<script type="module" src="js/app.js?v=2.3"></script>
+<script src="vendor/peerjs-1.5.4.min.js?v=2.5"></script>
+<script type="module" src="js/app.js?v=2.5"></script>
 </body>
 </html>

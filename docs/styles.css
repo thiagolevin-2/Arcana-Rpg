@@ -1081,3 +1081,74 @@ body.embutido .mesa-fab{display:none}
 .inicio-rodape{padding:0 0 8px}
 button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 @media (max-width:620px){.inicio-rpg .hub-brand{min-height:44px;min-width:44px;display:inline-flex;align-items:center}}
+
+/* ---------- Arcana RPG 2.5: celular ---------- */
+/* tamanho mínimo de leitura no celular: os rótulos pequenos (6 a 10 px) ficam com 11 px, e os textos de explicação com 12 px.
+   (!important porque as regras antigas de celular diminuíam estas letras; no computador nada muda) */
+@media (max-width:600px){
+  .stat-label,.hero-stamp,.hero .level-badge,.level-badge,.hero-bottom span,.die span,.skill small,.abbr,.save-btn span,.ability .score,
+  .eyebrow,.hub-level,.label,.mini-label,.hp-label,.hp-extra span,.hp-footer span,.coin-field label,.economy-rate span,.economy-rate strong,
+  .inventory-table th,.backpack-gear-content small,.backpack-gear-content p,.attack-info small,.class-meta span,.badge,.note-char,
+  .economy-stat small,.economy-stat span,.casting-source small,.casting-source span,.hub-footer span{font-size:11px!important}
+  .stat-label,.hero-stamp,.eyebrow,.hub-level{letter-spacing:.3px!important}
+  .die span{letter-spacing:-.2px}
+  .hint,.page-top p,.class-body p,.hero-info span,.condition,.btn.ghost,.btn.small,.field label,.dm-label,.hub-character-body p,
+  .xp-inline span,.rule-notice,.source-note,.economy-intro p,.tab,.save-btn{font-size:12px!important}
+}
+/* dedo: botões pequenos ganham área de toque (bolinhas dos espaços de magia, +/− do inventário, abas da ficha...) */
+@media (pointer:coarse){
+  .pip{width:28px;height:28px}
+  .icon-btn.small{width:34px;height:34px}
+  .tab{min-height:36px}
+  .save-btn{min-height:32px}
+  button.badge{min-height:30px;padding-inline:9px}
+  .xp-inline{min-height:30px}
+  .item-name-button{min-height:30px}
+  a.brand{min-height:32px;display:inline-flex;align-items:center}
+  summary{min-height:36px}
+}
+/* Biblioteca no celular: os cartões de espécies e antecedentes (só texto) ficam um por linha; antes, duas colunas
+   esticavam a página para 438-514 px e o celular afastava tudo (letras miúdas) */
+@media (max-width:600px){
+  .book-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .book-grid:has(>section.card){grid-template-columns:minmax(0,1fr)}
+}
+/* celular: abas da ficha numa linha só (sem os ícones, com rolagem para o lado se não couber)
+   e barra de dados que cabe na tela ("Personalizar" vira só o ícone +; o Histórico não sai mais pela direita) */
+@media (max-width:600px){
+  .tabs{gap:14px!important;justify-content:flex-start!important;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs .tab{white-space:nowrap;flex:0 0 auto;font-size:11.5px!important}
+  .tabs .tab svg{display:none}
+  .dice-tray{overflow-x:auto;scrollbar-width:none}
+  .dice-tray::-webkit-scrollbar{display:none}
+  .dice-tray .dice-custom{font-size:0!important;gap:0;padding:6px 8px;min-width:34px;justify-content:center}
+  .dice-tray .dice-custom svg{width:16px;height:16px}
+}
+/* celular: fileiras de botões quebram linha em vez de sair da tela (rodapé das janelas, descansos, XP...) */
+@media (max-width:600px){
+  .modal-footer{flex-wrap:wrap;gap:8px}
+  .modal-footer>*,.flex,.xp-adjust-actions{flex-wrap:wrap}
+}
+@media (max-width:600px){ .hub-list-heading{flex-wrap:wrap;gap:8px 12px} }
+@media (pointer:coarse) and (max-width:400px){ .dice-tray{gap:2px!important} .dice-tray .die{width:28px;flex:0 0 28px} .dice-tray .dice-custom{min-width:30px;padding:6px 4px} }
+/* celular: mais textos pequenos das janelas (histórico, armas, talentos, livros, menu lateral, dados 3D) com 11 px */
+@media (max-width:600px){
+  .history-item time,.history-item small,.weapon-picker-damage span,.page-number span,.feat-source span,.expansion-tally span,
+  .inventory-add-option small,.source-book small,.side-profile small,.side-profile strong,.result-label,.feat-available,.supplement-source,
+  .side-section,.weapon-picker-card small,.weapon-picker-card strong,.brand-sub,.xp-value span,.guide p,.expansion-summary p,.feat-card p,
+  .stat-edit label,.mode-switch button,.weapon-detail span,.field span,.dice3d-skip,.dice3d-status,.dice3d-note,.dice3d-free-label,
+  .dice3d-eyebrow{font-size:11px!important}
+  .dice3d-eyebrow,.dice3d-free-label{letter-spacing:.6px!important}
+}
+@media (max-width:600px){ .weapon-picker-damage,.page-number,.feat-source,.xp-values span{font-size:11px!important} }
+/* celular: o selo "Livro do Jogador · 2024" (enfeite) encostava no texto do topo da ficha; e o título de um cartão
+   com botão ao lado (ex.: Companheiros) deixava o texto espremido numa coluna fina: o botão desce para a linha de baixo */
+@media (max-width:600px){
+  .hero-stamp{display:none!important}
+  .card>.between{flex-wrap:wrap;gap:10px}
+}
+/* celular: na Biblioteca, "d8 de vida · 7 subclasses · p. 69" quebrava palavra por palavra no cartão estreito */
+@media (max-width:600px){ .class-meta{flex-wrap:wrap;justify-content:center;gap:2px 6px} .class-meta span{white-space:nowrap} }
+/* celular: "7/7d6 dados de vida" quebrava uma palavra por linha */
+@media (max-width:600px){ .hp-extra{flex-wrap:wrap;row-gap:6px} .hp-extra>span:first-child{white-space:nowrap} }

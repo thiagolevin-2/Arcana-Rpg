@@ -494,3 +494,43 @@ details.bloco[open]>summary{margin-bottom:6px}
 /* revisão 2.3: título do bloco divide a linha com os botões (quebra as palavras, sem cortar com "…") */
 .titulo h3{flex:1 1 auto;white-space:normal}
 
+
+/* ---------- Arcana RPG 2.5: celular ---------- */
+/* a barra de ferramentas quebra em duas linhas quando não cabe (nenhuma ferramenta fica escondida para o lado);
+   o painel e os avisos ficam logo acima dela (--ferr-alt é medida no app.js) */
+@media (max-width:900px){
+  /* (grid-template-rows, não o atalho grid-template: o atalho apagaria as áreas barra/palco/ferr) */
+  .mesa,.mesa.jogador{grid-template-rows:var(--barra) minmax(0,1fr) auto}
+  .ferramentas{flex-wrap:wrap;justify-content:center;overflow-x:visible;gap:4px 6px;padding:6px 8px calc(6px + env(safe-area-inset-bottom))}
+  .ferramentas>:first-child,.ferramentas>:last-child{margin:0}
+  .ferramentas button{width:44px;height:44px}
+  .painel{bottom:var(--ferr-alt,60px)}
+  .avisos{bottom:calc(var(--ferr-alt,60px) + 10px)}
+  .barra{padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right))}
+  /* barras de opções (névoa, paredes, desenho, molde): os botões quebram linha em vez de sair da tela */
+  .opcoes-nevoa{top:8px;max-width:calc(100% - 16px);padding:8px}
+  .opcoes-nevoa .segmentos{flex-wrap:wrap;min-width:0;max-width:100%}
+  .opcoes-nevoa .segmentos button{flex:1 0 auto;min-height:38px;padding:0 10px}
+  .opcoes-nevoa .btn.pequeno,.opcoes-nevoa select,.opcoes-nevoa input{min-height:38px}
+  .dica-ferramenta{left:8px;right:8px;bottom:8px;max-width:none}
+}
+/* dedo: bolinhas de cor e botões pequenos com área de toque maior */
+@media (pointer:coarse){
+  .painel .amostra,.amostra{width:34px;height:34px}
+  .btn.pequeno,.painel .btn.pequeno{min-height:36px}
+  .segmentos button{min-height:38px}
+}
+/* blocos que abrem e fecham (Condições, "saíram"...): uma setinha mostra que dá para tocar no título */
+details.bloco>summary::before{content:'▸';display:inline-block;width:1.1em;flex:0 0 auto;transition:transform .15s}
+details.bloco[open]>summary::before{transform:rotate(90deg)}
+/* barras de opções recolhíveis no celular (o botão é posto pelo app.js) */
+.opcoes-nevoa .recolher{display:none}
+@media (max-width:900px){
+  .opcoes-nevoa .recolher{display:inline-flex;order:99;margin-left:auto}
+  .opcoes-nevoa.recolhida{padding:4px}
+  .opcoes-nevoa.recolhida>:not(.recolher){display:none}
+  .opcoes-nevoa.recolhida .recolher{margin:0}
+  /* a dica de cada modo das paredes aparece na caixa de dica de baixo */
+  #opcoes-paredes .dica{display:none}
+  .dica-ferramenta{cursor:pointer}
+}

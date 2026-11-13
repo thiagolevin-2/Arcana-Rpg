@@ -79,17 +79,24 @@ function mandar(conn, msg) {
   partes.forEach((d, i) => conn.send({ t: 'parte', id, i, n: partes.length, d }));
 }
 // devolve a mensagem pronta, ou null enquanto faltam partes
+// 2.4: no máximo ~24 milhões de letras esperando montagem por conexão (uma cena enorme tem poucos MB);
+// sem esse teto, alguém mal-intencionado podia mandar partes que nunca terminam até a página do mestre travar.
+const TETO_MONTAGEM = 24e6;
 function montador() {
   const em = new Map();
+  let total = 0;
   return msg => {
     if (msg.t !== 'parte') return msg;
     if (typeof msg.id !== 'string' || typeof msg.d !== 'string' || !(msg.n > 1 && msg.n <= 20000) || !(msg.i >= 0 && msg.i < msg.n)) return null;
     let a = em.get(msg.id);
-    if (!a) { if (em.size > 20) em.clear(); a = { partes: new Array(msg.n), recebidas: 0 }; em.set(msg.id, a); }
+    if (!a) { if (em.size > 20) { em.clear(); total = 0; } a = { partes: new Array(msg.n), recebidas: 0, letras: 0 }; em.set(msg.id, a); }
     if (a.partes.length !== msg.n) return null;
-    if (a.partes[msg.i] == null) { a.partes[msg.i] = msg.d; a.recebidas++; }
+    if (a.partes[msg.i] == null) {
+      a.partes[msg.i] = msg.d; a.recebidas++; a.letras += msg.d.length; total += msg.d.length;
+      if (total > TETO_MONTAGEM) { em.clear(); total = 0; return null; }
+    }
     if (a.recebidas < a.partes.length) return null;
-    em.delete(msg.id);
+    em.delete(msg.id); total = Math.max(0, total - a.letras);
     try { const m = JSON.parse(a.partes.join('')); return m && typeof m === 'object' && m.t !== 'parte' ? m : null; } catch { return null; }
   };
 }
@@ -188,6 +195,14 @@ export function abrirSala(codigo, eventos) {
             cor: /^#[0-9a-f]{6}$/i.test(msg.cor) ? msg.cor : '#a4c29a',
             ultimo: Date.now(),
           };
+          // 2.4: o número do jogador é visível para todos (vem junto com o token); a chave secreta do aparelho não.
+          // O mestre confere a chave ANTES de derrubar a conexão antiga: assim ninguém entra no lugar de outro.
+          const chave = typeof msg.chave === 'string' ? msg.chave.slice(0, 100) : '';
+          if (eventos.podeEntrar && !eventos.podeEntrar(j, chave)) {
+            try { conn.send({ t: 'expulso', recusado: true }); } catch {}
+            setTimeout(() => { try { conn.close(); } catch {} }, 400);
+            return;
+          }
           // a mesma pessoa reconectando: fecha a conexão antiga
           for (const [pid, outro] of jogadores) if (outro.id === j.id && pid !== conn.peer) { try { outro.conn.close(); } catch {} jogadores.delete(pid); }
           jogadores.set(conn.peer, j);
@@ -295,7 +310,7 @@ export function entrarNaSala(codigo, eu, eventos) {
       c.on('data', bruto => {
         if (!bruto || typeof bruto !== 'object' || typeof bruto.t !== 'string') return;
         const msg = montar(bruto); if (!msg || typeof msg.t !== 'string') return;
-        if (msg.t === 'fim' || msg.t === 'expulso') { saiu = true; eventos.aoFim?.(msg.t === 'expulso' ? (msg.excluido ? 'excluido' : 'expulso') : 'fim'); try { p.destroy(); } catch {} return; }
+        if (msg.t === 'fim' || msg.t === 'expulso') { saiu = true; eventos.aoFim?.(msg.t === 'expulso' ? (msg.recusado ? 'recusado' : msg.excluido ? 'excluido' : 'expulso') : 'fim'); try { p.destroy(); } catch {} return; }
         eventos.aoMensagem?.(msg);
       });
       c.on('close', () => { if (!saiu && conn === c) { eventos.aoStatus?.('Conexão com o mestre caiu. Reconectando…'); agendar(); } });
